@@ -3,16 +3,16 @@
 > Describe your project concretely. The project proposal should describe what core functionality your project web application intends to deliver. Don't mention every little detail and don't consider this a contract - this is for us to help you define a suitable scope in the course. Also note that this is not a contract that you should fulfil. You will be examined only on the end result.
 
 This project is going to be a web-based accounting software that follows the (Swedish) rules regarding book-keeping. The application will contain the main functions such as:
-* Accounts
-* Dashboard (current status / graphs)
-* Reports
-** Balance
-** Key numbers
-** Ledger
-** Result
-** Tax report
-* Vouchers
-* Years
+ * Accounts
+ * Dashboard (current status / graphs)
+ * Reports
+  ** Balance
+  ** Key numbers
+  ** Ledger
+  ** Result
+  ** Tax report
+ * Vouchers
+ * Years
 
 An example of a Swedish account software (web-based) is [Fortnox](http://www.fortnox.se).
 
