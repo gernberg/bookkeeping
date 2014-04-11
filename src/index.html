@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html ng-app="bookie" ng-controller="AppCtrl">
   <head>
+    <meta charset="utf-8">
     <title ng-bind="pageTitle"></title>
 
 
@@ -54,10 +55,10 @@
                   Github
                 </a>
                 </li>
-                <li>
-                <a href="https://github.com/joshdmiller/ng-boilerplate/issues">
-                  <i class="icon-comments"></i>
-                  Support
+                <li ui-route="/accounts" ng-calss="{active:$uiRoute}">
+                <a href="#/accounts">
+                  <i class="fa-bars"></i>
+                  Accounts
                 </a>
                 </li>
               </ul>

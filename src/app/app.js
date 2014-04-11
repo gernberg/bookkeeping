@@ -3,6 +3,7 @@ angular.module( 'bookie', [
   'templates-common',
   'bookie.home',
   'bookie.about',
+  'bookie.account',
   'ui.state',
   'ui.route'
 ])

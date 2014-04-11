@@ -1,0 +1,17 @@
+<div>
+  <h1>Club functions</h1>
+  <p>Soon this will show a list of all the clubs, based on information from the server</p>
+</div>
+
+<div>
+  <table>
+    <thead>
+      <td>Account number</td>
+      <td>Account name</td>
+    </thead>
+    <tr ng-repeat="account in accounts">
+      <td>{{account.account_name}}</td>
+      <td>{{account.account_number}}</td>
+    </tr>
+  </table>
+</div>
