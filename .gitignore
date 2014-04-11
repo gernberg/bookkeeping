@@ -13,3 +13,9 @@
 /log/*.log
 /tmp
 /public/system/*
+*.sw*
+*~
+build/
+bin/
+node_modules/
+vendor/
