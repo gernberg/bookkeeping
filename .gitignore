@@ -16,6 +16,7 @@
 *.sw*
 *~
 build/
+angular_build/
 bin/
 node_modules/
 vendor/
