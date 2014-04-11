@@ -2,7 +2,9 @@
  * Account module
  */
 angular.module( 'bookie.account', [
-  'ui.state'
+  'ui.state',
+  'ngResource',
+  'ngGrid'
 ])
 
 /**
@@ -24,9 +26,23 @@ angular.module( 'bookie.account', [
 /**
  * And of course we define a controller for our route.
  */
-.controller( 'AccountsCtrl', function ClubsController( $scope ) {
-    $scope.accounts = [
-      {account_name: "Försäljning", account_number: "3000"},
-      {account_name: "Bankgiro", account_number: "1920"}
-    ];
+.controller( 'AccountsCtrl', function AccountsController( $scope, AccountRes) {
+    $scope.accounts = AccountRes.query();
+    $scope.gridOptions = {
+      data: 'accounts',
+      columnDefs: [
+        {field: 'id', displayName: 'Id'},
+        {field: 'account_name', displayName: 'Club Name'},
+        {field: 'account_number', displayName: 'Contact Officer'}
+      ],
+      multiSelect: false
+    };
+})
+/**
+ * Add a resource to allow us to get at the server
+ */
+.factory( 'AccountRes', function ( $resource )  {
+  return $resource('../accounts.json');
 });
+
+
