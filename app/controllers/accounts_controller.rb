@@ -5,11 +5,19 @@ class AccountsController < ApplicationController
   # GET /accounts.json
   def index
     @accounts = Account.all
+    respond_to do |format|
+      format.html 
+      format.json { render_with_protection @accounts }
+    end
   end
 
   # GET /accounts/1
   # GET /accounts/1.json
   def show
+    respond_to do |format|
+      format.html 
+      format.json { render_with_protection @account }
+    end
   end
 
   # GET /accounts/new
@@ -29,10 +37,10 @@ class AccountsController < ApplicationController
     respond_to do |format|
       if @account.save
         format.html { redirect_to @account, notice: 'Account was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @account }
+        format.json { render_with_protection action: 'show', status: :created, location: @account }
       else
         format.html { render action: 'new' }
-        format.json { render json: @account.errors, status: :unprocessable_entity }
+        format.json { render_with_protection json: @account.errors, status: :unprocessable_entity }
       end
     end
   end
