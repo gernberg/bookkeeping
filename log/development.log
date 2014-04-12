@@ -3808,3 +3808,25 @@ Processing by AccountsController#index as JSON
   [1m[36mAccount Load (0.3ms)[0m  [1mSELECT "accounts".* FROM "accounts"[0m
   Rendered text template (0.0ms)
 Completed 200 OK in 3ms (Views: 0.3ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/accounts.json" for 127.0.0.1 at 2014-04-12 17:53:06 +0200
+  [1m[36mActiveRecord::SchemaMigration Load (0.8ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by AccountsController#index as JSON
+  [1m[35mAccount Load (1.3ms)[0m  SELECT "accounts".* FROM "accounts"
+  Rendered text template (0.0ms)
+Completed 200 OK in 71ms (Views: 26.3ms | ActiveRecord: 2.7ms)
+
+
+Started GET "/accounts.json" for 127.0.0.1 at 2014-04-12 17:53:27 +0200
+Processing by AccountsController#index as JSON
+  [1m[36mAccount Load (0.3ms)[0m  [1mSELECT "accounts".* FROM "accounts"[0m
+  Rendered text template (0.0ms)
+Completed 200 OK in 2ms (Views: 0.3ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/accounts.json" for 127.0.0.1 at 2014-04-12 17:54:12 +0200
+Processing by AccountsController#index as JSON
+  [1m[35mAccount Load (0.3ms)[0m  SELECT "accounts".* FROM "accounts"
+  Rendered text template (0.0ms)
+Completed 200 OK in 2ms (Views: 0.3ms | ActiveRecord: 0.3ms)
