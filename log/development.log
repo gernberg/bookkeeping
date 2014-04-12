@@ -4473,3 +4473,24 @@ Processing by Devise::SessionsController#create as JSON
   Parameters: {"user"=>{"email"=>"gustav@gern.se", "password"=>"[FILTERED]"}, "session"=>{"user"=>{"email"=>"gustav@gern.se", "password"=>"[FILTERED]"}}}
   [1m[36mUser Load (24.8ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."email" = 'gustav@gern.se' ORDER BY "users"."id" ASC LIMIT 1[0m
 Completed 401 Unauthorized in 32ms
+
+
+Started POST "/users/sign_in.json" for 127.0.0.1 at 2014-04-12 23:21:23 +0200
+Processing by Devise::SessionsController#create as JSON
+  Parameters: {"user"=>{"email"=>"gustav@gern.se", "password"=>"[FILTERED]"}, "session"=>{"user"=>{"email"=>"gustav@gern.se", "password"=>"[FILTERED]"}}}
+  [1m[35mUser Load (0.5ms)[0m  SELECT "users".* FROM "users" WHERE "users"."email" = 'gustav@gern.se' ORDER BY "users"."id" ASC LIMIT 1
+Completed 401 Unauthorized in 2ms
+
+
+Started POST "/users/sign_in.json" for 127.0.0.1 at 2014-04-12 23:21:23 +0200
+Processing by Devise::SessionsController#create as JSON
+  Parameters: {"user"=>{"email"=>"gustav@gern.se", "password"=>"[FILTERED]"}, "session"=>{"user"=>{"email"=>"gustav@gern.se", "password"=>"[FILTERED]"}}}
+  [1m[36mUser Load (0.5ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."email" = 'gustav@gern.se' ORDER BY "users"."id" ASC LIMIT 1[0m
+Completed 401 Unauthorized in 2ms
+
+
+Started POST "/users/sign_in.json" for 127.0.0.1 at 2014-04-12 23:29:02 +0200
+Processing by Devise::SessionsController#create as JSON
+  Parameters: {"user"=>{"email"=>"gustav.ernberg@gmail.com", "password"=>"[FILTERED]"}, "session"=>{"user"=>{"email"=>"gustav.ernberg@gmail.com", "password"=>"[FILTERED]"}}}
+  [1m[35mUser Load (0.5ms)[0m  SELECT "users".* FROM "users" WHERE "users"."email" = 'gustav.ernberg@gmail.com' ORDER BY "users"."id" ASC LIMIT 1
+Completed 401 Unauthorized in 2ms
