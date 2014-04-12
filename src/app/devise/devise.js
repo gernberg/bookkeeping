@@ -34,11 +34,19 @@ angular.module( 'bookie.login', [
 /**
  *  Login controller that handels login and logout
  */
-.controller( 'LoginCtrl', function LoginController( $scope, $http ) {
-  $scope.login_user = {email: null, password: null};
+.controller( 'LoginCtrl', function LoginController( $scope, $http, RequestMaker) {
+  $scope.user = {email: null, password: null};
+  $scope.error = {message: null, errors: {}};
 
   $scope.login = function() {
-    $http.post('../users/sign_in.json', {user: {email: $scope.login_user.email, password: $scope.login_user.password}});
+    RequestMaker.makeRequest({
+      url: '../users/sign_in.json',
+      data: {user: {email: $scope.user.email, password: $scope.user.password}},
+      successCallback: function(){
+        
+      },
+
+    });
   };
 
   $scope.logout = function() {
@@ -49,14 +57,20 @@ angular.module( 'bookie.login', [
  *  Register controller that handles new registrations
  */
 .controller( 'RegisterCtrl', function RegisterController( $scope, $http ) {
-  $scope.login_user = {email: null, password: null};
+  $scope.user = {email: null, password: null};
 
   $scope.login = function() {
-    $http.post('../users/sign_in.json', {user: {email: $scope.login_user.email, password: $scope.login_user.password}});
+    RequestMaker.test();
+    // $http.post('../users/sign_in.json', {user: {email: $scope.user.email, password: $scope.user.password}});
   };
 
   $scope.logout = function() {
     $http({method: 'DELETE', url: '../users/sign_out.json', data: {}});
   };
 })
+.factory( 'RequestMaker', function ($http){
+  test = function(){
+    alert("test");
+  }
+});
 ;
