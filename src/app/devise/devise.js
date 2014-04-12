@@ -28,8 +28,7 @@ angular.module( 'bookie.login', [
       }
     },
     data:{ pageTitle: 'Register' }
-  })
-  ;
+  });
 })
 /**
  *  Login controller that handels login and logout
@@ -39,18 +38,23 @@ angular.module( 'bookie.login', [
   $scope.error = {message: null, errors: {}};
 
   $scope.login = function() {
-    RequestMaker.makeRequest({
+    $http({
       url: '../users/sign_in.json',
       data: {user: {email: $scope.user.email, password: $scope.user.password}},
-      successCallback: function(){
-        
-      },
-
+      method: "POST"})
+      .success(function(){
+        alert("Signed in!");
+      })
+    .error(function(data, status){
+      $scope.error.message = data.error;
     });
   };
 
   $scope.logout = function() {
-    $http({method: 'DELETE', url: '../users/sign_out.json', data: {}});
+    $http({method: 'DELETE', url: '../users/sign_out.json', data: {}})
+    .success(function(){
+      $scope.error.message = "Signed out";
+    });
   };
 })
 /**
@@ -58,9 +62,9 @@ angular.module( 'bookie.login', [
  */
 .controller( 'RegisterCtrl', function RegisterController( $scope, $http ) {
   $scope.user = {email: null, password: null};
+  $scope.error = {message:null, errors: {}};
 
   $scope.login = function() {
-    RequestMaker.test();
     // $http.post('../users/sign_in.json', {user: {email: $scope.user.email, password: $scope.user.password}});
   };
 
@@ -69,8 +73,17 @@ angular.module( 'bookie.login', [
   };
 })
 .factory( 'RequestMaker', function ($http){
-  test = function(){
-    alert("test");
-  }
+  return {
+    makeRequest: function(params){
+      $http({
+        url: params.url,
+      method: params.method,
+      data: params.data
+      })
+      .success(params.successCallback)
+  .error(function(data, status){
+    params.errorMessages.message = data.error;
+  });
+    }
+  };
 });
-;

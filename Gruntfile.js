@@ -434,7 +434,8 @@ module.exports = function ( grunt ) {
        * plugin should auto-detect.
        */
       options: {
-        livereload: true
+        livereload: true,
+        interrupt: true
       },
 
       /**
@@ -457,19 +458,20 @@ module.exports = function ( grunt ) {
         files: [ 
           '<%= app_files.js %>'
         ],
-        tasks: [ 'jshint:src', 'karma:unit:run', 'copy:build_appjs' ]
+        tasks: [ 'jshint:src', 'karma:unit:run', 'copy:build_appjs']
       },
 
       /**
        * When our CoffeeScript source files change, we want to run lint them and
        * run our unit tests.
        */
-      coffeesrc: {
+      /*      coffeesrc: {
         files: [ 
           '<%= app_files.coffee %>'
         ],
         tasks: [ 'coffeelint:src', 'coffee:source', 'karma:unit:run', 'copy:build_appjs' ]
       },
+      */
 
       /**
        * When assets are changed, copy them. Note that this will *not* copy new
