@@ -1,7 +1,7 @@
 <div class="row">
-  <div class="col-md-6">
+  <div class="col-md-4" style="border-right:1px solid #ccc">
     <div>
-      <h1>Login</h1>
+      <h1>Logga in</h1>
     </div>
 
     <div ng-show="error.message" class="alert alert-warning">
@@ -9,13 +9,14 @@
     </div>
 
     <div class="body">
-      <div>Email: <input ng-model="user.email" ng-enter="$('#password').focus()" /></div>
+      <div class="form-group"><label>Email:</label><input class="sr-only" ng-model="user.email" ng-enter="$('#password').focus()" /></div>
       <div>Password: <input type="password" id="password" ng-model="user.password" ng-enter="login()" /></div>
 
       <button ng-click="login()" class="btn btn-primary" >Login</button>
     </div>
   </div>
-  <div class="col-md-6">
-    <h1>Register</h1>
+  <div class="col-md-8">
+    <h1>Ny användare?</h1>
+    <button ng-click="startRegister()" class="btn btn-primary btn-lg">Registrera konto</button>
   </div>
 </div>
