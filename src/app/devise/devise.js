@@ -17,7 +17,7 @@ angular.module( 'bookie.login', [
         templateUrl: 'devise/login.tpl.html'
       }
     },
-    data:{ pageTitle: 'Login' }
+    data:{ pageTitle: 'Logga in' }
   })
   .state( 'register', {
     url: '/register',

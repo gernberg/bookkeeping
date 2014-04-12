@@ -1,22 +1,76 @@
 <div class="row">
-  <div class="col-md-4" style="border-right:1px solid #ccc">
-    <div>
-      <h1>Logga in</h1>
-    </div>
+  <div class="col-sm-3 col-sm-offset-2">
+    <div class="panel panel-default">
 
-    <div ng-show="error.message" class="alert alert-warning">
-      <p>{{error.message}}</p>
-    </div>
+      <div class="panel-heading">
+        <h2>Login</h2>
+      </div>
+      <div class="panel-body">
+        <div ng-show="error.message" class="alert alert-warning">
+          <p>{{error.message}}</p>
+        </div>
+        <form>
+          <div class="body">
+            <div class="form-group">
+              <label>
+                Email:
+              </label>
+              <input  class="form-control"  type="email" ng-model="user.email" ng-enter="$('#password').focus()" />
 
-    <div class="body">
-      <div class="form-group"><label>Email:</label><input class="sr-only" ng-model="user.email" ng-enter="$('#password').focus()" /></div>
-      <div>Password: <input type="password" id="password" ng-model="user.password" ng-enter="login()" /></div>
-
-      <button ng-click="login()" class="btn btn-primary" >Login</button>
+              <div class="form-group">
+                <label>
+                  Password:
+                </label>
+                <input class="form-control"  type="password" id="password" ng-model="user.password" ng-enter="login()" />
+              </div>  
+              <div class="form-group">
+                <button ng-click="login()" class="btn btn-lg btn-primary">Login</button>
+              </div>
+              <div class="form-group">
+                <button ng-click="login()" class="btn btn-sm btn-default">Forgot password</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form> 
     </div>
   </div>
-  <div class="col-md-8">
-    <h1>Ny användare?</h1>
-    <button ng-click="startRegister()" class="btn btn-primary btn-lg">Registrera konto</button>
+  <div class="col-sm-5 ">
+    <div class="panel panel-success">
+      <div class="panel-heading">
+        <h2>New User</h2>
+      </div>
+      <div class="panel-body">
+        <p>Create a free account today!</p>
+        <div class="form-horizontal">
+          <div class="form-group">
+            <label class="col-sm-4 control-label">Email</label>
+            <div class="col-sm-8">
+              <input class="form-control" type="email" ng-model="user.email">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-4 control-label">Password
+            </label>
+            <div class="col-sm-8">
+              <input  class="form-control" type="password" ng-model="user.password">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-4 control-label">Password repeat
+            </label>
+
+            <div class="col-sm-8">
+              <input class="form-control" type="password" ng-model="user.password_repeat">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-4 col-sm-8">
+              <button ng-click="register()" class="btn btn-success btn-lg">Register</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
