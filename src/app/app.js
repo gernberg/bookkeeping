@@ -4,6 +4,7 @@ angular.module( 'bookie', [
   'bookie.home',
   'bookie.about',
   'bookie.account',
+  'bookie.login',
   'ui.state',
   'ui.route'
 ])
