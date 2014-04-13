@@ -33,7 +33,8 @@ angular.module( 'bookie.login', [
 /**
  *  Login controller that handels login and logout
  */
-.controller( 'LoginCtrl', function LoginController( $scope, $http) {
+.controller( 'LoginCtrl', function LoginController( $scope, $http, $rootScope) {
+  $rootScope.fullWidthLayout = true;
   $scope.user = {email: null, password: null};
   $scope.signup = {email:null, password:null, password_repeat:null};
   $scope.error = {message: null, errors: {}};
