@@ -111,6 +111,13 @@ module.exports = function ( grunt ) {
       build_vendor_assets: {
         files: [
           { 
+            src: [ '../vendor/bootstrap/fonts' ],
+            dest: '<%= build_dir %>/assets/',
+            cwd: '.',
+            expand: true,
+            flatten: true
+          },
+          { 
             src: [ '<%= vendor_files.assets %>' ],
             dest: '<%= build_dir %>/assets/',
             cwd: '.',
