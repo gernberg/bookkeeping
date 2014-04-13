@@ -33,8 +33,9 @@ angular.module( 'bookie.login', [
 /**
  *  Login controller that handels login and logout
  */
-.controller( 'LoginCtrl', function LoginController( $scope, $http, RequestMaker) {
+.controller( 'LoginCtrl', function LoginController( $scope, $http) {
   $scope.user = {email: null, password: null};
+  $scope.signup = {email:null, password:null, password_repeat:null};
   $scope.error = {message: null, errors: {}};
 
   $scope.login = function() {
@@ -56,34 +57,17 @@ angular.module( 'bookie.login', [
       $scope.error.message = "Signed out";
     });
   };
-})
-/**
- *  Register controller that handles new registrations
- */
-.controller( 'RegisterCtrl', function RegisterController( $scope, $http ) {
-  $scope.user = {email: null, password: null};
-  $scope.error = {message:null, errors: {}};
-
-  $scope.login = function() {
-    // $http.post('../users/sign_in.json', {user: {email: $scope.user.email, password: $scope.user.password}});
-  };
-
-  $scope.logout = function() {
-    $http({method: 'DELETE', url: '../users/sign_out.json', data: {}});
-  };
-})
-.factory( 'RequestMaker', function ($http){
-  return {
-    makeRequest: function(params){
-      $http({
-        url: params.url,
-      method: params.method,
-      data: params.data
+  $scope.register = function() {
+    $http({
+      url: '../users.json',
+      data: {user: {email: $scope.signup.email, password: $scope.signup.password, password_repeat: $scope.signup.password_repeat}},
+      method: "POST"})
+      .success(function(){ 
+        alert("Signed in!");
       })
-      .success(params.successCallback)
-  .error(function(data, status){
-    params.errorMessages.message = data.error;
-  });
-    }
+    .error(function(data, status){
+      $scope.error.errors = data.errors;
+    });
+
   };
 });

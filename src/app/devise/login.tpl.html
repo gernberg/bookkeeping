@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-sm-3 col-sm-offset-2">
+  <div class="col-sm-5 col-md-3 col-md-offset-2 ">
     <div class="panel panel-default">
 
       <div class="panel-heading">
@@ -9,33 +9,39 @@
         <div ng-show="error.message" class="alert alert-warning">
           <p>{{error.message}}</p>
         </div>
-        <form>
-          <div class="body">
+        <div class="body">
+          <div class="form-group">
+            <label>
+              Email:
+            </label>
+            <input  class="form-control"  type="email" ng-model="user.email" ng-enter="$('#password').focus()" />
+
             <div class="form-group">
               <label>
-                Email:
+                Password:
               </label>
-              <input  class="form-control"  type="email" ng-model="user.email" ng-enter="$('#password').focus()" />
-
-              <div class="form-group">
-                <label>
-                  Password:
-                </label>
-                <input class="form-control"  type="password" id="password" ng-model="user.password" ng-enter="login()" />
-              </div>  
-              <div class="form-group">
-                <button ng-click="login()" class="btn btn-lg btn-primary">Login</button>
-              </div>
-              <div class="form-group">
-                <button ng-click="login()" class="btn btn-sm btn-default">Forgot password</button>
-              </div>
+              <input class="form-control"  type="password" id="password" ng-model="user.password" ng-enter="login()" />
+            </div>  
+            <div class="form-group">
+              <label class="text-left">
+                <input type="checkbox" ng-model="user.rememberme"> 
+                Remember me
+              </label>
+              <button ng-click="login()" class="pull-right btn btn-lg btn-primary">Login</button>
+            </div>
+            <div class="form-group">
+              &nbsp;
+            </div>
+            <div class="form-group">
+              <button ng-click="forgot()" class="btn btn-sm btn-link">Forgot password</button>
+              <button ng-click="resend()" class="btn btn-sm btn-link">Resend activation mail</button>
             </div>
           </div>
         </div>
-      </form> 
+      </div>
     </div>
   </div>
-  <div class="col-sm-5 ">
+  <div class="col-sm-7 col-md-5">
     <div class="panel panel-primary">
       <div class="panel-heading">
         <h2 class="panel-title">New User</h2>
@@ -43,25 +49,34 @@
       <div class="panel-body">
         <p>Create a free account today!</p>
         <div class="form-horizontal">
-          <div class="form-group">
+          <div class="form-group" ng-class="error.errors.email ? 'has-error' : ''">
             <label class="col-sm-4 control-label">Email</label>
             <div class="col-sm-8">
-              <input class="form-control" type="email" ng-model="user.email">
+              <input class="form-control" type="email" ng-model="signup.email">
+              <div class="help-block" ng-repeat="error in error.errors.email">
+                {{error}}
+              </div>
             </div>
           </div>
-          <div class="form-group">
+          <div class="form-group" ng-class="error.errors.password ? 'has-error' : ''">
             <label class="col-sm-4 control-label">Password
             </label>
             <div class="col-sm-8">
-              <input  class="form-control" type="password" ng-model="user.password">
+              <input  class="form-control" type="password" ng-model="signup.password">
+              <div class="help-block" ng-repeat="error in error.errors.password">
+                {{error}}
+              </div>
             </div>
           </div>
-          <div class="form-group">
+          <div class="form-group" ng-class="error.errors.password_repeat ? 'has-error' : ''">
             <label class="col-sm-4 control-label">Password repeat
             </label>
 
             <div class="col-sm-8">
-              <input class="form-control" type="password" ng-model="user.password_repeat">
+              <input class="form-control" type="password" ng-model="signup.password_repeat" ng-enter="register()">
+              <div class="help-block" ng-repeat="error in error.errors.password_repeat">
+                {{error}}
+              </div>
             </div>
           </div>
           <div class="form-group">
