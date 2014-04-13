@@ -37,6 +37,7 @@ angular.module( 'bookie.login', [
   $scope.user = {email: null, password: null};
   $scope.signup = {email:null, password:null, password_repeat:null};
   $scope.error = {message: null, errors: {}};
+  $scope.signup_error = {message: null, errors: {}};
 
   $scope.login = function() {
     $http({
@@ -57,16 +58,17 @@ angular.module( 'bookie.login', [
       $scope.error.message = "Signed out";
     });
   };
+
   $scope.register = function() {
     $http({
       url: '../users.json',
-      data: {user: {email: $scope.signup.email, password: $scope.signup.password, password_repeat: $scope.signup.password_repeat}},
+      data: {user: {email: $scope.signup.email, password: $scope.signup.password, password_confirmation: $scope.signup.password_confirmation}},
       method: "POST"})
-      .success(function(){ 
-        alert("Signed in!");
+      .success(function(data, status){ 
+        console.log(data);
       })
     .error(function(data, status){
-      $scope.error.errors = data.errors;
+      $scope.signup_error.errors = data.errors;
     });
 
   };

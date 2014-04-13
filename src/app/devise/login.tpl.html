@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-sm-5 col-md-3 col-md-offset-2 ">
-    <div class="panel panel-default">
+    <div class="panel panel-default panel-success">
 
       <div class="panel-heading">
         <h2 class="panel-title">Login</h2>
@@ -46,41 +46,44 @@
       <div class="panel-heading">
         <h2 class="panel-title">New User</h2>
       </div>
+      <div ng-show="signup_error.message" class="alert alert-error">
+        {{signup_error.message}}
+      </div>
       <div class="panel-body">
         <p>Create a free account today!</p>
         <div class="form-horizontal">
-          <div class="form-group" ng-class="error.errors.email ? 'has-error' : ''">
-            <label class="col-sm-4 control-label">Email</label>
-            <div class="col-sm-8">
+          <div class="form-group" ng-class="signup_error.errors.email ? 'has-error' : ''">
+            <label class="col-sm-5 col-lg-4 control-label">Email</label>
+            <div class="col-sm-7 col-lg-8">
               <input class="form-control" type="email" ng-model="signup.email">
-              <div class="help-block" ng-repeat="error in error.errors.email">
+              <div class="help-block" ng-repeat="error in signup_error.errors.email">
                 {{error}}
               </div>
             </div>
           </div>
-          <div class="form-group" ng-class="error.errors.password ? 'has-error' : ''">
-            <label class="col-sm-4 control-label">Password
+          <div class="form-group" ng-class="signup_error.errors.password ? 'has-error' : ''">
+            <label class="col-sm-5  col-lg-4 control-label">Password
             </label>
-            <div class="col-sm-8">
+            <div class="col-sm-7 col-lg-8">
               <input  class="form-control" type="password" ng-model="signup.password">
-              <div class="help-block" ng-repeat="error in error.errors.password">
+              <div class="help-block" ng-repeat="error in signup_error.errors.password">
                 {{error}}
               </div>
             </div>
           </div>
-          <div class="form-group" ng-class="error.errors.password_repeat ? 'has-error' : ''">
-            <label class="col-sm-4 control-label">Password repeat
+          <div class="form-group" ng-class="signup_error.errors.password_confirmation ? 'has-error' : ''">
+            <label class="col-sm-5 col-lg-4 control-label">Password repeat
             </label>
 
-            <div class="col-sm-8">
-              <input class="form-control" type="password" ng-model="signup.password_repeat" ng-enter="register()">
-              <div class="help-block" ng-repeat="error in error.errors.password_repeat">
+            <div class="col-sm-7 col-lg-8">
+              <input class="form-control" type="password" ng-model="signup.password_confirmation" ng-enter="register()">
+              <div class="help-block" ng-repeat="error in signup_error.errors.password_confirmation">
                 {{error}}
               </div>
             </div>
           </div>
           <div class="form-group">
-            <div class="col-sm-offset-4 col-sm-8">
+            <div class="col-sm-offset-5 col-sm-7 col-lg-8 col-lg-offset-4">
               <button ng-click="register()" class="btn btn-success btn-lg">Register</button>
             </div>
           </div>
