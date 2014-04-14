@@ -1,7 +1,7 @@
 /**
  * Login module
  */
-angular.module( 'bookie.login', [
+angular.module( 'bookie.devise', [
     'ui.state'
     ])
 
@@ -9,7 +9,7 @@ angular.module( 'bookie.login', [
  *  * Define the route that this module relates to, and the page template and controller that is tied to that route
  *   */
 .config(function config( $stateProvider ) {
-  $stateProvider.state( 'login', {
+  $stateProvider.state( 'devise', {
     url: '/login',
     views: {
       "main": {
@@ -33,7 +33,7 @@ angular.module( 'bookie.login', [
 /**
  *  Login controller that handels login and logout
  */
-.controller( 'LoginCtrl', function LoginController( $scope, $http, $rootScope) {
+.controller( 'LoginCtrl', function LoginController( $scope, $http, $rootScope, $location) {
   $rootScope.fullWidthLayout = true;
   $scope.user = {email: null, password: null};
   $scope.signup = {email:null, password:null, password_repeat:null};
@@ -46,7 +46,7 @@ angular.module( 'bookie.login', [
       data: {user: {email: $scope.user.email, password: $scope.user.password}},
       method: "POST"})
       .success(function(){
-        alert("Signed in!");
+        $location.path("/accounts");
       })
     .error(function(data, status){
       $scope.error.message = data.error;

@@ -5,7 +5,8 @@ angular.module( 'bookie', [
   'bookie.home',
   'bookie.about',
   'bookie.account',
-  'bookie.login',
+  'bookie.devise',
+  'bookie.dashboard',
   'ui.state',
   'ui.route'
 ])
@@ -37,4 +38,3 @@ angular.module( 'bookie', [
     });
   };
 });
-
