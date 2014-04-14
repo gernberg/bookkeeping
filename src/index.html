@@ -22,7 +22,8 @@
 
 
 </head>
-<body ng-class="{'logged-in': $root.loggedIn}" ng-switch on="$root.loggedIn">
+<body ng-class="{'logged-in': $root.loggedIn}">
+<div ng-switch on="$root.loggedIn">
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" ng-switch-when="true">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -30,11 +31,11 @@
         Bookie
       </a>
     </div>
-    <div class="collapse navbar-collapse pull-right">
-      <ul class="nav navbar-nav">
+    <div class="collapse navbar-collapse ">
+      <ul class=" navbar-nav navbar-right">
         <li ui-route="/vouchers" ng-class="{active:$uiRoute}">
         <a href="#/vouchers" class="btn">
-          <span class="glyphicon glyphicon-asterisk"></span>
+          <span class="glyphicon glyphicon-home"></span>
           Dashboard
         </a>
         </li>
@@ -66,13 +67,18 @@
           Settings
         </a>
         </li>
+        <li ui-route="/logout" ng-class="{active:$uiRoute}">
+        <a href="#/logout" class="btn">
+          <span class="glyphicon glyphicon-power"></span>
+          &nbsp;
+          Log out
+        </a>
+        </li>
       </ul>
     </div>
-
-  </div>
 </div>
 </nav>
-<nav class="navbar navbar-default navbar-fixed-top" role="navigation" ng-switch-else>
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation" ng-switch-default>
   <div class="container">
     <ul class="nav navbar-nav">
       <li><a href='#/'>Home</a></li>
@@ -83,6 +89,7 @@
     </ul>
   </div>
 </nav>
+</div>
 <div class="container-fluid">
   <div class="row">
     <div class="col-sm-2" ng-show="$root.loggedIn">
