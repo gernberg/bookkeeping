@@ -1,6 +1,7 @@
 angular.module( 'bookie', [
   'templates-app',
   'templates-common',
+  'common.auth',
   'bookie.home',
   'bookie.about',
   'bookie.account',
