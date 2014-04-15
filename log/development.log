@@ -12445,3 +12445,34 @@ Started GET "/assets/vouchers.js?body=1" for 127.0.0.1 at 2014-04-16 00:19:24 +0
 
 
 Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2014-04-16 00:19:24 +0200
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (117.4ms)[0m  DROP DATABASE IF EXISTS "bookie_test"
+  [1m[36m (238.2ms)[0m  [1mCREATE DATABASE "bookie_test" ENCODING = 'unicode'[0m
+  [1m[35mSQL (0.4ms)[0m  CREATE EXTENSION IF NOT EXISTS "plpgsql"
+  [1m[36m (5.3ms)[0m  [1mCREATE TABLE "accounts" ("id" serial primary key, "account_name" character varying(255), "account_number" integer, "sru" integer, "created_at" timestamp, "updated_at" timestamp) [0m
+  [1m[35m (2.5ms)[0m  CREATE TABLE "companies" ("id" serial primary key, "name" character varying(255), "created_at" timestamp, "updated_at" timestamp) 
+  [1m[36m (2.6ms)[0m  [1mCREATE TABLE "fiscal_years" ("id" serial primary key, "start_date" date, "end_date" date, "company_id" integer, "created_at" timestamp, "updated_at" timestamp) [0m
+  [1m[35m (1.1ms)[0m  CREATE INDEX "index_fiscal_years_on_company_id" ON "fiscal_years" USING btree ("company_id")
+  [1m[36m (4.6ms)[0m  [1mCREATE TABLE "users" ("id" serial primary key, "email" character varying(255) DEFAULT '' NOT NULL, "encrypted_password" character varying(255) DEFAULT '' NOT NULL, "reset_password_token" character varying(255), "reset_password_sent_at" timestamp, "remember_created_at" timestamp, "sign_in_count" integer DEFAULT 0 NOT NULL, "current_sign_in_at" timestamp, "last_sign_in_at" timestamp, "current_sign_in_ip" character varying(255), "last_sign_in_ip" character varying(255), "created_at" timestamp, "updated_at" timestamp, "confirmation_token" character varying(255), "confirmed_at" timestamp, "confirmation_sent_at" timestamp, "unconfirmed_email" character varying(255)) [0m
+  [1m[35m (1.2ms)[0m  CREATE UNIQUE INDEX "index_users_on_confirmation_token" ON "users" USING btree ("confirmation_token")
+  [1m[36m (1.1ms)[0m  [1mCREATE UNIQUE INDEX "index_users_on_email" ON "users" USING btree ("email")[0m
+  [1m[35m (0.9ms)[0m  CREATE UNIQUE INDEX "index_users_on_reset_password_token" ON "users" USING btree ("reset_password_token")
+  [1m[36m (5.0ms)[0m  [1mCREATE TABLE "versions" ("id" serial primary key, "item_type" character varying(255) NOT NULL, "item_id" integer NOT NULL, "event" character varying(255) NOT NULL, "whodunnit" character varying(255), "object" text, "created_at" timestamp) [0m
+  [1m[35m (1.5ms)[0m  CREATE INDEX "index_versions_on_item_type_and_item_id" ON "versions" USING btree ("item_type", "item_id")
+  [1m[36m (3.2ms)[0m  [1mCREATE TABLE "voucher_rows" ("id" serial primary key, "account_id" integer, "voucher_id" integer, "sum" float, "created_at" timestamp, "updated_at" timestamp) [0m
+  [1m[35m (1.2ms)[0m  CREATE INDEX "index_voucher_rows_on_account_id" ON "voucher_rows" USING btree ("account_id")
+  [1m[36m (0.9ms)[0m  [1mCREATE INDEX "index_voucher_rows_on_voucher_id" ON "voucher_rows" USING btree ("voucher_id")[0m
+  [1m[35m (2.6ms)[0m  CREATE TABLE "vouchers" ("id" serial primary key, "title" character varying(255), "date" date, "fiscal_year_id" integer, "created_at" timestamp, "updated_at" timestamp) 
+  [1m[36m (1.0ms)[0m  [1mCREATE INDEX "index_vouchers_on_fiscal_year_id" ON "vouchers" USING btree ("fiscal_year_id")[0m
+  [1m[35m (0.9ms)[0m  CREATE TABLE "schema_migrations" ("version" character varying(255) NOT NULL) 
+  [1m[36m (1.0ms)[0m  [1mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [1m[35m (0.3ms)[0m  SELECT version FROM "schema_migrations"
+  [1m[36m (0.4ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20140415221750')[0m
+  [1m[35m (0.5ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20140411141056')
+  [1m[36m (0.3ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20140411152302')[0m
+  [1m[35m (0.4ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20140412161026')
+  [1m[36m (0.4ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20140415214756')[0m
+  [1m[35m (0.4ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20140415214912')
+  [1m[36m (0.4ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20140415214938')[0m
+  [1m[35m (0.4ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20140415215059')
+  [1m[36m (0.4ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20140415215257')[0m
