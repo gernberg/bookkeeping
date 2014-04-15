@@ -1,5 +1,15 @@
 <bars-chart style="height:250px;width:250px;display:block;" chart-data="data" id="chart_div"></bars-chart>
-
+<div class="row">
+  <div class="col-sm-3">
+    <pie-chart style="display:block;height:150px;width:100%" ng-model="assets"></chart>
+  </div>
+  <div class="col-sm-3">
+    <pie-chart style="display:block;height:150px;width:100%" ng-model="budget"></chart>
+  </div>
+  <div class="col-sm-3">
+    <pie-chart style="display:block;height:150px;width:100%" ng-model="what"></chart>
+  </div>
+</div>
 <ul>
   <li ng-repeat="d in fiscal_years">
   a

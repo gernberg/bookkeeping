@@ -28,6 +28,20 @@ angular.module( 'bookie.dashboard', [
   $scope.accounts = AccountRes.query()
   $scope.vouchers = VoucherRes.query()
   $scope.fiscal_years = FiscalYearRes.query()
+  $scope.assets = [
+    (label:"Kundfodringar", data:40000)
+    (label:"Tillgångar", data:120000)
+  ]
+  $scope.budget = [
+    (label:"Omsättning", data:15000, color:"#090")
+    (label:"Budgeterat för period", color:"#900", data:3000)
+    (label:"Budgeterat för period", color:"#ccc", data:17000)
+  ]
+  $scope.what = [
+    (label:"Genomsnittlig bokföringstid", data:13)
+    (label:"Ojoj", data:17)
+  ]
+
 )
 .factory( 'VoucherRes', ($resource) ->
   $resource('../vouchers/:id.json', {id:'@id'}, {'update': {method: 'PATCH'}})
