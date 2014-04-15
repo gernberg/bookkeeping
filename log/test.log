@@ -2016,3 +2016,7 @@ DETAIL:  Key (email)=() already exists.
   [1m[36m (0.3ms)[0m  [1mALTER TABLE "accounts" DISABLE TRIGGER ALL;ALTER TABLE "companies" DISABLE TRIGGER ALL;ALTER TABLE "fiscal_years" DISABLE TRIGGER ALL;ALTER TABLE "users" DISABLE TRIGGER ALL;ALTER TABLE "versions" DISABLE TRIGGER ALL;ALTER TABLE "voucher_rows" DISABLE TRIGGER ALL;ALTER TABLE "vouchers" DISABLE TRIGGER ALL;ALTER TABLE "schema_migrations" DISABLE TRIGGER ALL[0m
   [1m[35mCompany Load (0.3ms)[0m  SELECT "companies".* FROM "companies" ORDER BY "companies"."id" ASC LIMIT 1
   [1m[36m (0.3ms)[0m  [1mALTER TABLE "accounts" ENABLE TRIGGER ALL;ALTER TABLE "companies" ENABLE TRIGGER ALL;ALTER TABLE "fiscal_years" ENABLE TRIGGER ALL;ALTER TABLE "users" ENABLE TRIGGER ALL;ALTER TABLE "versions" ENABLE TRIGGER ALL;ALTER TABLE "voucher_rows" ENABLE TRIGGER ALL;ALTER TABLE "vouchers" ENABLE TRIGGER ALL;ALTER TABLE "schema_migrations" ENABLE TRIGGER ALL[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
