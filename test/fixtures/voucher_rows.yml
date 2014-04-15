@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  account_id: 
+  voucher_id: 
+  sum: 1.5
+
+two:
+  account_id: 
+  voucher_id: 
+  sum: 1.5

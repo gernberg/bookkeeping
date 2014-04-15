@@ -1,7 +1,20 @@
 <bars-chart style="height:250px;width:250px;display:block;" chart-data="data" id="chart_div"></bars-chart>
 
 <ul>
+  <li ng-repeat="d in fiscal_years">
+  a
+  {{d.start_date}} -
+  {{d.end_date}}
+  </li>
+</ul>
+<ul>
+  <li ng-repeat="d in vouchers">b
+
+  {{d.title}}
+  </li>
+</ul>
+<ul>
   <li ng-repeat="d in accounts">
-  {{d.account_name}}
+  c {{d.account_name}}
   </li>
 </ul>
