@@ -69,6 +69,7 @@ module.exports = {
       'vendor/angular-ui-utils/modules/route/route.js',
       'vendor/angular-resource/angular-resource.js',
       'vendor/jquery/jquery.js',
+      'vendor/d3/d3.min.js',
       'vendor/angular-grid/build/ng-grid.js'
     ],
     css: [

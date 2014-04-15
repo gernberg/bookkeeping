@@ -21,7 +21,7 @@ describe( 'devise', function() {
         scope.httpBackend.expect('POST', '../users/sign_in.json', '{"user":{"email":"a@a.a","password":"a"}}').respond(201, '');
         scope.user = {
           email: "a@a.a",
-        password: "a"
+          password: "a"
         };
         scope.login();
         scope.$digest();
