@@ -46,7 +46,7 @@ angular.module( 'bookie.devise', [
       data: {user: {email: $scope.user.email, password: $scope.user.password}},
       method: "POST"})
       .success(function(){
-        $location.path("/accounts");
+        $location.path("/dashboard");
       })
     .error(function(data, status){
       $scope.error.message = data.error;
