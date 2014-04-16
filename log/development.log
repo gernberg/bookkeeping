@@ -40096,3 +40096,179 @@ ActionController::RoutingError (No route matches [GET] "/UI/fonts/glyphicons-hal
   Rendered /Users/gustav/.rvm/gems/ruby-2.1.1/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/routes/_route.html.erb (6.3ms)
   Rendered /Users/gustav/.rvm/gems/ruby-2.1.1/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/routes/_table.html.erb (1.3ms)
   Rendered /Users/gustav/.rvm/gems/ruby-2.1.1/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (38.6ms)
+  [1m[36mActiveRecord::SchemaMigration Load (0.5ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (108.6ms)[0m  DROP DATABASE IF EXISTS "bookie_test"
+  [1m[36m (733.3ms)[0m  [1mCREATE DATABASE "bookie_test" ENCODING = 'unicode'[0m
+  [1m[35mSQL (0.4ms)[0m  CREATE EXTENSION IF NOT EXISTS "plpgsql"
+  [1m[36m (14.4ms)[0m  [1mCREATE TABLE "accounts" ("id" serial primary key, "account_name" character varying(255), "account_number" integer, "sru" integer, "created_at" timestamp, "updated_at" timestamp) [0m
+  [1m[35m (8.3ms)[0m  CREATE TABLE "companies" ("id" serial primary key, "name" character varying(255), "created_at" timestamp, "updated_at" timestamp) 
+  [1m[36m (14.8ms)[0m  [1mCREATE TABLE "fiscal_years" ("id" serial primary key, "start_date" date, "end_date" date, "company_id" integer, "created_at" timestamp, "updated_at" timestamp) [0m
+  [1m[35m (11.2ms)[0m  CREATE INDEX "index_fiscal_years_on_company_id" ON "fiscal_years" USING btree ("company_id")
+  [1m[36m (24.0ms)[0m  [1mCREATE TABLE "users" ("id" serial primary key, "email" character varying(255) DEFAULT '' NOT NULL, "encrypted_password" character varying(255) DEFAULT '' NOT NULL, "reset_password_token" character varying(255), "reset_password_sent_at" timestamp, "remember_created_at" timestamp, "sign_in_count" integer DEFAULT 0 NOT NULL, "current_sign_in_at" timestamp, "last_sign_in_at" timestamp, "current_sign_in_ip" character varying(255), "last_sign_in_ip" character varying(255), "created_at" timestamp, "updated_at" timestamp, "confirmation_token" character varying(255), "confirmed_at" timestamp, "confirmation_sent_at" timestamp, "unconfirmed_email" character varying(255)) [0m
+  [1m[35m (11.6ms)[0m  CREATE UNIQUE INDEX "index_users_on_confirmation_token" ON "users" USING btree ("confirmation_token")
+  [1m[36m (8.3ms)[0m  [1mCREATE UNIQUE INDEX "index_users_on_email" ON "users" USING btree ("email")[0m
+  [1m[35m (12.7ms)[0m  CREATE UNIQUE INDEX "index_users_on_reset_password_token" ON "users" USING btree ("reset_password_token")
+  [1m[36m (18.1ms)[0m  [1mCREATE TABLE "versions" ("id" serial primary key, "item_type" character varying(255) NOT NULL, "item_id" integer NOT NULL, "event" character varying(255) NOT NULL, "whodunnit" character varying(255), "object" text, "created_at" timestamp) [0m
+  [1m[35m (8.2ms)[0m  CREATE INDEX "index_versions_on_item_type_and_item_id" ON "versions" USING btree ("item_type", "item_id")
+  [1m[36m (19.0ms)[0m  [1mCREATE TABLE "voucher_rows" ("id" serial primary key, "account_id" integer, "voucher_id" integer, "sum" float, "created_at" timestamp, "updated_at" timestamp) [0m
+  [1m[35m (14.5ms)[0m  CREATE INDEX "index_voucher_rows_on_account_id" ON "voucher_rows" USING btree ("account_id")
+  [1m[36m (13.7ms)[0m  [1mCREATE INDEX "index_voucher_rows_on_voucher_id" ON "voucher_rows" USING btree ("voucher_id")[0m
+  [1m[35m (12.6ms)[0m  CREATE TABLE "vouchers" ("id" serial primary key, "title" character varying(255), "date" date, "fiscal_year_id" integer, "created_at" timestamp, "updated_at" timestamp) 
+  [1m[36m (15.3ms)[0m  [1mCREATE INDEX "index_vouchers_on_fiscal_year_id" ON "vouchers" USING btree ("fiscal_year_id")[0m
+  [1m[35m (3.8ms)[0m  CREATE TABLE "schema_migrations" ("version" character varying(255) NOT NULL) 
+  [1m[36m (16.6ms)[0m  [1mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [1m[35m (0.6ms)[0m  SELECT version FROM "schema_migrations"
+  [1m[36m (3.1ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20140415221750')[0m
+  [1m[35m (7.3ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20140411152302')
+  [1m[36m (5.3ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20140412161026')[0m
+  [1m[35m (4.9ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20140415214912')
+  [1m[36m (5.2ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20140415214938')[0m
+  [1m[35m (5.0ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20140415215257')
+  [1m[36m (6.5ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20140415215059')[0m
+  [1m[35m (4.5ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20140415214756')
+  [1m[36m (4.7ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20140411141056')[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.5ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (218.7ms)[0m  DROP DATABASE IF EXISTS "bookie_test"
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to CreateCompaniesUsers (20140416161440)
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (7.8ms)[0m  [1mCREATE TABLE "companies_users" ("id" serial primary key, "company_id" integer, "user_id" integer) [0m
+  [1m[35mSQL (0.9ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ($1)  [["version", "20140416161440"]]
+  [1m[36m (4.9ms)[0m  [1mCOMMIT[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.2ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (5008.0ms)[0m  DROP DATABASE IF EXISTS "bookie_test"
+PG::ObjectInUse: ERROR:  database "bookie_test" is being accessed by other users
+DETAIL:  There are 1 other session(s) using the database.
+: DROP DATABASE IF EXISTS "bookie_test"
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (5006.7ms)[0m  DROP DATABASE IF EXISTS "bookie_test"
+PG::ObjectInUse: ERROR:  database "bookie_test" is being accessed by other users
+DETAIL:  There are 1 other session(s) using the database.
+: DROP DATABASE IF EXISTS "bookie_test"
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (313.2ms)[0m  DROP DATABASE IF EXISTS "bookie_test"
+  [1m[36m (907.9ms)[0m  [1mCREATE DATABASE "bookie_test" ENCODING = 'unicode'[0m
+  [1m[35mSQL (0.3ms)[0m  CREATE EXTENSION IF NOT EXISTS "plpgsql"
+  [1m[36m (19.4ms)[0m  [1mCREATE TABLE "accounts" ("id" serial primary key, "account_name" character varying(255), "account_number" integer, "sru" integer, "created_at" timestamp, "updated_at" timestamp) [0m
+  [1m[35m (12.2ms)[0m  CREATE TABLE "companies" ("id" serial primary key, "name" character varying(255), "created_at" timestamp, "updated_at" timestamp) 
+  [1m[36m (15.3ms)[0m  [1mCREATE TABLE "companies_users" ("id" serial primary key, "company_id" integer, "user_id" integer) [0m
+  [1m[35m (18.5ms)[0m  CREATE TABLE "fiscal_years" ("id" serial primary key, "start_date" date, "end_date" date, "company_id" integer, "created_at" timestamp, "updated_at" timestamp) 
+  [1m[36m (16.0ms)[0m  [1mCREATE INDEX "index_fiscal_years_on_company_id" ON "fiscal_years" USING btree ("company_id")[0m
+  [1m[35m (27.8ms)[0m  CREATE TABLE "users" ("id" serial primary key, "email" character varying(255) DEFAULT '' NOT NULL, "encrypted_password" character varying(255) DEFAULT '' NOT NULL, "reset_password_token" character varying(255), "reset_password_sent_at" timestamp, "remember_created_at" timestamp, "sign_in_count" integer DEFAULT 0 NOT NULL, "current_sign_in_at" timestamp, "last_sign_in_at" timestamp, "current_sign_in_ip" character varying(255), "last_sign_in_ip" character varying(255), "created_at" timestamp, "updated_at" timestamp, "confirmation_token" character varying(255), "confirmed_at" timestamp, "confirmation_sent_at" timestamp, "unconfirmed_email" character varying(255)) 
+  [1m[36m (16.6ms)[0m  [1mCREATE UNIQUE INDEX "index_users_on_confirmation_token" ON "users" USING btree ("confirmation_token")[0m
+  [1m[35m (12.9ms)[0m  CREATE UNIQUE INDEX "index_users_on_email" ON "users" USING btree ("email")
+  [1m[36m (15.5ms)[0m  [1mCREATE UNIQUE INDEX "index_users_on_reset_password_token" ON "users" USING btree ("reset_password_token")[0m
+  [1m[35m (27.2ms)[0m  CREATE TABLE "versions" ("id" serial primary key, "item_type" character varying(255) NOT NULL, "item_id" integer NOT NULL, "event" character varying(255) NOT NULL, "whodunnit" character varying(255), "object" text, "created_at" timestamp) 
+  [1m[36m (15.1ms)[0m  [1mCREATE INDEX "index_versions_on_item_type_and_item_id" ON "versions" USING btree ("item_type", "item_id")[0m
+  [1m[35m (16.6ms)[0m  CREATE TABLE "voucher_rows" ("id" serial primary key, "account_id" integer, "voucher_id" integer, "sum" float, "created_at" timestamp, "updated_at" timestamp) 
+  [1m[36m (16.3ms)[0m  [1mCREATE INDEX "index_voucher_rows_on_account_id" ON "voucher_rows" USING btree ("account_id")[0m
+  [1m[35m (15.4ms)[0m  CREATE INDEX "index_voucher_rows_on_voucher_id" ON "voucher_rows" USING btree ("voucher_id")
+  [1m[36m (17.2ms)[0m  [1mCREATE TABLE "vouchers" ("id" serial primary key, "title" character varying(255), "date" date, "fiscal_year_id" integer, "created_at" timestamp, "updated_at" timestamp) [0m
+  [1m[35m (14.8ms)[0m  CREATE INDEX "index_vouchers_on_fiscal_year_id" ON "vouchers" USING btree ("fiscal_year_id")
+  [1m[36m (4.3ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" character varying(255) NOT NULL) [0m
+  [1m[35m (14.7ms)[0m  CREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")
+  [1m[36m (0.6ms)[0m  [1mSELECT version FROM "schema_migrations"[0m
+  [1m[35m (3.3ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20140416161440')
+  [1m[36m (4.6ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20140411152302')[0m
+  [1m[35m (4.4ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20140412161026')
+  [1m[36m (4.6ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20140415214912')[0m
+  [1m[35m (4.5ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20140415214938')
+  [1m[36m (4.6ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20140415215257')[0m
+  [1m[35m (4.5ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20140415215059')
+  [1m[36m (4.6ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20140415214756')[0m
+  [1m[35m (4.6ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20140411141056')
+  [1m[36m (4.5ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20140415221750')[0m
+
+
+Started GET "/UI/fonts/glyphicons-halflings-regular.woff" for 127.0.0.1 at 2014-04-16 18:38:07 +0200
+  [1m[36mActiveRecord::SchemaMigration Load (0.7ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+
+ActionController::RoutingError (No route matches [GET] "/UI/fonts/glyphicons-halflings-regular.woff"):
+  actionpack (4.0.4) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.0.4) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.0.4) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.0.4) lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  activesupport (4.0.4) lib/active_support/tagged_logging.rb:26:in `tagged'
+  activesupport (4.0.4) lib/active_support/tagged_logging.rb:68:in `tagged'
+  railties (4.0.4) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.2) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.5.2) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.0.4) lib/active_support/cache/strategy/local_cache.rb:83:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/static.rb:64:in `call'
+  rack (1.5.2) lib/rack/sendfile.rb:112:in `call'
+  railties (4.0.4) lib/rails/engine.rb:511:in `call'
+  railties (4.0.4) lib/rails/application.rb:97:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  rack (1.5.2) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.2) lib/rack/handler/webrick.rb:60:in `service'
+  /home/gustav/.rvm/rubies/ruby-1.9.3-p392/lib/ruby/1.9.1/webrick/httpserver.rb:138:in `service'
+  /home/gustav/.rvm/rubies/ruby-1.9.3-p392/lib/ruby/1.9.1/webrick/httpserver.rb:94:in `run'
+  /home/gustav/.rvm/rubies/ruby-1.9.3-p392/lib/ruby/1.9.1/webrick/server.rb:191:in `block in start_thread'
+
+
+  Rendered /home/gustav/.rvm/gems/ruby-1.9.3-p392/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_trace.erb (0.8ms)
+  Rendered /home/gustav/.rvm/gems/ruby-1.9.3-p392/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/routes/_route.html.erb (20.0ms)
+  Rendered /home/gustav/.rvm/gems/ruby-1.9.3-p392/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/routes/_table.html.erb (4.4ms)
+  Rendered /home/gustav/.rvm/gems/ruby-1.9.3-p392/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (49.0ms)
+
+
+Started GET "/vouchers.json" for 127.0.0.1 at 2014-04-16 18:38:07 +0200
+Processing by VouchersController#index as JSON
+  [1m[35mUser Load (0.8ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 1 ORDER BY "users"."id" ASC LIMIT 1
+  [1m[36mVoucher Load (0.5ms)[0m  [1mSELECT "vouchers".* FROM "vouchers"[0m
+  Rendered vouchers/index.json.jbuilder (4.9ms)
+Completed 200 OK in 66ms (Views: 6.3ms | ActiveRecord: 3.0ms)
+
+
+Started GET "/fiscal_years.json" for 127.0.0.1 at 2014-04-16 18:38:07 +0200
+Processing by FiscalYearsController#index as JSON
+  [1m[35mUser Load (0.4ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 1 ORDER BY "users"."id" ASC LIMIT 1
+  [1m[36mFiscalYear Load (0.4ms)[0m  [1mSELECT "fiscal_years".* FROM "fiscal_years"[0m
+  Rendered fiscal_years/index.json.jbuilder (1.0ms)
+Completed 200 OK in 8ms (Views: 2.7ms | ActiveRecord: 0.8ms)
+
+
+Started GET "/accounts.json" for 127.0.0.1 at 2014-04-16 18:38:07 +0200
+Processing by AccountsController#index as JSON
+  [1m[35mUser Load (0.4ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = 1 ORDER BY "users"."id" ASC LIMIT 1
+  [1m[36mAccount Load (0.4ms)[0m  [1mSELECT "accounts".* FROM "accounts"[0m
+  Rendered text template (0.0ms)
+Completed 200 OK in 33ms (Views: 2.2ms | ActiveRecord: 2.2ms)
+
+
+Started GET "/UI/fonts/glyphicons-halflings-regular.ttf" for 127.0.0.1 at 2014-04-16 18:38:07 +0200
+
+ActionController::RoutingError (No route matches [GET] "/UI/fonts/glyphicons-halflings-regular.ttf"):
+  actionpack (4.0.4) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.0.4) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.0.4) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.0.4) lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  activesupport (4.0.4) lib/active_support/tagged_logging.rb:26:in `tagged'
+  activesupport (4.0.4) lib/active_support/tagged_logging.rb:68:in `tagged'
+  railties (4.0.4) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.2) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.5.2) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.0.4) lib/active_support/cache/strategy/local_cache.rb:83:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  actionpack (4.0.4) lib/action_dispatch/middleware/static.rb:64:in `call'
+  rack (1.5.2) lib/rack/sendfile.rb:112:in `call'
+  railties (4.0.4) lib/rails/engine.rb:511:in `call'
+  railties (4.0.4) lib/rails/application.rb:97:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  rack (1.5.2) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.2) lib/rack/handler/webrick.rb:60:in `service'
+  /home/gustav/.rvm/rubies/ruby-1.9.3-p392/lib/ruby/1.9.1/webrick/httpserver.rb:138:in `service'
+  /home/gustav/.rvm/rubies/ruby-1.9.3-p392/lib/ruby/1.9.1/webrick/httpserver.rb:94:in `run'
+  /home/gustav/.rvm/rubies/ruby-1.9.3-p392/lib/ruby/1.9.1/webrick/server.rb:191:in `block in start_thread'
+
+
+  Rendered /home/gustav/.rvm/gems/ruby-1.9.3-p392/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/_trace.erb (0.9ms)
+  Rendered /home/gustav/.rvm/gems/ruby-1.9.3-p392/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/routes/_route.html.erb (2.6ms)
+  Rendered /home/gustav/.rvm/gems/ruby-1.9.3-p392/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/routes/_table.html.erb (0.7ms)
+  Rendered /home/gustav/.rvm/gems/ruby-1.9.3-p392/gems/actionpack-4.0.4/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (22.3ms)

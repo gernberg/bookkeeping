@@ -2020,3 +2020,442 @@ DETAIL:  Key (email)=() already exists.
   [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
   [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
   [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.5ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.3ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.8ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.1ms)[0m  [1mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.5ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.1ms)[0m  [1mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.1ms)[0m  [1mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.5ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.5ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.7ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36m (0.4ms)[0m  [1mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.5ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.1ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.7ms)[0m  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'user1@example.com' LIMIT 1
+  [1m[36mSQL (23.9ms)[0m  [1mINSERT INTO "users" ("created_at", "email", "encrypted_password", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["created_at", Wed, 16 Apr 2014 16:12:36 UTC +00:00], ["email", "user1@example.com"], ["encrypted_password", "$2a$04$SpL.Dav3ZlUvgp4YaOcGGOpJ6ANdwOyHF/MvZ.nb2K.KdZyrhJTCK"], ["updated_at", Wed, 16 Apr 2014 16:12:36 UTC +00:00]]
+  [1m[35m (0.3ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.7ms)[0m  INSERT INTO "companies" ("created_at", "name", "updated_at") VALUES ($1, $2, $3) RETURNING "id"  [["created_at", Wed, 16 Apr 2014 16:12:36 UTC +00:00], ["name", "Företaget"], ["updated_at", Wed, 16 Apr 2014 16:12:36 UTC +00:00]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.3ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.4ms)[0m  [1mSELECT 1 AS one FROM "users" WHERE "users"."email" = 'user2@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "users" ("created_at", "email", "encrypted_password", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["created_at", Wed, 16 Apr 2014 16:12:36 UTC +00:00], ["email", "user2@example.com"], ["encrypted_password", "$2a$04$0wdAdt2RSl7vnOQ/wA45oOXW68haBNy2KSS8kq/XMYvuIvma2fEpK"], ["updated_at", Wed, 16 Apr 2014 16:12:36 UTC +00:00]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.4ms)[0m  [1mSELECT 1 AS one FROM "users" WHERE "users"."email" = 'user3@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "users" ("created_at", "email", "encrypted_password", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["created_at", Wed, 16 Apr 2014 16:12:36 UTC +00:00], ["email", "user3@example.com"], ["encrypted_password", "$2a$04$2sZS9c80s17Ra1S.eUHnxOKE5i.tiVWwsiQnxxtdEndDfZMAyM1ci"], ["updated_at", Wed, 16 Apr 2014 16:12:36 UTC +00:00]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.4ms)[0m  [1mSELECT 1 AS one FROM "users" WHERE "users"."email" = 'user4@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "users" ("created_at", "email", "encrypted_password", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["created_at", Wed, 16 Apr 2014 16:12:36 UTC +00:00], ["email", "user4@example.com"], ["encrypted_password", "$2a$04$6FlggdPrcOtwAK6ga4yjUe1zhlsFQjbVf/3oooO0SeFNJiKgfT4QK"], ["updated_at", Wed, 16 Apr 2014 16:12:36 UTC +00:00]]
+  [1m[36m (0.3ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36mActiveRecord::SchemaMigration Load (0.7ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.7ms)[0m  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'user1@example.com' LIMIT 1
+  [1m[36mSQL (22.0ms)[0m  [1mINSERT INTO "users" ("created_at", "email", "encrypted_password", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["created_at", Wed, 16 Apr 2014 16:13:09 UTC +00:00], ["email", "user1@example.com"], ["encrypted_password", "$2a$04$KCPlS2np.m64RM3VJHOyMOIneJR2QMbmT17rmCiJGH7BG4qpZg82."], ["updated_at", Wed, 16 Apr 2014 16:13:09 UTC +00:00]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.8ms)[0m  INSERT INTO "companies" ("created_at", "name", "updated_at") VALUES ($1, $2, $3) RETURNING "id"  [["created_at", Wed, 16 Apr 2014 16:13:09 UTC +00:00], ["name", "Företaget"], ["updated_at", Wed, 16 Apr 2014 16:13:09 UTC +00:00]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.3ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.4ms)[0m  [1mSELECT 1 AS one FROM "users" WHERE "users"."email" = 'user2@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "users" ("created_at", "email", "encrypted_password", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["created_at", Wed, 16 Apr 2014 16:13:09 UTC +00:00], ["email", "user2@example.com"], ["encrypted_password", "$2a$04$kLSUAnc042Tm4o90yJZYTeYQjii66ZErNkxefj/H89xkGcU/O2IF2"], ["updated_at", Wed, 16 Apr 2014 16:13:09 UTC +00:00]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.2ms)[0m  [1mSELECT 1 AS one FROM "users" WHERE "users"."email" = 'user3@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("created_at", "email", "encrypted_password", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["created_at", Wed, 16 Apr 2014 16:13:09 UTC +00:00], ["email", "user3@example.com"], ["encrypted_password", "$2a$04$1jJuyPMfXdxZyBa2JsBu6uhN86eKko04TKF7IRoE0TyOr50Fu6ypq"], ["updated_at", Wed, 16 Apr 2014 16:13:09 UTC +00:00]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.2ms)[0m  [1mSELECT 1 AS one FROM "users" WHERE "users"."email" = 'user4@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("created_at", "email", "encrypted_password", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["created_at", Wed, 16 Apr 2014 16:13:09 UTC +00:00], ["email", "user4@example.com"], ["encrypted_password", "$2a$04$qGebtgH0H1EcBGyIDBl8.er3wK4j4dpqkKiAYH8Ty5UxVAJSlDmsi"], ["updated_at", Wed, 16 Apr 2014 16:13:09 UTC +00:00]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mUser Exists (0.2ms)[0m  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'user5@example.com' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.5ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36mUser Exists (0.8ms)[0m  [1mSELECT 1 AS one FROM "users" WHERE "users"."email" = 'user1@example.com' LIMIT 1[0m
+  [1m[35m (0.3ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.3ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (27.6ms)[0m  [1mINSERT INTO "companies" ("created_at", "name", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["created_at", Wed, 16 Apr 2014 16:13:51 UTC +00:00], ["name", "Företaget"], ["updated_at", Wed, 16 Apr 2014 16:13:51 UTC +00:00]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.4ms)[0m  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'user2@example.com' LIMIT 1
+  [1m[36mSQL (1.1ms)[0m  [1mINSERT INTO "users" ("created_at", "email", "encrypted_password", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["created_at", Wed, 16 Apr 2014 16:13:51 UTC +00:00], ["email", "user2@example.com"], ["encrypted_password", "$2a$04$zTN69nOCM/xaJWDRHnYuy.6hr8gM7tQ3HePLTxqQZTQj65CSCbQkK"], ["updated_at", Wed, 16 Apr 2014 16:13:51 UTC +00:00]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.3ms)[0m  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'user3@example.com' LIMIT 1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "users" ("created_at", "email", "encrypted_password", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["created_at", Wed, 16 Apr 2014 16:13:51 UTC +00:00], ["email", "user3@example.com"], ["encrypted_password", "$2a$04$hGGKljvr5adH0z9/61Hnk.YEsme5ryImoHRGVfSykeCaWN475J69S"], ["updated_at", Wed, 16 Apr 2014 16:13:51 UTC +00:00]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.3ms)[0m  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'user4@example.com' LIMIT 1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "users" ("created_at", "email", "encrypted_password", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["created_at", Wed, 16 Apr 2014 16:13:51 UTC +00:00], ["email", "user4@example.com"], ["encrypted_password", "$2a$04$ym/H9VhTnNY.8rNJAK6I6ej4XtOlUeEz4gQNbIegRrZMoZkhBUsp."], ["updated_at", Wed, 16 Apr 2014 16:13:51 UTC +00:00]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+PG::UndefinedTable: ERROR:  relation "companies_users" does not exist
+LINE 5:                WHERE a.attrelid = '"companies_users"'::regcl...
+                                          ^
+:               SELECT a.attname, format_type(a.atttypid, a.atttypmod),
+                     pg_get_expr(d.adbin, d.adrelid), a.attnotnull, a.atttypid, a.atttypmod
+                FROM pg_attribute a LEFT JOIN pg_attrdef d
+                  ON a.attrelid = d.adrelid AND a.attnum = d.adnum
+               WHERE a.attrelid = '"companies_users"'::regclass
+                 AND a.attnum > 0 AND NOT a.attisdropped
+               ORDER BY a.attnum
+
+  [1m[36m (0.1ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.2ms)[0m  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'user5@example.com' LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "users" ("created_at", "email", "encrypted_password", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["created_at", Wed, 16 Apr 2014 16:13:51 UTC +00:00], ["email", "user5@example.com"], ["encrypted_password", "$2a$04$y8okd52upl9v4ahjxzjajuBNT5GOVq/STZYUrtfhG/KtKTxxaMDre"], ["updated_at", Wed, 16 Apr 2014 16:13:51 UTC +00:00]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+PG::UndefinedTable: ERROR:  relation "companies_users" does not exist
+LINE 5:                WHERE a.attrelid = '"companies_users"'::regcl...
+                                          ^
+:               SELECT a.attname, format_type(a.atttypid, a.atttypmod),
+                     pg_get_expr(d.adbin, d.adrelid), a.attnotnull, a.atttypid, a.atttypmod
+                FROM pg_attribute a LEFT JOIN pg_attrdef d
+                  ON a.attrelid = d.adrelid AND a.attnum = d.adnum
+               WHERE a.attrelid = '"companies_users"'::regclass
+                 AND a.attnum > 0 AND NOT a.attisdropped
+               ORDER BY a.attnum
+
+  [1m[36m (0.1ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.1ms)[0m  [1mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.7ms)[0m  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'user1@example.com' LIMIT 1
+  [1m[36mSQL (22.5ms)[0m  [1mINSERT INTO "users" ("created_at", "email", "encrypted_password", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["created_at", Wed, 16 Apr 2014 16:15:44 UTC +00:00], ["email", "user1@example.com"], ["encrypted_password", "$2a$04$xZK5xJlUCdhMXzXgbY3sAOM25.k///ttNbvZ9.DIw6Jq4gti0LaP."], ["updated_at", Wed, 16 Apr 2014 16:15:44 UTC +00:00]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.7ms)[0m  INSERT INTO "companies" ("created_at", "name", "updated_at") VALUES ($1, $2, $3) RETURNING "id"  [["created_at", Wed, 16 Apr 2014 16:15:44 UTC +00:00], ["name", "Företaget"], ["updated_at", Wed, 16 Apr 2014 16:15:44 UTC +00:00]]
+  [1m[36m (0.3ms)[0m  [1mINSERT INTO "companies_users" ("company_id", "user_id") VALUES (1, 1) RETURNING "id"[0m
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "companies" ("created_at", "name", "updated_at") VALUES ($1, $2, $3) RETURNING "id"  [["created_at", Wed, 16 Apr 2014 16:15:44 UTC +00:00], ["name", "Företaget"], ["updated_at", Wed, 16 Apr 2014 16:15:44 UTC +00:00]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.5ms)[0m  [1mSELECT 1 AS one FROM "users" WHERE "users"."email" = 'user2@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "users" ("created_at", "email", "encrypted_password", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["created_at", Wed, 16 Apr 2014 16:15:44 UTC +00:00], ["email", "user2@example.com"], ["encrypted_password", "$2a$04$03GDX8rwVrje4JfFE60ZdejaAGc114VzBIEB9zwM6AQCICAbRsNBS"], ["updated_at", Wed, 16 Apr 2014 16:15:44 UTC +00:00]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.4ms)[0m  [1mSELECT 1 AS one FROM "users" WHERE "users"."email" = 'user3@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "users" ("created_at", "email", "encrypted_password", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["created_at", Wed, 16 Apr 2014 16:15:44 UTC +00:00], ["email", "user3@example.com"], ["encrypted_password", "$2a$04$UTHfik12B1t5N3TfJNQYdu7grFtXH21XmQ1e.o32YrLPguPJwM5my"], ["updated_at", Wed, 16 Apr 2014 16:15:44 UTC +00:00]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.3ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.3ms)[0m  [1mSELECT 1 AS one FROM "users" WHERE "users"."email" = 'user4@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "users" ("created_at", "email", "encrypted_password", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["created_at", Wed, 16 Apr 2014 16:15:44 UTC +00:00], ["email", "user4@example.com"], ["encrypted_password", "$2a$04$SsxOnvak/KBgkMldm6mmq.kdFnCSYEEWrIiibJZ9YbFI6BpAD5da."], ["updated_at", Wed, 16 Apr 2014 16:15:44 UTC +00:00]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35mUser Load (2.1ms)[0m  SELECT "users".* FROM "users" INNER JOIN "companies_users" ON "users"."id" = "companies_users"."user_id" WHERE "companies_users"."company_id" = $1  [["company_id", 2]]
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  INSERT INTO "companies_users" ("company_id", "user_id") VALUES (2, 2) RETURNING "id"
+  [1m[36m (0.1ms)[0m  [1mINSERT INTO "companies_users" ("company_id", "user_id") VALUES (2, 3) RETURNING "id"[0m
+  [1m[35m (0.1ms)[0m  INSERT INTO "companies_users" ("company_id", "user_id") VALUES (2, 4) RETURNING "id"
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (1.6ms)[0m  ROLLBACK
+  [1m[36m (4.6ms)[0m  [1mBEGIN[0m
+  [1m[35mUser Exists (0.4ms)[0m  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'user5@example.com' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.5ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.8ms)[0m  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'user1@example.com' LIMIT 1
+  [1m[36mSQL (24.9ms)[0m  [1mINSERT INTO "users" ("created_at", "email", "encrypted_password", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["created_at", Wed, 16 Apr 2014 16:15:54 UTC +00:00], ["email", "user1@example.com"], ["encrypted_password", "$2a$04$bnFS4o2yks8awwSk80TSBeTV94gn1RNQ/KxIi5V1W3L1hLBnsfEaG"], ["updated_at", Wed, 16 Apr 2014 16:15:54 UTC +00:00]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "companies" ("created_at", "name", "updated_at") VALUES ($1, $2, $3) RETURNING "id"  [["created_at", Wed, 16 Apr 2014 16:15:54 UTC +00:00], ["name", "Företaget"], ["updated_at", Wed, 16 Apr 2014 16:15:54 UTC +00:00]]
+  [1m[36m (0.3ms)[0m  [1mINSERT INTO "companies_users" ("company_id", "user_id") VALUES (3, 5) RETURNING "id"[0m
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "companies" ("created_at", "name", "updated_at") VALUES ($1, $2, $3) RETURNING "id"  [["created_at", Wed, 16 Apr 2014 16:15:54 UTC +00:00], ["name", "Företaget"], ["updated_at", Wed, 16 Apr 2014 16:15:54 UTC +00:00]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.3ms)[0m  [1mSELECT 1 AS one FROM "users" WHERE "users"."email" = 'user2@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "users" ("created_at", "email", "encrypted_password", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["created_at", Wed, 16 Apr 2014 16:15:54 UTC +00:00], ["email", "user2@example.com"], ["encrypted_password", "$2a$04$LroaFtucbtBciYzoi2oqbe5Ycp2IFh76cLyuDcyz/2nsYQt7g8S1."], ["updated_at", Wed, 16 Apr 2014 16:15:54 UTC +00:00]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.2ms)[0m  [1mSELECT 1 AS one FROM "users" WHERE "users"."email" = 'user3@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("created_at", "email", "encrypted_password", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["created_at", Wed, 16 Apr 2014 16:15:54 UTC +00:00], ["email", "user3@example.com"], ["encrypted_password", "$2a$04$6QbDDYf3v6XYx38GkEZvAuw5PcaKeEfew7XnvBbC6hAuKn2m.AypS"], ["updated_at", Wed, 16 Apr 2014 16:15:54 UTC +00:00]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.3ms)[0m  [1mSELECT 1 AS one FROM "users" WHERE "users"."email" = 'user4@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "users" ("created_at", "email", "encrypted_password", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["created_at", Wed, 16 Apr 2014 16:15:54 UTC +00:00], ["email", "user4@example.com"], ["encrypted_password", "$2a$04$sjt3xQDZuAnp3fgjOh9GJuEq6sYW5Z8ptKopkA3tanE/AQbBw.xSu"], ["updated_at", Wed, 16 Apr 2014 16:15:54 UTC +00:00]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35mUser Load (0.6ms)[0m  SELECT "users".* FROM "users" INNER JOIN "companies_users" ON "users"."id" = "companies_users"."user_id" WHERE "companies_users"."company_id" = $1  [["company_id", 4]]
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  INSERT INTO "companies_users" ("company_id", "user_id") VALUES (4, 6) RETURNING "id"
+  [1m[36m (0.2ms)[0m  [1mINSERT INTO "companies_users" ("company_id", "user_id") VALUES (4, 7) RETURNING "id"[0m
+  [1m[35m (0.2ms)[0m  INSERT INTO "companies_users" ("company_id", "user_id") VALUES (4, 8) RETURNING "id"
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mUser Exists (0.4ms)[0m  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'user5@example.com' LIMIT 1
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.7ms)[0m  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'user1@example.com' LIMIT 1
+  [1m[36mSQL (22.8ms)[0m  [1mINSERT INTO "users" ("created_at", "email", "encrypted_password", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["created_at", Wed, 16 Apr 2014 17:00:29 UTC +00:00], ["email", "user1@example.com"], ["encrypted_password", "$2a$04$9B7BczjZQwBgd6f9NKjKeuGRffqnxZ9mfBZu7lU.19aYma375wIQa"], ["updated_at", Wed, 16 Apr 2014 17:00:29 UTC +00:00]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "companies" ("created_at", "name", "updated_at") VALUES ($1, $2, $3) RETURNING "id"  [["created_at", Wed, 16 Apr 2014 17:00:29 UTC +00:00], ["name", "Företaget"], ["updated_at", Wed, 16 Apr 2014 17:00:29 UTC +00:00]]
+  [1m[36m (0.3ms)[0m  [1mINSERT INTO "companies_users" ("company_id", "user_id") VALUES (5, 9) RETURNING "id"[0m
+  [1m[35m (0.3ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "companies" ("created_at", "name", "updated_at") VALUES ($1, $2, $3) RETURNING "id"  [["created_at", Wed, 16 Apr 2014 17:00:29 UTC +00:00], ["name", "Företaget"], ["updated_at", Wed, 16 Apr 2014 17:00:29 UTC +00:00]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.4ms)[0m  [1mSELECT 1 AS one FROM "users" WHERE "users"."email" = 'user2@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "users" ("created_at", "email", "encrypted_password", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["created_at", Wed, 16 Apr 2014 17:00:29 UTC +00:00], ["email", "user2@example.com"], ["encrypted_password", "$2a$04$Zoxw7bA1RQj1XQSztQcMpOclc3dEl3ii4yppeTdbgy7inj..59Yim"], ["updated_at", Wed, 16 Apr 2014 17:00:29 UTC +00:00]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.4ms)[0m  [1mSELECT 1 AS one FROM "users" WHERE "users"."email" = 'user3@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "users" ("created_at", "email", "encrypted_password", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["created_at", Wed, 16 Apr 2014 17:00:29 UTC +00:00], ["email", "user3@example.com"], ["encrypted_password", "$2a$04$niz48wCfDudEVneXtUx92updBeU.92QzE2hsgb5vxoP9Se8HTzQ7y"], ["updated_at", Wed, 16 Apr 2014 17:00:29 UTC +00:00]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.4ms)[0m  [1mSELECT 1 AS one FROM "users" WHERE "users"."email" = 'user4@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "users" ("created_at", "email", "encrypted_password", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["created_at", Wed, 16 Apr 2014 17:00:29 UTC +00:00], ["email", "user4@example.com"], ["encrypted_password", "$2a$04$ajzUjo492jJXnQ5K.g/sOOKFbw9yuGpKepqSPEmv2hsFbnNcGkc9m"], ["updated_at", Wed, 16 Apr 2014 17:00:29 UTC +00:00]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35mUser Load (1.1ms)[0m  SELECT "users".* FROM "users" INNER JOIN "companies_users" ON "users"."id" = "companies_users"."user_id" WHERE "companies_users"."company_id" = $1  [["company_id", 6]]
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35m (0.3ms)[0m  INSERT INTO "companies_users" ("company_id", "user_id") VALUES (6, 10) RETURNING "id"
+  [1m[36m (0.4ms)[0m  [1mINSERT INTO "companies_users" ("company_id", "user_id") VALUES (6, 11) RETURNING "id"[0m
+  [1m[35m (0.4ms)[0m  INSERT INTO "companies_users" ("company_id", "user_id") VALUES (6, 12) RETURNING "id"
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.3ms)[0m  SAVEPOINT active_record_1
+  [1m[36m (0.3ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.3ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mUser Exists (0.4ms)[0m  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'user5@example.com' LIMIT 1
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.7ms)[0m  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'user1@example.com' LIMIT 1
+  [1m[36mSQL (22.8ms)[0m  [1mINSERT INTO "users" ("created_at", "email", "encrypted_password", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["created_at", Wed, 16 Apr 2014 17:01:13 UTC +00:00], ["email", "user1@example.com"], ["encrypted_password", "$2a$04$ntc8.jne2r1Py784cB3UneWxAuZi4ek8BlXU5GTYHb8tAU5wNZWMO"], ["updated_at", Wed, 16 Apr 2014 17:01:13 UTC +00:00]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "companies" ("created_at", "name", "updated_at") VALUES ($1, $2, $3) RETURNING "id"  [["created_at", Wed, 16 Apr 2014 17:01:13 UTC +00:00], ["name", "Företaget"], ["updated_at", Wed, 16 Apr 2014 17:01:13 UTC +00:00]]
+  [1m[36m (0.3ms)[0m  [1mINSERT INTO "companies_users" ("company_id", "user_id") VALUES (7, 13) RETURNING "id"[0m
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "companies" ("created_at", "name", "updated_at") VALUES ($1, $2, $3) RETURNING "id"  [["created_at", Wed, 16 Apr 2014 17:01:13 UTC +00:00], ["name", "Företaget"], ["updated_at", Wed, 16 Apr 2014 17:01:13 UTC +00:00]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.2ms)[0m  [1mSELECT 1 AS one FROM "users" WHERE "users"."email" = 'user2@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "users" ("created_at", "email", "encrypted_password", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["created_at", Wed, 16 Apr 2014 17:01:13 UTC +00:00], ["email", "user2@example.com"], ["encrypted_password", "$2a$04$TL81H19nXYX1wZeaDQ3f3uOM31YjOMwWaoPU5himT6GpzC7lUsDDy"], ["updated_at", Wed, 16 Apr 2014 17:01:13 UTC +00:00]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.5ms)[0m  [1mSELECT 1 AS one FROM "users" WHERE "users"."email" = 'user3@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "users" ("created_at", "email", "encrypted_password", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["created_at", Wed, 16 Apr 2014 17:01:13 UTC +00:00], ["email", "user3@example.com"], ["encrypted_password", "$2a$04$Hu1.27ZQlEj2fQpWjwYcquPGk7DUUc5NiXfYueDbdI4WkFG26CVo6"], ["updated_at", Wed, 16 Apr 2014 17:01:13 UTC +00:00]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.3ms)[0m  [1mSELECT 1 AS one FROM "users" WHERE "users"."email" = 'user4@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "users" ("created_at", "email", "encrypted_password", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["created_at", Wed, 16 Apr 2014 17:01:13 UTC +00:00], ["email", "user4@example.com"], ["encrypted_password", "$2a$04$jh1R/PWlb43NLbDw2sor9uHuMvRzASaVZqYAwhQKUKkdAnsTxZbam"], ["updated_at", Wed, 16 Apr 2014 17:01:13 UTC +00:00]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35mUser Load (1.0ms)[0m  SELECT "users".* FROM "users" INNER JOIN "companies_users" ON "users"."id" = "companies_users"."user_id" WHERE "companies_users"."company_id" = $1  [["company_id", 8]]
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35m (0.4ms)[0m  INSERT INTO "companies_users" ("company_id", "user_id") VALUES (8, 14) RETURNING "id"
+  [1m[36m (0.3ms)[0m  [1mINSERT INTO "companies_users" ("company_id", "user_id") VALUES (8, 15) RETURNING "id"[0m
+  [1m[35m (0.2ms)[0m  INSERT INTO "companies_users" ("company_id", "user_id") VALUES (8, 16) RETURNING "id"
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36m (0.3ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35mUser Exists (0.4ms)[0m  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'user5@example.com' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.1ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.7ms)[0m  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'user1@example.com' LIMIT 1
+  [1m[36mSQL (22.0ms)[0m  [1mINSERT INTO "users" ("created_at", "email", "encrypted_password", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["created_at", Wed, 16 Apr 2014 17:01:23 UTC +00:00], ["email", "user1@example.com"], ["encrypted_password", "$2a$04$/PibM9rAsFMhkH.ddWaDBuCniWKOsrMombjgrhiS2QFpFJ3f9iI6C"], ["updated_at", Wed, 16 Apr 2014 17:01:23 UTC +00:00]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "companies" ("created_at", "name", "updated_at") VALUES ($1, $2, $3) RETURNING "id"  [["created_at", Wed, 16 Apr 2014 17:01:23 UTC +00:00], ["name", "Företaget"], ["updated_at", Wed, 16 Apr 2014 17:01:23 UTC +00:00]]
+  [1m[36m (0.2ms)[0m  [1mINSERT INTO "companies_users" ("company_id", "user_id") VALUES (9, 17) RETURNING "id"[0m
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "companies" ("created_at", "name", "updated_at") VALUES ($1, $2, $3) RETURNING "id"  [["created_at", Wed, 16 Apr 2014 17:01:23 UTC +00:00], ["name", "Företaget"], ["updated_at", Wed, 16 Apr 2014 17:01:23 UTC +00:00]]
+  [1m[36m (0.3ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.4ms)[0m  [1mSELECT 1 AS one FROM "users" WHERE "users"."email" = 'user2@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "users" ("created_at", "email", "encrypted_password", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["created_at", Wed, 16 Apr 2014 17:01:23 UTC +00:00], ["email", "user2@example.com"], ["encrypted_password", "$2a$04$Qd00OdUD.d1mJDB99lWeUe6htBMUYMEy5/2qIPvY8Kr50Ofwj.wA2"], ["updated_at", Wed, 16 Apr 2014 17:01:23 UTC +00:00]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.3ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.5ms)[0m  [1mSELECT 1 AS one FROM "users" WHERE "users"."email" = 'user3@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "users" ("created_at", "email", "encrypted_password", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["created_at", Wed, 16 Apr 2014 17:01:23 UTC +00:00], ["email", "user3@example.com"], ["encrypted_password", "$2a$04$KOjxzUkJHYZ/6a3GQTCqNu0GzBILIgS7/fXvSs0ey7NVPCfwcBWKS"], ["updated_at", Wed, 16 Apr 2014 17:01:23 UTC +00:00]]
+  [1m[36m (0.3ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.3ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.4ms)[0m  [1mSELECT 1 AS one FROM "users" WHERE "users"."email" = 'user4@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "users" ("created_at", "email", "encrypted_password", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["created_at", Wed, 16 Apr 2014 17:01:23 UTC +00:00], ["email", "user4@example.com"], ["encrypted_password", "$2a$04$oFmU88l3IAt6tiQg9u9oIeeB2epZPyYITTbVSvldYuGVFMPyK81BW"], ["updated_at", Wed, 16 Apr 2014 17:01:23 UTC +00:00]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35mUser Load (1.1ms)[0m  SELECT "users".* FROM "users" INNER JOIN "companies_users" ON "users"."id" = "companies_users"."user_id" WHERE "companies_users"."company_id" = $1  [["company_id", 10]]
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35m (0.3ms)[0m  INSERT INTO "companies_users" ("company_id", "user_id") VALUES (10, 18) RETURNING "id"
+  [1m[36m (0.3ms)[0m  [1mINSERT INTO "companies_users" ("company_id", "user_id") VALUES (10, 19) RETURNING "id"[0m
+  [1m[35m (0.3ms)[0m  INSERT INTO "companies_users" ("company_id", "user_id") VALUES (10, 20) RETURNING "id"
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35mUser Exists (0.5ms)[0m  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'user5@example.com' LIMIT 1
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.5ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36mUser Exists (1.3ms)[0m  [1mSELECT 1 AS one FROM "users" WHERE "users"."email" = 'user1@example.com' LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (22.9ms)[0m  [1mINSERT INTO "companies" ("created_at", "name", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["created_at", Wed, 16 Apr 2014 17:01:58 UTC +00:00], ["name", "Företaget"], ["updated_at", Wed, 16 Apr 2014 17:01:58 UTC +00:00]]
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.3ms)[0m  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'user2@example.com' LIMIT 1
+  [1m[36mSQL (0.9ms)[0m  [1mINSERT INTO "users" ("created_at", "email", "encrypted_password", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["created_at", Wed, 16 Apr 2014 17:01:58 UTC +00:00], ["email", "user2@example.com"], ["encrypted_password", "$2a$04$rE7HvYRSaaAnPSYqicon3.rRcr7zTiHiEzqFZB2NSKiE2yt.fXf.."], ["updated_at", Wed, 16 Apr 2014 17:01:58 UTC +00:00]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.4ms)[0m  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'user3@example.com' LIMIT 1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "users" ("created_at", "email", "encrypted_password", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["created_at", Wed, 16 Apr 2014 17:01:58 UTC +00:00], ["email", "user3@example.com"], ["encrypted_password", "$2a$04$A6vIiaeX9Bh9zl/q5qnzueKESauM2HmXc237EloL9TyRSjSBIkcx6"], ["updated_at", Wed, 16 Apr 2014 17:01:58 UTC +00:00]]
+  [1m[35m (0.3ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.3ms)[0m  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'user4@example.com' LIMIT 1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "users" ("created_at", "email", "encrypted_password", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["created_at", Wed, 16 Apr 2014 17:01:58 UTC +00:00], ["email", "user4@example.com"], ["encrypted_password", "$2a$04$AWs2aBykfMfwQLhgVSiPvuyIa8gXgv3Rz2Fd1l5gUsgm.TMk0bKg."], ["updated_at", Wed, 16 Apr 2014 17:01:58 UTC +00:00]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36mUser Load (0.8ms)[0m  [1mSELECT "users".* FROM "users" INNER JOIN "companies_users" ON "users"."id" = "companies_users"."user_id" WHERE "companies_users"."company_id" = $1[0m  [["company_id", 11]]
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mINSERT INTO "companies_users" ("company_id", "user_id") VALUES (11, 21) RETURNING "id"[0m
+  [1m[35m (0.2ms)[0m  INSERT INTO "companies_users" ("company_id", "user_id") VALUES (11, 22) RETURNING "id"
+  [1m[36m (0.1ms)[0m  [1mINSERT INTO "companies_users" ("company_id", "user_id") VALUES (11, 23) RETURNING "id"[0m
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.4ms)[0m  [1mSELECT COUNT(*) FROM "users" INNER JOIN "companies_users" ON "users"."id" = "companies_users"."user_id" WHERE "companies_users"."company_id" = $1[0m  [["company_id", 11]]
+  [1m[35m (0.1ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.3ms)[0m  [1mSELECT 1 AS one FROM "users" WHERE "users"."email" = 'user5@example.com' LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "users" ("created_at", "email", "encrypted_password", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["created_at", Wed, 16 Apr 2014 17:01:58 UTC +00:00], ["email", "user5@example.com"], ["encrypted_password", "$2a$04$kSdUd2KTfvO6qgpY66LNCu7ZiVnsAk7NzWlyugYfndmrUqS8nUCke"], ["updated_at", Wed, 16 Apr 2014 17:01:58 UTC +00:00]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "companies" ("created_at", "name", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["created_at", Wed, 16 Apr 2014 17:01:58 UTC +00:00], ["name", "Företaget"], ["updated_at", Wed, 16 Apr 2014 17:01:58 UTC +00:00]]
+  [1m[35m (0.2ms)[0m  INSERT INTO "companies_users" ("company_id", "user_id") VALUES (12, 24) RETURNING "id"
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.1ms)[0m  ROLLBACK
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36mUser Exists (0.7ms)[0m  [1mSELECT 1 AS one FROM "users" WHERE "users"."email" = 'user1@example.com' LIMIT 1[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mUser Exists (0.2ms)[0m  [1mSELECT 1 AS one FROM "users" WHERE "users"."email" = 'user2@example.com' LIMIT 1[0m
+  [1m[35mSQL (22.0ms)[0m  INSERT INTO "users" ("created_at", "email", "encrypted_password", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["created_at", Wed, 16 Apr 2014 17:02:46 UTC +00:00], ["email", "user2@example.com"], ["encrypted_password", "$2a$04$XlALIoY0laSVF8x2azsxPOtL0s9ifaGO46VegB4pqxOpyu.sE8Ube"], ["updated_at", Wed, 16 Apr 2014 17:02:46 UTC +00:00]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.8ms)[0m  [1mINSERT INTO "companies" ("created_at", "name", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["created_at", Wed, 16 Apr 2014 17:02:46 UTC +00:00], ["name", "Företaget"], ["updated_at", Wed, 16 Apr 2014 17:02:46 UTC +00:00]]
+  [1m[35m (0.5ms)[0m  INSERT INTO "companies_users" ("company_id", "user_id") VALUES (13, 25) RETURNING "id"
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.3ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "companies" ("created_at", "name", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["created_at", Wed, 16 Apr 2014 17:02:46 UTC +00:00], ["name", "Företaget"], ["updated_at", Wed, 16 Apr 2014 17:02:46 UTC +00:00]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.5ms)[0m  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'user3@example.com' LIMIT 1
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "users" ("created_at", "email", "encrypted_password", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["created_at", Wed, 16 Apr 2014 17:02:46 UTC +00:00], ["email", "user3@example.com"], ["encrypted_password", "$2a$04$OWWcWxtZASFCvjIVhWbZVuO6QaDcTPcRAOzxsFzr0Qyjo7d18xwJS"], ["updated_at", Wed, 16 Apr 2014 17:02:46 UTC +00:00]]
+  [1m[35m (0.3ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.3ms)[0m  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'user4@example.com' LIMIT 1
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "users" ("created_at", "email", "encrypted_password", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["created_at", Wed, 16 Apr 2014 17:02:46 UTC +00:00], ["email", "user4@example.com"], ["encrypted_password", "$2a$04$YTWOyCtM8uV9mTm6Q4MiXu9kdWf1Gxxo0xu5yZ8uzw7dpa5Iw5cZu"], ["updated_at", Wed, 16 Apr 2014 17:02:46 UTC +00:00]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mUser Exists (0.4ms)[0m  SELECT 1 AS one FROM "users" WHERE "users"."email" = 'user5@example.com' LIMIT 1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "users" ("created_at", "email", "encrypted_password", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["created_at", Wed, 16 Apr 2014 17:02:46 UTC +00:00], ["email", "user5@example.com"], ["encrypted_password", "$2a$04$85phlBWIRxE3HuAn05WXIu1uHo6vqk5BCP7IDTrQ.GWOqKujSLRF."], ["updated_at", Wed, 16 Apr 2014 17:02:46 UTC +00:00]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36mUser Load (0.9ms)[0m  [1mSELECT "users".* FROM "users" INNER JOIN "companies_users" ON "users"."id" = "companies_users"."user_id" WHERE "companies_users"."company_id" = $1[0m  [["company_id", 14]]
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36m (0.3ms)[0m  [1mINSERT INTO "companies_users" ("company_id", "user_id") VALUES (14, 26) RETURNING "id"[0m
+  [1m[35m (0.2ms)[0m  INSERT INTO "companies_users" ("company_id", "user_id") VALUES (14, 27) RETURNING "id"
+  [1m[36m (0.2ms)[0m  [1mINSERT INTO "companies_users" ("company_id", "user_id") VALUES (14, 28) RETURNING "id"[0m
+  [1m[35m (0.1ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.5ms)[0m  [1mSELECT COUNT(*) FROM "users" INNER JOIN "companies_users" ON "users"."id" = "companies_users"."user_id" WHERE "companies_users"."company_id" = $1[0m  [["company_id", 14]]
+  [1m[35m (0.2ms)[0m  ROLLBACK
