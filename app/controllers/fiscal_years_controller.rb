@@ -21,12 +21,14 @@ class FiscalYearsController < ApplicationController
 
   # GET /fiscal_years/1/edit
   def edit
+    @fiscal_year = current_user.companies.find(params[:company_id]).fiscal_years.find(params[:id])
   end
 
   # POST /fiscal_years
   # POST /fiscal_years.json
   def create
     @fiscal_year = FiscalYear.new(fiscal_year_params)
+    @fiscal_year.company = current_user.companies.find(params[:company_id])
 
     respond_to do |format|
       if @fiscal_year.save
