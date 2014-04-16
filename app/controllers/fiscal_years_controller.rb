@@ -44,6 +44,7 @@ class FiscalYearsController < ApplicationController
   # PATCH/PUT /fiscal_years/1
   # PATCH/PUT /fiscal_years/1.json
   def update
+    @fiscal_year = current_user.companies.find(params[:company_id]).fiscal_years.find(params[:id])
     respond_to do |format|
       if @fiscal_year.update(fiscal_year_params)
         format.html { redirect_to @fiscal_year, notice: 'Fiscal year was successfully updated.' }

@@ -14,18 +14,21 @@ describe FiscalYearsController do
     before :each do 
       sign_in @user 
     end
+
     it "returns only the current companys fiscal years" do
       get "index", :company_id => @user_company.id
       response.should be_success
       assigns(:fiscal_years).count.should eql(@user_company.fiscal_years.count)
       assigns(:fiscal_years).to_a.should match_array(@user_company.fiscal_years.to_a)
     end
+
     it "new fiscal year belongs to current company" do
       expect{
         post :create, company_id: @user_company.id, fiscal_year: FactoryGirl.attributes_for(:fiscal_year, start_date: 10.years.ago, end_date:9.years.ago)
         @user_company.reload
       }.to change(@user_company.fiscal_years, :count).by(1)
     end
+
     it "edit companies fiscal years" do
       expect{
         put :update, id:@fiscal_year, company_id: @user_company.id, fiscal_year: {start_date:10.years.ago.year, end_date: 9.years.ago.year}
