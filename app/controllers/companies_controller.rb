@@ -1,15 +1,18 @@
 class CompaniesController < ApplicationController
   before_action :set_company, only: [:show, :edit, :update, :destroy]
 
+  before_filter :authenticate_user!
+
   # GET /companies
   # GET /companies.json
   def index
-    @companies = Company.all
+    @companies = current_user.companies
   end
 
   # GET /companies/1
   # GET /companies/1.json
   def show
+    @company = current_user.companies.find(params[:id])
   end
 
   # GET /companies/new
@@ -40,6 +43,7 @@ class CompaniesController < ApplicationController
   # PATCH/PUT /companies/1
   # PATCH/PUT /companies/1.json
   def update
+    @company = current_user.companies.find(params[:id])
     respond_to do |format|
       if @company.update(company_params)
         format.html { redirect_to @company, notice: 'Company was successfully updated.' }

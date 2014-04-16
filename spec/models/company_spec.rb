@@ -9,6 +9,7 @@ describe Company do
     @company = FactoryGirl.create(:company, :users => [@user])
     @company.users.first.should eql(@user)
   end
+
   it "Can have many users assigned to it" do
     @company = FactoryGirl.create(:company)
     @user1 = FactoryGirl.create(:user)
@@ -20,4 +21,5 @@ describe Company do
     @company.users.count.should eql(3)
     expect(@company.users).to include(@user1)
   end
+
 end
