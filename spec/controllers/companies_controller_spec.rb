@@ -40,6 +40,13 @@ describe CompaniesController do
         }.to_not change(@random_company, :name).to(newname)
       }.to raise_error
     end
+    it "destroy users company" do
+      expect{
+        expect{
+          delete :destroy, id: @random_company
+        }.to change(Company, :count).by(-1)
+      }.to_not raise_error
+    end
     it "can't destroy other users companies" do
       expect{
         expect{
