@@ -28,6 +28,7 @@ class CompaniesController < ApplicationController
   # POST /companies.json
   def create
     @company = Company.new(company_params)
+    @company.users = [current_user]
 
     respond_to do |format|
       if @company.save

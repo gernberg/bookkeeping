@@ -15,6 +15,15 @@ describe CompaniesController do
       assigns(:companies).count.should eql(@user.companies.count)
       assigns(:companies).to_a.should match_array(@user.companies.to_a)
     end
+    it "new company belongs to user" do
+      newname = "a" + rand(100).to_s.to_s
+      expect{
+        post :create, company: FactoryGirl.attributes_for(:company, name: newname)
+        @user.reload
+      }.to change(@user.companies, :count).by(1)
+      # And only belong to that user
+      @user.companies.last.users.to_a.should match_array([@user])
+    end
     it "edit user companies" do
       newname = "a" + rand(100).to_s.to_s
       expect{
