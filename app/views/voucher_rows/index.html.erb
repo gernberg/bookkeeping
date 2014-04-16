@@ -1,0 +1,31 @@
+<h1>Listing voucher_rows</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Account</th>
+      <th>Voucher</th>
+      <th>Sum</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @voucher_rows.each do |voucher_row| %>
+      <tr>
+        <td><%= voucher_row.account %></td>
+        <td><%= voucher_row.voucher %></td>
+        <td><%= voucher_row.sum %></td>
+        <td><%= link_to 'Show', voucher_row %></td>
+        <td><%= link_to 'Edit', edit_voucher_row_path(voucher_row) %></td>
+        <td><%= link_to 'Destroy', voucher_row, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Voucher row', new_voucher_row_path %>

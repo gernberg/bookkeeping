@@ -69,10 +69,13 @@ module.exports = {
       'vendor/angular-ui-utils/modules/route/route.js',
       'vendor/angular-resource/angular-resource.js',
       'vendor/jquery/jquery.js',
-      'vendor/flot/jquery.flot.js',
-      'vendor/flot/jquery.flot.pie.js',
-      'vendor/d3/d3.min.js',
+<<<<<<< Updated upstream
       'vendor/angular-grid/build/ng-grid.js'
+=======
+      'vendor/angular-grid/build/ng-grid.js',
+      'vendor/d3/d3.js',
+      'vendor/angular-charts/dist/angular-charts.min.js'
+>>>>>>> Stashed changes
     ],
     css: [
     ],

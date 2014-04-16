@@ -1,0 +1,2 @@
+module VoucherRowsHelper
+end

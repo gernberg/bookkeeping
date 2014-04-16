@@ -1,0 +1,32 @@
+<h1>Listing fiscal_years</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Start date</th>
+      <th>End date</th>
+      <th>Company</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @fiscal_years.each do |fiscal_year| %>
+      <tr>
+        <td><%= fiscal_year.start_date %></td>
+        <td><%= fiscal_year.end_date %></td>
+        <td><%= fiscal_year.company_id %></td>
+        <td><%= link_to 'Show', fiscal_year %></td>
+        <td><%= link_to 'Edit', edit_fiscal_year_path(fiscal_year) %></td>
+        <td><%= link_to 'Destroy', fiscal_year, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+      <%= debug fiscal_year.versions %>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Fiscal year', new_fiscal_year_path %>
