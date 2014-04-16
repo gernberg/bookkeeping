@@ -43,7 +43,7 @@ describe CompaniesController do
     it "destroy users company" do
       expect{
         expect{
-          delete :destroy, id: @random_company
+          delete :destroy, id: @user_company
         }.to change(Company, :count).by(-1)
       }.to_not raise_error
     end
