@@ -2,8 +2,7 @@
  * The home module is the module for promoting the application
  */
 angular.module( 'bookie.home', [
-  'ui.state',
-  'plusOne'
+  'ui.state'
 ])
 
 /**

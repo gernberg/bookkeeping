@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Account:</strong>
+  <%= @voucher_row.account %>
+</p>
+
+<p>
+  <strong>Voucher:</strong>
+  <%= @voucher_row.voucher %>
+</p>
+
+<p>
+  <strong>Sum:</strong>
+  <%= @voucher_row.sum %>
+</p>
+
+<%= link_to 'Edit', edit_voucher_row_path(@voucher_row) %> |
+<%= link_to 'Back', voucher_rows_path %>

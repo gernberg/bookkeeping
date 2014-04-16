@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Start date:</strong>
+  <%= @fiscal_year.start_date %>
+</p>
+
+<p>
+  <strong>End date:</strong>
+  <%= @fiscal_year.end_date %>
+</p>
+
+<p>
+  <strong>Company:</strong>
+  <%= @fiscal_year.company_id %>
+</p>
+
+<%= link_to 'Edit', edit_fiscal_year_path(@fiscal_year) %> |
+<%= link_to 'Back', fiscal_years_path %>

@@ -1,4 +1,12 @@
 Bookie::Application.routes.draw do
+  resources :voucher_rows
+
+  resources :vouchers
+
+  resources :fiscal_years
+
+  resources :companies
+
   resources :accounts
 
   devise_for :users

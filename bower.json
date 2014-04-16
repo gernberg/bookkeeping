@@ -9,7 +9,11 @@
     "angular-ui-router": "~0.0.1",
     "angular-ui-utils": "~0.0.3",
     "angular-resource": "~1.2.16",
-    "angular-grid": "~2.0.7"
+    "angular-grid": "~2.0.7",
+    "d3":"latest",
+    "angular-charts": "latest"
   },
-  "dependencies": {}
+  "dependencies": {
+    "nvd3": "~1.1.15-beta"
+  }
 }

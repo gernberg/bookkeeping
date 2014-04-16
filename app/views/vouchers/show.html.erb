@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @voucher.title %>
+</p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @voucher.date %>
+</p>
+
+<p>
+  <strong>Fiscal year:</strong>
+  <%= @voucher.fiscal_year %>
+</p>
+
+<%= link_to 'Edit', edit_voucher_path(@voucher) %> |
+<%= link_to 'Back', vouchers_path %>
