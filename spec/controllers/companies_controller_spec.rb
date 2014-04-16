@@ -5,7 +5,7 @@ describe CompaniesController do
     before :each do 
       @random_company = FactoryGirl.create(:company)
       @user_company = FactoryGirl.create(:company)
-      @user = FactoryGirl.create(:user) # Using factory girl as an example
+      @user = FactoryGirl.create(:user) 
       @user.companies = [@user_company]
       sign_in @user 
     end
