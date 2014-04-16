@@ -1,15 +1,17 @@
 require 'spec_helper'
 
 describe FiscalYearsController do
+  before :each do
+    @random_company = FactoryGirl.create(:company)
+    @user_company = FactoryGirl.create(:company)
+    @fiscal_year = FactoryGirl.create(:fiscal_year, company: @user_company)
+    @random_fiscal_year = FactoryGirl.create(:fiscal_year, company: @random_company)
+
+    @user = FactoryGirl.create(:user) 
+    @user.companies = [@user_company]
+  end
   describe "signed in" do
     before :each do 
-      @random_company = FactoryGirl.create(:company)
-      @user_company = FactoryGirl.create(:company)
-      @fiscal_year = FactoryGirl.create(:fiscal_year, company: @user_company)
-      @random_fiscal_year = FactoryGirl.create(:fiscal_year, company: @random_company)
-
-      @user = FactoryGirl.create(:user) 
-      @user.companies = [@user_company]
       sign_in @user 
     end
     it "returns only the current companys fiscal years" do
@@ -26,9 +28,9 @@ describe FiscalYearsController do
     end
     it "edit companies fiscal years" do
       expect{
-        put :update, id:@fiscal_year, company: @user_company, fiscal_year: {start_date:10.years.ago.year, end_date: 9.years.ago.year}
-        @user_company.reload
-      }.to change(@user_company, :start_date).to(10.years.ago.year)
+        put :update, id:@fiscal_year, company_id: @user_company.id, fiscal_year: {start_date:10.years.ago.year, end_date: 9.years.ago.year}
+        @fiscal_year.reload
+      }.to change(@fiscal_year, :start_date).to(10.years.ago.year)
     end
     it "shows companies fiscal year" do
       get :show, company: @user_company, id: @fiscal_year
@@ -78,7 +80,7 @@ describe FiscalYearsController do
   end
   describe "not signed in" do
     it "should require login" do
-      get "index"
+      get "index", :company_id => @user_company.id
       response.should_not be_success
     end
   end

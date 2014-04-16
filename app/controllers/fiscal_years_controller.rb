@@ -1,10 +1,11 @@
 class FiscalYearsController < ApplicationController
   before_action :set_fiscal_year, only: [:show, :edit, :update, :destroy]
+  before_filter :authenticate_user!
 
   # GET /fiscal_years
   # GET /fiscal_years.json
   def index
-    @fiscal_years = FiscalYear.all
+    @fiscal_years = current_user.companies.find(params[:company_id]).fiscal_years.all
   end
 
   # GET /fiscal_years/1
