@@ -6,7 +6,7 @@ describe FiscalYear do
   end
 
   it "could be 18 months" do
-    FactoryGirl.build(:fiscal_year, {start_date: Time.new, end_date: 18.months.ago}).should be_valid
+    FactoryGirl.build(:fiscal_year, {end_date: Time.new, start_date: 18.months.ago}).should be_valid
   end
 
   it "must not be longer than a 18 months" do
@@ -26,10 +26,13 @@ describe FiscalYear do
   end
 
   it "must not end before it starts" do
-    puts "must not end"
-    FactoryGirl.build(:fiscal_year, {start_date: 1.year.ago.year, end_date: Time.now.year}).should_not be_valid
+    FactoryGirl.build(:fiscal_year, {end_date: 1.year.ago.year, start_date: Time.now.year}).should_not be_valid
   end
 
+  # There should never be any reason why a fiscal year should change company 
+  pending "must not change company"
+
+  # Fiscal years may not overlap
   pending "must not overlap" do
 
   end

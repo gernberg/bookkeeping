@@ -10,7 +10,7 @@ class FiscalYear < ActiveRecord::Base
   ## 
   # Checks that year conforms to swedish regulations
   def check_year_interval
-    if (end_date - start_date) > 0
+    if (end_date - start_date) < 0
       errors.add(:start_date, :should_not_end_before_start)
     elsif (end_date - start_date) > 18.months
       errors.add(:end_date, :could_not_exceed_18_months)
