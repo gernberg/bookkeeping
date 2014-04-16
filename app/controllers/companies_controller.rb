@@ -58,6 +58,7 @@ class CompaniesController < ApplicationController
   # DELETE /companies/1
   # DELETE /companies/1.json
   def destroy
+    @company = current_user.companies.find(params[:id])
     @company.destroy
     respond_to do |format|
       format.html { redirect_to companies_url }

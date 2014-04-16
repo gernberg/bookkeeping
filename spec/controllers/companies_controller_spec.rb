@@ -40,6 +40,13 @@ describe CompaniesController do
         }.to_not change(@random_company, :name).to(newname)
       }.to raise_error
     end
+    it "can't destroy other users companies" do
+      expect{
+        expect{
+          delete :destroy, id: @random_company
+        }.to_not change(Company, :count)
+      }.to raise_error
+    end
   end
   describe "not signed in" do
     it "should require login" do
