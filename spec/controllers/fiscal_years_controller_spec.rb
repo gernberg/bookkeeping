@@ -15,14 +15,14 @@ describe FiscalYearsController do
       sign_in @user 
     end
     it "returns only the current companys fiscal years" do
-      get "index", :company => @user_company
+      get "index", :company_id => @user_company.id
       response.should be_success
       assigns(:fiscal_years).count.should eql(@user_company.companies.count)
       assigns(:fiscal_years).to_a.should match_array(@user_company.companies.to_a)
     end
     it "new fiscal year belongs to current company" do
       expect{
-        post :create, company: @user_company, fiscal_year: FactoryGirl.attributes_for(:fiscal_year, start_date: 10.years.ago, end_date:9.years.ago)
+        post :create, company_id: @user_company.id, fiscal_year: FactoryGirl.attributes_for(:fiscal_year, start_date: 10.years.ago, end_date:9.years.ago)
         @user_company.reload
       }.to change(@user_company.fiscal_years, :count).by(1)
     end
@@ -30,15 +30,15 @@ describe FiscalYearsController do
       expect{
         put :update, id:@fiscal_year, company_id: @user_company.id, fiscal_year: {start_date:10.years.ago.year, end_date: 9.years.ago.year}
         @fiscal_year.reload
-      }.to change(@fiscal_year, :start_date).to(10.years.ago.year)
+      }.to change(@fiscal_year, :start_date).to(Date.new(10.years.ago.year))
     end
     it "shows companies fiscal year" do
-      get :show, company: @user_company, id: @fiscal_year
+      get :show, company_id: @user_company.id, id: @fiscal_year
       response.should be_success
     end
     it "can't show other user fiscal year" do
       expect{
-        get :show, id: @random_fiscal_year, company: @user_company
+        get :show, id: @random_fiscal_year, company_id: @user_company.id
       }.to raise_error
       expect{
         get :show, id: @random_fiscal_year
@@ -48,7 +48,7 @@ describe FiscalYearsController do
       newname = "a" + rand(100).to_s.to_s
       expect{
         expect{
-          put :update, id: @random_fiscal_year, company: @random_company, fiscal_year: {start_date:10.years.ago.year, end_date: 9.years.ago.year}
+          put :update, id: @random_fiscal_year, company_id: @random_company.id, fiscal_year: {start_date:10.years.ago.year, end_date: 9.years.ago.year}
           @random_fiscal_year.reload
         }.to_not change(@random_fiscal_year, :start_date).to(10.years.ago.year)
       }.to raise_error
@@ -56,19 +56,19 @@ describe FiscalYearsController do
     it "destroy users company" do
       expect{
         expect{
-          delete :destroy, id: @fiscal_year, company: @user_company
+          delete :destroy, id: @fiscal_year, company_id: @user_company.id
         }.to change(Company, :count).by(-1)
       }.to_not raise_error
     end
     it "can't destroy other users companies" do
       expect{
         expect{
-          delete :destroy, id: @random_fiscal_year, company: @random_company
+          delete :destroy, id: @random_fiscal_year, company_id: @random_company.id
         }.to_not change(Company, :count)
       }.to raise_error
       expect{
         expect{
-          delete :destroy, id: @random_fiscal_year, company: @user_company
+          delete :destroy, id: @random_fiscal_year, company_id: @user_company.id
         }.to_not change(Company, :count)
       }.to raise_error
       expect{

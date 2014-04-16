@@ -11,6 +11,7 @@ class FiscalYearsController < ApplicationController
   # GET /fiscal_years/1
   # GET /fiscal_years/1.json
   def show
+    @fiscal_year = current_user.companies.find(params[:company_id]).fiscal_years.find(params[:id])
   end
 
   # GET /fiscal_years/new
