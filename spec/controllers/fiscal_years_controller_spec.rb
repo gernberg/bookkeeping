@@ -1,5 +1,85 @@
 require 'spec_helper'
 
 describe FiscalYearsController do
+  describe "signed in" do
+    before :each do 
+      @random_company = FactoryGirl.create(:company)
+      @user_company = FactoryGirl.create(:company)
+      @fiscal_year = FactoryGirl.create(:fiscal_year, company: @user_company)
+      @random_fiscal_year = FactoryGirl.create(:fiscal_year, company: @random_company)
 
+      @user = FactoryGirl.create(:user) 
+      @user.companies = [@user_company]
+      sign_in @user 
+    end
+    it "returns only the current companys fiscal years" do
+      get "index", :company => @user_company
+      response.should be_success
+      assigns(:fiscal_years).count.should eql(@user_company.companies.count)
+      assigns(:fiscal_years).to_a.should match_array(@user_company.companies.to_a)
+    end
+    it "new fiscal year belongs to current company" do
+      expect{
+        post :create, company: @user_company, fiscal_year: FactoryGirl.attributes_for(:fiscal_year, start_date: 10.years.ago, end_date:9.years.ago)
+        @user_company.reload
+      }.to change(@user_company.fiscal_years, :count).by(1)
+    end
+    it "edit companies fiscal years" do
+      expect{
+        put :update, id:@fiscal_year, company: @user_company, fiscal_year: {start_date:10.years.ago.year, end_date: 9.years.ago.year}
+        @user_company.reload
+      }.to change(@user_company, :start_date).to(10.years.ago.year)
+    end
+    it "shows companies fiscal year" do
+      get :show, company: @user_company, id: @fiscal_year
+      response.should be_success
+    end
+    it "can't show other user fiscal year" do
+      expect{
+        get :show, id: @random_fiscal_year, company: @user_company
+      }.to raise_error
+      expect{
+        get :show, id: @random_fiscal_year
+      }.to raise_error
+    end
+    it "can't edit other users companies" do
+      newname = "a" + rand(100).to_s.to_s
+      expect{
+        expect{
+          put :update, id: @random_fiscal_year, company: @random_company, fiscal_year: {start_date:10.years.ago.year, end_date: 9.years.ago.year}
+          @random_fiscal_year.reload
+        }.to_not change(@random_fiscal_year, :start_date).to(10.years.ago.year)
+      }.to raise_error
+    end
+    it "destroy users company" do
+      expect{
+        expect{
+          delete :destroy, id: @fiscal_year, company: @user_company
+        }.to change(Company, :count).by(-1)
+      }.to_not raise_error
+    end
+    it "can't destroy other users companies" do
+      expect{
+        expect{
+          delete :destroy, id: @random_fiscal_year, company: @random_company
+        }.to_not change(Company, :count)
+      }.to raise_error
+      expect{
+        expect{
+          delete :destroy, id: @random_fiscal_year, company: @user_company
+        }.to_not change(Company, :count)
+      }.to raise_error
+      expect{
+        expect{
+          delete :destroy, id: @random_fiscal_year
+        }.to_not change(Company, :count)
+      }.to raise_error
+    end
+  end
+  describe "not signed in" do
+    it "should require login" do
+      get "index"
+      response.should_not be_success
+    end
+  end
 end

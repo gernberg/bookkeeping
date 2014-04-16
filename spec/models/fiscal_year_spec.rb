@@ -30,4 +30,8 @@ describe FiscalYear do
     FactoryGirl.build(:fiscal_year, {start_date: 1.year.ago.year, end_date: Time.now.year}).should_not be_valid
   end
 
+  pending "must not overlap" do
+
+  end
+
 end
