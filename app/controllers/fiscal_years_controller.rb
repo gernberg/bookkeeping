@@ -59,7 +59,7 @@ class FiscalYearsController < ApplicationController
   # DELETE /fiscal_years/1
   # DELETE /fiscal_years/1.json
   def destroy
-    @fiscal_year.destroy
+    @fiscal_year = current_user.companies.find(params[:company_id]).fiscal_years.find(params[:id])
     respond_to do |format|
       format.html { redirect_to fiscal_years_url }
       format.json { head :no_content }
