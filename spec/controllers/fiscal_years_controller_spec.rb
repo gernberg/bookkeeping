@@ -17,8 +17,8 @@ describe FiscalYearsController do
     it "returns only the current companys fiscal years" do
       get "index", :company_id => @user_company.id
       response.should be_success
-      assigns(:fiscal_years).count.should eql(@user_company.companies.count)
-      assigns(:fiscal_years).to_a.should match_array(@user_company.companies.to_a)
+      assigns(:fiscal_years).count.should eql(@user_company.fiscal_years.count)
+      assigns(:fiscal_years).to_a.should match_array(@user_company.fiscal_years.to_a)
     end
     it "new fiscal year belongs to current company" do
       expect{
@@ -36,6 +36,7 @@ describe FiscalYearsController do
       get :show, company_id: @user_company.id, id: @fiscal_year
       response.should be_success
     end
+
     it "can't show other user fiscal year" do
       expect{
         get :show, id: @random_fiscal_year, company_id: @user_company.id
@@ -44,6 +45,7 @@ describe FiscalYearsController do
         get :show, id: @random_fiscal_year
       }.to raise_error
     end
+
     it "can't edit other users companies" do
       newname = "a" + rand(100).to_s.to_s
       expect{
@@ -53,6 +55,7 @@ describe FiscalYearsController do
         }.to_not change(@random_fiscal_year, :start_date).to(10.years.ago.year)
       }.to raise_error
     end
+
     it "destroy users company" do
       expect{
         expect{
@@ -60,6 +63,7 @@ describe FiscalYearsController do
         }.to change(Company, :count).by(-1)
       }.to_not raise_error
     end
+
     it "can't destroy other users companies" do
       expect{
         expect{
