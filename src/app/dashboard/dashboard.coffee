@@ -28,6 +28,11 @@ angular.module( 'bookie.dashboard', [
   $scope.accounts = AccountRes.query()
   $scope.vouchers = VoucherRes.query()
   $scope.fiscal_years = FiscalYearRes.query()
+  $scope.monthly = [
+    [[1,3], [2,3], [3,10],[4,0],[5,50000],[6,70]],
+    [[1,3], [2,-3], [3,-10], [4,-10], [5,-10]],
+    [[1,6], [2,-3]]
+  ]
   $scope.assets = [
     (label:"Kundfodringar", data:40000)
     (label:"Tillgångar", data:120000)

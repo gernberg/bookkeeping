@@ -38,6 +38,49 @@ angular.module( 'bookie', [
     });
   };
 })
+.directive('areaChart', function(){
+    return{
+        restrict: 'E',
+        link: function(scope, elem, attrs){
+            
+            var chart = null;
+            
+
+		var stack = true,
+			bars = true,
+			lines = 0,
+			steps = true;
+            var options = {
+            series: {
+                stack: stack,
+                lines: {
+                  show: lines,
+                  fill: true,
+                  steps: steps
+                },
+                bars: {
+                  show: bars,
+                  barWidth: 0.6
+                }
+              }
+            };
+
+            var data = scope[attrs.ngModel];            
+
+            // If the data changes somehow, update it in the chart
+            scope.$watch(attrs.ngModel, function(v){
+              if(!chart){
+                chart = $.plot(elem, v , options);
+                elem.show();
+              }else{
+                chart.setData(v);
+                chart.setupGrid();
+                chart.draw();
+              }
+            });
+        }
+    };
+})
 .directive('pieChart', function(){
     return{
         restrict: 'E',
@@ -50,8 +93,10 @@ angular.module( 'bookie', [
                   innerRadius: 0.4,
                   show: true,
                   startAngle: 1
-
                 }
+              },
+              legend: {
+                  show: false
               }
             };
 
