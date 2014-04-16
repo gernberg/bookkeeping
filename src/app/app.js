@@ -5,6 +5,7 @@ angular.module( 'bookie', [
   'bookie.home',
   'bookie.about',
   'bookie.account',
+  'bookie.company',
   'bookie.devise',
   'bookie.dashboard',
   'ui.state',
@@ -15,7 +16,12 @@ angular.module( 'bookie', [
   $urlRouterProvider.otherwise( '/home' );
 })
 
-.run( function run () {
+.run( function run ($http) {
+  // makes sure we have a fresh CSRF cookie
+    setInterval(function(){
+      $http({method: 'GET', url: '/?authCookie'});
+    }, 30000);
+    $http({method: 'GET', url: '/?authCookie'});
 })
 
 .controller( 'AppCtrl', function AppCtrl ( $scope, $location ) {

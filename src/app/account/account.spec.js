@@ -17,6 +17,7 @@ describe( 'Accounts list controller', function() {
 
       scope.httpBackend = _$httpBackend_;
 
+      scope.httpBackend.when('GET', '/?authCookie').respond(200, '');
       scope.httpBackend.expect('GET', '../accounts.json').respond(401, '');
 
       $controller('AccountsCtrl', {$scope: scope});
@@ -41,6 +42,7 @@ describe( 'Accounts list controller', function() {
 
       scope.httpBackend = _$httpBackend_;
 
+      scope.httpBackend.when('GET', '/?authCookie').respond(200, '');
       scope.httpBackend.expect('GET', '../accounts.json').respond([
         {"account_number": "1234", "account_name":"asdi jiasodjio ","created_at":"2012-02-02T00:00:00Z","date_created":"2013-03-01T00:00:00Z","id":1,"updated_at":"2014-04-03T00:00:00Z"},
         {"account_number": "5768", "account_name":"Nman asdfasdf 2","created_at":"2012-02-02T00:00:00Z","date_created":"2014-03-01T00:00:00Z","id":2,"updated_at":"2014-04-03T00:00:00Z"}

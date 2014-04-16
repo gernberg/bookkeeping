@@ -60,7 +60,7 @@ angular.module( 'bookie.account', [
       $state.transitionTo('account', { accountId: account.id });
     };
 })
-.controller('AccountCtrl', function AccountController($scope, AccountRes, $state, $stateParams){
+.controller('AccountCtrl', function AccountController($scope, AccountRes, $state, $stateParams, $rootScope){
   $scope.accountId = parseInt($stateParams.accountId, 10);
   if($scope.accountId){
     $scope.account = AccountRes.get({id: $scope.accountId});
@@ -87,8 +87,9 @@ angular.module( 'bookie.account', [
 /**
  * Add a resource to allow us to get at the server
  */
-.factory( 'AccountRes', function ( $resource )  {
-  return $resource('../accounts/:id.json', {id:'@id'}, {'update': {method: 'PATCH'}});
+.factory( 'AccountRes', function ( $resource, CompanyService)  {
+  //return $resource('../accounts/:id.json', {id:'@id'}, {'update': {method: 'PATCH'}});
+  return $resource('../companies/:vid/accounts/:id.json', {vid:CompanyService.currentCompanyId}, {'update': {method: 'PATCH'}});
 });
 
 
