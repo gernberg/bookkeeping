@@ -21,6 +21,7 @@ angular.module( 'bookie', [
   // makes sure we have a fresh CSRF cookie
   $rootScope.companyId = localStorageService.get('companyId');
   onRouteChangeOff = $rootScope.$on('$locationChangeStart', function(event, newUrl){
+    alert(newUrl);
     onRouteChangeOff(); //Stop listening for location changes
     if($rootScope.companyId  == null){
       $location.path("/companies"); //Go to page they're interested in
