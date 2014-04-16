@@ -32,7 +32,7 @@ class FiscalYearsController < ApplicationController
 
     respond_to do |format|
       if @fiscal_year.save
-        format.html { redirect_to @fiscal_year, notice: 'Fiscal year was successfully created.' }
+        format.html { redirect_to company_fiscal_year_url(params[:company_id], @fiscal_year), notice: 'Fiscal year was successfully created.' }
         format.json { render action: 'show', status: :created, location: @fiscal_year }
       else
         format.html { render action: 'new' }
@@ -52,7 +52,7 @@ class FiscalYearsController < ApplicationController
     respond_to do |format|
       if @fiscal_year.update(fiscal_year_params)
         p "UPDATE YES"
-        format.html { redirect_to @fiscal_year, notice: 'Fiscal year was successfully updated.' }
+        format.html { redirect_to company_fiscal_year_url(params[:company_id], @fiscal_year), notice: 'Fiscal year was successfully updated.' }
         format.json { head :no_content }
       else
         p "UPDATE NO"
