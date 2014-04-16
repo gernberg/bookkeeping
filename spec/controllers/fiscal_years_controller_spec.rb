@@ -24,14 +24,14 @@ describe FiscalYearsController do
 
     it "new fiscal year belongs to current company" do
       expect{
-        post :create, company_id: @user_company.id, fiscal_year: FactoryGirl.attributes_for(:fiscal_year, {start_date: Date.new(10.years.ago), end_date:Date.new(9.years.ago)})
+        post :create, company_id: @user_company.id, fiscal_year: FactoryGirl.attributes_for(:fiscal_year, {start_date: 10.years.ago, end_date: 9.years.ago})
         @user_company.reload
       }.to change(@user_company.fiscal_years, :count).by(1)
     end
 
     it "edit companies fiscal years" do
       expect{
-        put :update, id:@fiscal_year, company_id: @user_company.id, fiscal_year: {start_date:Date.new(11.years.ago.year), end_date: Date.new(9.years.ago.year)}
+        put :update, id:@fiscal_year, company_id: @user_company.id, fiscal_year: {start_date: 10.years.ago.year, end_date: 9.years.ago.year}
         @fiscal_year.reload
         puts @fiscal_year.inspect
       }.to change(@fiscal_year, :start_date).to(Date.new(10.years.ago.year))

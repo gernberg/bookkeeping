@@ -45,6 +45,7 @@ gem 'omniauth'
 gem 'omniauth-twitter' 
 gem 'omniauth-linkedin' 
 gem 'paper_trail'
+gem 'validates_timeliness', '~> 3.0'
 
 group :development, :test do
   gem 'rspec-rails'

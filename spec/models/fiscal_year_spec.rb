@@ -6,7 +6,7 @@ describe FiscalYear do
   end
 
   it "could be 18 months" do
-    FactoryGirl.build(:fiscal_year, {end_date: Time.new, start_date: 18.months.ago}).should be_valid
+    FactoryGirl.build(:fiscal_year, {end_date: 0.days.ago, start_date: 18.months.ago}).should be_valid
   end
 
   it "must not be longer than a 18 months" do
