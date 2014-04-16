@@ -65,7 +65,10 @@ angular.module( 'bookie.company', [
 })
 .service( 'CompanyService',function (){
   return {
-    getAccountId: 1
+    currentCompanyId: function(){
+      alert("test");
+      return 1;
+    }
   };
 })
 ;
