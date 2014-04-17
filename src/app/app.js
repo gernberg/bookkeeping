@@ -17,11 +17,22 @@ angular.module( 'bookie', [
   $urlRouterProvider.otherwise( '/home' );
 })
 
-.run( function run ($http, $rootScope, $location, localStorageService) {
+.run( function run ($http, $rootScope, $location, localStorageService, $state) {
   // makes sure we have a fresh CSRF cookie
   $rootScope.companyId = localStorageService.get('companyId');
-  onRouteChangeOff = $rootScope.$on('$locationChangeStart', function(event, newUrl){
-    alert(newUrl);
+  $rootScope.$on('$stateChangeStart', function(event, nextState, currentState){
+    console.log(nextState);
+    if(nextState.name != "companies" && $rootScope.companyId == 3){
+      console.log("what");
+      console.debug('Could not change route! Not authenticated!');
+      $rootScope.$broadcast('$stateChangeError');
+      event.preventDefault();
+      $state.transitionTo('companies');
+    }
+  });
+  /*
+   $rootScope.$on('$locationChangeStart', function(event, newUrl){
+    console.log(newUrl, event);
     onRouteChangeOff(); //Stop listening for location changes
     if($rootScope.companyId  == null){
       $location.path("/companies"); //Go to page they're interested in
@@ -31,6 +42,7 @@ angular.module( 'bookie', [
     event.preventDefault();
     return;
   });
+  */
 
   setInterval(function(){
     $http({method: 'GET', url: '/?authCookie'});
