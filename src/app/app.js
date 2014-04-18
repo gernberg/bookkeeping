@@ -8,7 +8,7 @@ angular.module( 'bookie', [
   'bookie.company',
   'bookie.devise',
   'bookie.dashboard',
-  'bookie.fiscal_years',
+  'bookie.fiscal_year',
   'ui.state',
   'ui.route',
   'LocalStorageModule'
