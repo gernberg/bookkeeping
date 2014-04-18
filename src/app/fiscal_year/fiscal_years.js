@@ -60,22 +60,7 @@ angular.module( 'bookie.fiscal_year', [
     }
   };
 })
-.factory( 'CompanyRes', function ( $resource )  {
-  return $resource('../companies/:id.json', {id:'@id'}, {'update': {method: 'PATCH'}});
-})
-.service( 'CompanyService',function ($location, $rootScope, localStorageService){
-  return {
-    selectCompany: function(companyId){
-      // Persist current company ID in local storage
-       localStorageService.add("companyId", companyId);
-      $rootScope.companyId = companyId;
-    },
-    currentCompanyId: function(){
-      if($rootScope.companyId == null){
-        $location.path("/companies");
-      }
-      return $rootScope.companyId;
-    }
-  };
+.factory( 'FiscalYearRes', function ( $resource )  {
+  return $resource('../fiscal_years/:id.json', {id:'@id'}, {'update': {method: 'PATCH'}});
 })
 ;
