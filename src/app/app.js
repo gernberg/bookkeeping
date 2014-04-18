@@ -20,16 +20,7 @@ angular.module( 'bookie', [
 .run( function run ($http, $rootScope, $location, localStorageService, $state) {
   // makes sure we have a fresh CSRF cookie
   $rootScope.companyId = localStorageService.get('companyId');
-  $rootScope.$on('$stateChangeStart', function(event, nextState, currentState){
-    console.log(nextState);
-    if(nextState.name != "companies" && $rootScope.companyId == 3){
-      console.log("what");
-      console.debug('Could not change route! Not authenticated!');
-      $rootScope.$broadcast('$stateChangeError');
-      event.preventDefault();
-      $state.transitionTo('companies');
-    }
-  });
+  $rootScope.loggedIn = false;
   /*
    $rootScope.$on('$locationChangeStart', function(event, newUrl){
     console.log(newUrl, event);

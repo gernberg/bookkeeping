@@ -37,7 +37,7 @@ angular.module( 'bookie.account', [
 /**
  * And of course we define a controller for our route.
  */
-.controller( 'AccountsCtrl', function AccountsController( $scope, AccountRes, $state) {
+.controller( 'AccountsCtrl', function AccountsController( $scope, AccountRes, $state, CompanyService) {
     $scope.accounts = AccountRes.query();
     $scope.gridOptions = {
       data: 'accounts',

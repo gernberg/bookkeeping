@@ -11,7 +11,8 @@ describe( 'Accounts list controller', function() {
    */ 
   describe('UnAuthorized acceess', function(){
     var location;
-    beforeEach(angular.mock.inject(function($rootScope, $controller, _$httpBackend_, $location){
+    beforeEach(angular.mock.inject(function($rootScope, $controller, _$httpBackend_, $location, CompanyService){
+    CompanyService.selectCompany(1);
       scope = $rootScope.$new();
       location = $location;
 
