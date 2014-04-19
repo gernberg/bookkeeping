@@ -12,15 +12,15 @@ angular.module( 'bookie.fiscal_year', [
     views: {
       "main":{
         controller: "FiscalYearsCtrl",
-        templateUrl: "fiscal_years/fiscal_years.tpl.html"
+        templateUrl: "fiscal_year/fiscal_years.tpl.html"
       }
     }
   }).state('fiscal_year', {
     url: '/fiscal_year?fiscalYearId',
     views:{
       "main":{
-        controller: "FiscalYearsCtrl",
-        templateUrl: "fiscal_years/fiscal_year.tpl.html"
+        controller: "FiscalYearCtrl",
+        templateUrl: "fiscal_year/fiscal_year.tpl.html"
       }
     }
   });
@@ -50,17 +50,36 @@ angular.module( 'bookie.fiscal_year', [
 
   $scope.submit = function(){
     if($scope.accountId){
-      $scope.company.$update(function(response){
+      $scope.fiscal_year.$update(function(response){
         $state.transitionTo('fiscal_years');
       });
     }else{
-      $scope.company.$save(function(response){
+      $scope.fiscal_year.$save(function(response){
         $state.transitionTo('fiscal_years');
+      }, function(response){
+        $scope.start_date_errors = response.data.start_date;
+        $scope.end_date_errors = response.data.end_date;
       });
     }
   };
 })
-.factory( 'FiscalYearRes', function ( $resource )  {
-  return $resource('../fiscal_years/:id.json', {id:'@id'}, {'update': {method: 'PATCH'}});
+.factory( 'FiscalYearRes', function ( $resource, CompanyService )  {
+  return $resource('../companies/:cid/fiscal_years/:id.json', {cid: CompanyService.currentCompanyId(), id:'@id'}, {'update': {method: 'PATCH'}});
 })
+.service( 'FiscalService',function ($location, $rootScope, localStorageService){
+  return {
+    selectFiscalYear: function(fiscalYearId){
+      // Persist current company ID in local storage
+       localStorageService.add("fiscalYearId", fiscalYearId);
+      $rootScope.fiscalYearId = fiscalYearId;
+    },
+    currentFiscalYearId: function(){
+      if($rootScope.fiscalYearId == null){
+        $location.path("/fiscal_years");
+      }
+      return $rootScope.fiscalYearId;
+    }
+  };
+})
+
 ;

@@ -1,23 +1,33 @@
 <h1>
   Fiscal Year
 </h1>
-<div class="body">
-  <div class="form-horizontal">
-    <div class="control-group">
-      <label class="control-label">Start date:</label>
-      <div class="controls">
-        <input type="text" autofocus ng-model="fiscal_year.start_date" />
+<div class="row">
+  <div class="col-sm-3">
+    <div class="form">
+      <div class="form-group">
+        <label>Start date:</label>
+        <input class="form-control" type="text" required autofocus ng-model="fiscal_year.start_date" />
+        <ul ng-show="start_date_errors" class="list-group">
+          <li class="list-group-item list-group-item-danger" ng-repeat="error in start_date_errors track by $index">
+          {{error}}
+          </li>
+        </ul>
       </div>
-    </div>
-    <div class="control-group">
-      <label class="control-label">End date:</label>
-      <div class="controls">
-        <input type="text" autofocus ng-model="fiscal_year.end_date" />
+      <div class="form-group">
+        <label>End date:</label>
+        <input class="form-control" type="text" autofocus ng-model="fiscal_year.end_date" />
+        <ul ng-show="end_date_errors" class="list-group">
+          <li class="list-group-item list-group-item-danger" ng-repeat="error in end_date_errors track by $index">
+          {{error}}
+          </li>
+        </ul>
       </div>
-    </div>
-    <div class="controls">
-      <button ng-click="submit()" class="btn btn-primary" >Save</button>
-      <button ng-click="cancel()" class="btn btn-primary" >Cancel</button>
+      <div class="control-group">
+        <div class="controls">
+          <button ng-click="submit()" class="btn  btn-primary" >Save</button>
+          <button ng-click="cancel()" class="btn  btn-default" >Cancel</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>

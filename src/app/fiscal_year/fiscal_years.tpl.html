@@ -1,0 +1,20 @@
+<div>
+  <h1>Fiscal years</h1>
+</div>
+<ul class="list-group">
+  <li class="list-group-item"><b>Switch to Fiscal Year</b></li>
+  <li ng-repeat="fiscal_year in fiscal_years" class="list-group-item">
+  <button ng-click="selectFiscalYear(fiscal_year)" class="btn btn-success" >
+    <b>
+      {{fiscal_year.start_date}}
+      -
+      {{fiscal_year.end_date}}
+    </b>
+    <span class="glyphicon glyphicon-play"></span>
+  </button>
+  </li>
+</ul>
+<button ng-click="newFiscalYear()" class="btn btn-primary" >
+  <span class="glyphicon glyphicon-plus"></span>
+  New fiscal year
+</button>
