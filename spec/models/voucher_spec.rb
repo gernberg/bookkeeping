@@ -10,6 +10,9 @@ describe Voucher do
   it "needs date to save" do
     FactoryGirl.build(:voucher, date: nil).should_not be_valid
   end
-  pending "belongs to a fiscal year"
+
+  it "belongs to a fiscal year" do
+    FactoryGirl.build(:voucher, fiscal_year: nil).should_not be_valid
+  end
   pending "Is inside fiscal year"
 end
