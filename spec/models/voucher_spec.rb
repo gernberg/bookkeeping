@@ -43,8 +43,21 @@ describe Voucher do
   end
 
   it "gets a sequential number" do
-    @voucher = FactoryGirl.create(:voucher)
+    @fiscal_year = FactoryGirl.create(:fiscal_year)
+    @voucher = FactoryGirl.create(:voucher, :fiscal_year => @fiscal_year)
     @voucher.number.should eq(1)
+    @voucher = FactoryGirl.create(:voucher, :fiscal_year => @fiscal_year)
+    @voucher.number.should eq(2)
+    @voucher.destroy
+    @voucher = FactoryGirl.create(:voucher, :fiscal_year => @fiscal_year)
+    @voucher.number.should eq(2)
+    @voucher.save
+    @voucher.number.should eq(2)
+    @voucher = FactoryGirl.create(:voucher, :fiscal_year => @fiscal_year)
+    @voucher.number.should eq(3)
+    @voucher.date = Time.now
+    @voucher.save
+    @voucher.number.should eq(3)
   end
 
 end
