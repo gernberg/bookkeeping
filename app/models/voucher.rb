@@ -15,4 +15,8 @@ class Voucher < ActiveRecord::Base
   def last_number
     fiscal_year.vouchers.count
   end
+
+  def to_s
+    number.to_s
+  end
 end
