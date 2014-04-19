@@ -29,6 +29,12 @@ describe VouchersController do
         @fiscal_year.reload
       }.to change(@fiscal_year.vouchers, :count).by(1)
     end
+    it "updates voucher for user" do
+      expect{
+        patch :update, company_id: @user_company.id, fiscal_year_id: @fiscal_year.id, id: @user_voucher.id, voucher: {title: "Newtitle"}, format: :json
+        @user_voucher.reload
+      }.to change(@user_voucher, :title).to("Newtitle")
+    end
     it "doesnt create vouchers to other companies fiscal years" do
       expect{
         post :create, company_id: @user_company.id, fiscal_year_id: @random_fiscal_year.id, voucher: FactoryGirl.attributes_for(:voucher), format: :json
