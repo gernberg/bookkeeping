@@ -12,7 +12,8 @@
     "angular-grid": "~2.0.7",
     "angular-local-storage":"latest",
     "d3":"latest",
-    "angular-charts": "latest"
+    "angular-charts": "latest",
+    "angular-bootstrap-datetimepicker": "latest"
   },
   "dependencies": {
     "nvd3": "~1.1.15-beta"
