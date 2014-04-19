@@ -29,11 +29,10 @@ class FiscalYearsController < ApplicationController
   def create
     @fiscal_year = FiscalYear.new(fiscal_year_params)
     @fiscal_year.company = current_user.companies.find(params[:company_id])
-
     respond_to do |format|
       if @fiscal_year.save
         format.html { redirect_to company_fiscal_year_url(params[:company_id], @fiscal_year), notice: 'Fiscal year was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @fiscal_year }
+        format.json { render action: 'show', status: :created }
       else
         format.html { render action: 'new' }
         format.json { render json: @fiscal_year.errors, status: :unprocessable_entity }
@@ -45,17 +44,12 @@ class FiscalYearsController < ApplicationController
   # PATCH/PUT /fiscal_years/1.json
   def update
     @fiscal_year = current_user.companies.find(params[:company_id]).fiscal_years.find(params[:id])
-    puts "****"
-    p params.inspect
-    puts "####"
     puts @fiscal_year.inspect
     respond_to do |format|
       if @fiscal_year.update(fiscal_year_params)
-        p "UPDATE YES"
         format.html { redirect_to company_fiscal_year_url(params[:company_id], @fiscal_year), notice: 'Fiscal year was successfully updated.' }
         format.json { head :no_content }
       else
-        p "UPDATE NO"
         p @fiscal_year.errors.inspect
         format.html { render action: 'edit' }
         format.json { render json: @fiscal_year.errors, status: :unprocessable_entity }

@@ -25,11 +25,15 @@ angular.module( 'bookie.company', [
     }
   });
 })
-.controller( 'CompaniesCtrl', function CompaniesController( $scope, CompanyRes, $state, $rootScope) {
+.controller( 'CompaniesCtrl', function CompaniesController( $scope, CompanyRes, $state, $rootScope, CompanyService) {
   $rootScope.loggedIn = true;
   $scope.companies = CompanyRes.query();
   $scope.newCompany = function(){
     $state.transitionTo('company');
+  };
+  $scope.selectCompany = function(company){
+    CompanyService.selectCompany(company.id);
+    $state.transitionTo('dashboard');
   };
   $scope.editCompany = function(company){
     $state.transitionTo('company', {companyId: company.id});
@@ -63,11 +67,18 @@ angular.module( 'bookie.company', [
 .factory( 'CompanyRes', function ( $resource )  {
   return $resource('../companies/:id.json', {id:'@id'}, {'update': {method: 'PATCH'}});
 })
-.service( 'CompanyService',function (){
+.service( 'CompanyService',function ($location, $rootScope, localStorageService){
   return {
+    selectCompany: function(companyId){
+      // Persist current company ID in local storage
+       localStorageService.add("companyId", companyId);
+      $rootScope.companyId = companyId;
+    },
     currentCompanyId: function(){
-      alert("test");
-      return 1;
+      if($rootScope.companyId == null){
+        $location.path("/companies");
+      }
+      return $rootScope.companyId;
     }
   };
 })

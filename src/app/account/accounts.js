@@ -37,9 +37,8 @@ angular.module( 'bookie.account', [
 /**
  * And of course we define a controller for our route.
  */
-.controller( 'AccountsCtrl', function AccountsController( $scope, AccountRes, $state, $rootScope) {
+.controller( 'AccountsCtrl', function AccountsController( $scope, AccountRes, $state, CompanyService) {
     $scope.accounts = AccountRes.query();
-    $rootScope.loggedIn = true;
     $scope.gridOptions = {
       data: 'accounts',
       columnDefs: [
@@ -60,7 +59,7 @@ angular.module( 'bookie.account', [
       $state.transitionTo('account', { accountId: account.id });
     };
 })
-.controller('AccountCtrl', function AccountController($scope, AccountRes, $state, $stateParams, $rootScope){
+.controller('AccountCtrl', function AccountController($scope, AccountRes, $state, $stateParams){
   $scope.accountId = parseInt($stateParams.accountId, 10);
   if($scope.accountId){
     $scope.account = AccountRes.get({id: $scope.accountId});
