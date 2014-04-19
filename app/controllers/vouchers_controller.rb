@@ -5,7 +5,7 @@ class VouchersController < ApplicationController
   # GET /vouchers
   # GET /vouchers.json
   def index
-    @vouchers = Voucher.all
+    @vouchers = current_user.companies.find(params[:company_id]).fiscal_years.find(params[:fiscal_year_id]).vouchers
   end
 
   # GET /vouchers/1
@@ -26,6 +26,7 @@ class VouchersController < ApplicationController
   # POST /vouchers.json
   def create
     @voucher = Voucher.new(voucher_params)
+    @voucher.fiscal_year = current_user.companies.find(params[:company_id]).fiscal_years.find(params[:fiscal_year_id])
 
     respond_to do |format|
       if @voucher.save
@@ -64,12 +65,12 @@ class VouchersController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_voucher
-      @voucher = Voucher.find(params[:id])
-    end
+  def set_voucher
+    @voucher = current_user.companies.find(params[:company_id]).fiscal_years.find(params[:fiscal_year_id]).vouchers.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def voucher_params
-      params.require(:voucher).permit(:title, :date, :fiscal_year_id)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def voucher_params
+    params.require(:voucher).permit(:title, :date, :fiscal_year_id)
+  end
 end
