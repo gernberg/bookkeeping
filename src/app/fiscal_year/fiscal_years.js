@@ -49,7 +49,7 @@ angular.module( 'bookie.fiscal_year', [
   };
 
   $scope.submit = function(){
-    if($scope.accountId){
+    if($scope.fiscalYearId){
       $scope.fiscal_year.$update(function(response){
         $state.transitionTo('fiscal_years');
       }, function(response){
