@@ -60,4 +60,9 @@ describe Voucher do
     @voucher.number.should eq(3)
   end
 
+  it "has a readable default to_s" do
+    @voucher = FactoryGirl.create(:voucher)
+    @voucher.to_s.should eq("1")
+  end
+
 end
