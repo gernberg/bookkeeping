@@ -52,6 +52,9 @@ angular.module( 'bookie.fiscal_year', [
     if($scope.accountId){
       $scope.fiscal_year.$update(function(response){
         $state.transitionTo('fiscal_years');
+      }, function(response){
+        $scope.start_date_errors = response.data.start_date;
+        $scope.end_date_errors = response.data.end_date;
       });
     }else{
       $scope.fiscal_year.$save(function(response){
