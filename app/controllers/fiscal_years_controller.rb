@@ -5,7 +5,7 @@ class FiscalYearsController < ApplicationController
   # GET /fiscal_years
   # GET /fiscal_years.json
   def index
-    @fiscal_years = current_user.companies.find(params[:company_id]).fiscal_years.all
+    @fiscal_years = current_user.companies.find(params[:company_id]).fiscal_years
   end
 
   # GET /fiscal_years/1
