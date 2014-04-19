@@ -24,7 +24,48 @@ describe Voucher do
   it "belongs to a fiscal year" do
     FactoryGirl.build(:voucher, fiscal_year: nil).should_not be_valid
   end
-  
+
+  it "is possible to destroy last one in series" do
+    @fiscal_year = FactoryGirl.create(:fiscal_year)
+    @voucher1 = FactoryGirl.create(:voucher, :fiscal_year => @fiscal_year)
+    @voucher2 = FactoryGirl.create(:voucher, :fiscal_year => @fiscal_year)
+    @voucher3 = FactoryGirl.create(:voucher, :fiscal_year => @fiscal_year)
+
+    # Cant delete vouchers that are not the last one
+    expect{
+      @voucher1.destroy
+    }.to change(Voucher, :count).by(0)
+    expect{
+      @voucher2.destroy
+    }.to change(Voucher, :count).by(0)
+
+    # Can delete vouchers that is the last one
+    expect{
+      @voucher3.destroy
+    }.to change(Voucher, :count).by(-1)
+
+    # Cant delete vouchers that are not the last one
+    expect{
+      @voucher1.destroy
+    }.to change(Voucher, :count).by(0)
+
+    # Can delete vouchers that is the last one
+    expect{
+      @voucher2.destroy
+    }.to change(Voucher, :count).by(-1)
+
+
+    # Can delete vouchers that is the last one
+    expect{
+      @voucher1.destroy
+    }.to change(Voucher, :count).by(-1)
+  end
+
+
+  ## 
+  # 
+  # Date validations
+  #
   it "is valid inside fiscal year" do
     @fiscal_year = FactoryGirl.create(:fiscal_year, :start_date => 2.years.ago, :end_date => 1.year.ago);
     FactoryGirl.build(:voucher, fiscal_year: @fiscal_year, date: 18.months.ago).should be_valid
