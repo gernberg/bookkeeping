@@ -10,9 +10,29 @@ describe Voucher do
   it "needs date to save" do
     FactoryGirl.build(:voucher, date: nil).should_not be_valid
   end
+  it "accepts valid date" do
+    FactoryGirl.build(:voucher, date: Date.new(Time.now.year)).should be_valid
+  end
+
+  it "rejects invalid date" do
+    FactoryGirl.build(:voucher, date: "1234-56-78").should_not be_valid
+  end
 
   it "belongs to a fiscal year" do
     FactoryGirl.build(:voucher, fiscal_year: nil).should_not be_valid
   end
-  pending "Is inside fiscal year"
+  it "valid inside fiscal year" do
+    @fiscal_year = FactoryGirl.create(:fiscal_year, :start_date => 2.years.ago, :end_date => 1.year.ago);
+    FactoryGirl.build(:voucher, fiscal_year: @fiscal_year, date: 18.months.ago).should be_valid
+  end
+  it "invalid after fiscal year" do
+    @fiscal_year = FactoryGirl.create(:fiscal_year, :start_date => 2.years.ago, :end_date => 1.year.ago);
+    FactoryGirl.build(:voucher, fiscal_year: @fiscal_year, date: 3.years.ago).should_not be_valid
+  end
+  it "invalid before fiscal year" do
+    @fiscal_year = FactoryGirl.create(:fiscal_year, :start_date => 2.years.ago, :end_date => 1.year.ago);
+    FactoryGirl.build(:voucher, fiscal_year: @fiscal_year, date: 11.months.ago).should_not be_valid
+    FactoryGirl.build(:voucher, fiscal_year: @fiscal_year, date: 1.months.ago).should_not be_valid
+    FactoryGirl.build(:voucher, fiscal_year: @fiscal_year, date: 1.months.ago).should_not be_valid
+  end
 end
