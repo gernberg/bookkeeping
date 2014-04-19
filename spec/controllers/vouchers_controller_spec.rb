@@ -24,6 +24,9 @@ describe VouchersController do
     end
   end
   describe "not signed in" do
-
+    it "returns only the current companys fiscal years vouchers" do
+      get "index", :company_id => @user_company.id, :fiscal_year_id => @fiscal_year.id
+      response.should_not be_success
+    end
   end
 end
