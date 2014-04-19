@@ -7,6 +7,7 @@ describe VouchersController do
     @user_company = FactoryGirl.create(:company)
     @fiscal_year = FactoryGirl.create(:fiscal_year, company: @user_company)
     @random_fiscal_year = FactoryGirl.create(:fiscal_year, company: @random_company)
+    @random_voucher = FactoryGirl.create(:voucher)
 
 
     @user = FactoryGirl.create(:user) 
