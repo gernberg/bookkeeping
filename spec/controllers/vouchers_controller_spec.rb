@@ -29,6 +29,12 @@ describe VouchersController do
         @fiscal_year.reload
       }.to change(@fiscal_year.vouchers, :count).by(1)
     end
+    it "doesnt create vouchers to other companies fiscal years" do
+      expect{
+        post :create, company_id: @random_company.id, fiscal_year_id: @random_fiscal_year.id, voucher: FactoryGirl.attributes_for(:voucher), format: :json
+        @fiscal_year.reload
+      }.to change(@fiscal_year.vouchers, :count).by(1)
+    end
     it "returns only the current companys fiscal years vouchers" do
       get "index", :company_id => @user_company.id, :fiscal_year_id => @fiscal_year.id, format: :json
       response.should be_success
