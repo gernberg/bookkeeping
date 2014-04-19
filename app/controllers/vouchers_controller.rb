@@ -29,7 +29,7 @@ class VouchersController < ApplicationController
     respond_to do |format|
       if @voucher.save
         format.html { redirect_to @voucher, notice: 'Voucher was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @voucher }
+        format.json { render action: 'show', status: :created }
       else
         format.html { render action: 'new' }
         format.json { render json: @voucher.errors, status: :unprocessable_entity }
