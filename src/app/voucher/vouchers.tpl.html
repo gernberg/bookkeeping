@@ -1,0 +1,12 @@
+<h1>
+  Vouchers
+</h1>
+<button class="btn btn-primary btn-lg" ng-click="newVoucher()">
+  <span class="glyphicon glyphicon-plus"></span>
+  New voucher
+</button>
+<ul>
+  <li ng-repeat="voucher in vouchers">
+  {{voucher.number}}
+  </li>
+</ul>

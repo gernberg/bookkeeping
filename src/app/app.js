@@ -9,6 +9,7 @@ angular.module( 'bookie', [
   'bookie.devise',
   'bookie.dashboard',
   'bookie.fiscal_year',
+  'bookie.voucher',
   'ui.state',
   'ui.route',
   'LocalStorageModule'
@@ -21,6 +22,7 @@ angular.module( 'bookie', [
 .run( function run ($http, $rootScope, $location, localStorageService, $state) {
   // makes sure we have a fresh CSRF cookie
   $rootScope.companyId = localStorageService.get('companyId');
+  $rootScope.fiscalYearId = localStorageService.get('fiscalYearId');
   $rootScope.loggedIn = false;
   /*
    $rootScope.$on('$locationChangeStart', function(event, newUrl){

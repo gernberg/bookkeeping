@@ -3,8 +3,7 @@
  */
 angular.module( 'bookie.fiscal_year', [
   'ui.state',
-  'ngResource',
-  'ngGrid'
+  'ngResource'
 ])
 .config(function config($stateProvider){
   $stateProvider.state('fiscal_years', {
@@ -25,7 +24,7 @@ angular.module( 'bookie.fiscal_year', [
     }
   });
 })
-.controller( 'FiscalYearsCtrl', function FiscalYearsCtrl( $scope, FiscalYearRes, $state, $rootScope) {
+.controller( 'FiscalYearsCtrl', function FiscalYearsCtrl( $scope, FiscalYearRes, $state, $rootScope, FiscalService, $location) {
   $rootScope.loggedIn = true;
   $scope.fiscal_years = FiscalYearRes.query();
   $scope.newFiscalYear = function(){
@@ -33,6 +32,10 @@ angular.module( 'bookie.fiscal_year', [
   };
   $scope.editFiscalYear = function(fiscal_year){
     $state.transitionTo('fiscal_year', {fiscalYearId: fiscal_year.id});
+  };
+  $scope.selectFiscalYear = function(fiscal_year){
+    FiscalService.selectFiscalYear(fiscal_year.id);
+    $location.path("/dashboard");
   };
 })
 .controller('FiscalYearCtrl', function FiscalYearCtrl($scope, FiscalYearRes, $state, $stateParams, $rootScope){
@@ -73,7 +76,7 @@ angular.module( 'bookie.fiscal_year', [
   return {
     selectFiscalYear: function(fiscalYearId){
       // Persist current company ID in local storage
-       localStorageService.add("fiscalYearId", fiscalYearId);
+      localStorageService.add("fiscalYearId", fiscalYearId);
       $rootScope.fiscalYearId = fiscalYearId;
     },
     currentFiscalYearId: function(){
