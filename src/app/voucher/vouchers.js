@@ -57,10 +57,12 @@ angular.module( 'bookie.voucher', [
   $scope.sumDebit = function(voucher){
     var sum = 0;
     for(var i = 0; i<voucher.voucher_rows.length; i++){
-      sum += +parseFloat(voucher.voucher_rows[i].debit, 10).toFixed(2);
-      console.log(sum);
+      add = parseFloat(voucher.voucher_rows[i].debit, 10);
+      if(!isNaN(add)){
+        sum += add;
+      }
     }
-    return sum;
+    return sum.toFixed(2);
   };
 
   $scope.checkRow = function(row, field){
