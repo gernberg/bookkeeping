@@ -42,7 +42,7 @@
       <div class="col-sm-6">
         <div class="row">
           <div class="col-sm-3">
-            <input class="form-control" auto-complete ui-items="accounts" ng-model="row.account">
+            <input class="form-control" auto-complete ui-items="accounts" ng-model="row.account" ng-blur="checkIfFilled(voucher)" ng-focus="checkIfFilled(voucher)">
           </div>
           <div class="col-sm-9">
             <label>

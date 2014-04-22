@@ -72,6 +72,26 @@ angular.module( 'bookie.voucher', [
     }
   };
 
+  $scope.checkIfFilled = function(voucher){
+    var voucher_rows = voucher.voucher_rows;
+    var filledRows = 0;
+    for(var i = 0; i < voucher_rows.length; i++){
+      if(voucher_rows[i].account){
+        filledRows++;
+      }
+    }
+    if(filledRows >= voucher_rows.length){
+      $scope.addVoucherRow(voucher);
+    }
+  };
+
+  $scope.addVoucherRow = function(voucher, row){
+    if(row === undefined){
+      row = {};
+    }
+    voucher.voucher_rows.push(row);
+  };
+
   $scope.sumCredit = function(voucher){
     return -123;
   };
