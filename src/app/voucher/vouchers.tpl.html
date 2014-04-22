@@ -5,8 +5,15 @@
   <span class="glyphicon glyphicon-plus"></span>
   New voucher
 </button>
-<ul>
-  <li ng-repeat="voucher in vouchers">
-  {{voucher.number}}
-  </li>
-</ul>
+<div class="">
+  <div class="row" ng-repeat="voucher in vouchers">
+    <div class="col-xs-2">
+      {{voucher.number}}
+    </div>
+    <div>
+      <button class="btn btn-link" ng-click="editVoucher(voucher)">
+      {{voucher.title}}
+    </button>
+    </div>
+  </div>
+</div>

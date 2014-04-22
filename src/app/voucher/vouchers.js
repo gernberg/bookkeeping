@@ -30,6 +30,7 @@ angular.module( 'bookie.voucher', [
 .controller( 'VouchersCtrl', function VouchersController( $scope, VoucherRes, $state, $rootScope) {
   $rootScope.loggedIn = true;
   $scope.vouchers = VoucherRes.query();
+  console.log($scope.vouchers);
   $scope.newVoucher = function(){
     $state.transitionTo('voucher');
   };
@@ -52,6 +53,7 @@ angular.module( 'bookie.voucher', [
   }
 
   $scope.accounts = AccountRes.query();
+  console.log($scope.accounts);
 
 
   // TODO Cleanup!!
