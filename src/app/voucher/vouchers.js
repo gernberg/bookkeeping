@@ -139,9 +139,13 @@ angular.module( 'bookie.voucher', [
   };
 })
 .factory( 'VoucherRes', function ( $resource, CompanyService, FiscalService)  {
+  var voucherCache = $cacheFactory("vc");
+  voucherCache.put = function(key, val){
+    alert("K:" + key + " -- V:" + val);
+  };
   return $resource('../companies/:cid/fiscal_years/:fid/vouchers/:id.json', {fid: FiscalService.currentFiscalYearId(), cid: CompanyService.currentCompanyId(), id:'@id'}, {
     'query' : {method: 'GET', isArray: true,
-              cache: true},
+              cache: voucherCache},
     'update': {method: 'PATCH'}
     
   });
