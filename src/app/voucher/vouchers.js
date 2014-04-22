@@ -121,7 +121,6 @@ angular.module( 'bookie.voucher', [
   };
 
   $scope.submit = function(){
-    $scope.voucher.$save(function(response){}, function(response){});
     if($scope.voucherId){
       $scope.voucher.$update(function(response){
         $state.transitionTo('vouchers');
