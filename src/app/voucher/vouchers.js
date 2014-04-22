@@ -54,6 +54,18 @@ angular.module( 'bookie.voucher', [
   $scope.accounts = AccountRes.query();
   console.log($scope.accounts);
 
+
+  // TODO Cleanup!!
+  $scope.sumCredit = function(voucher){
+    var sum = 0;
+    for(var i = 0; i<voucher.voucher_rows.length; i++){
+      add = parseFloat(voucher.voucher_rows[i].debit, 10);
+      if(!isNaN(add)){
+        sum += add;
+      }
+    }
+    return sum.toFixed(2);
+  };
   $scope.sumDebit = function(voucher){
     var sum = 0;
     for(var i = 0; i<voucher.voucher_rows.length; i++){
@@ -95,9 +107,6 @@ angular.module( 'bookie.voucher', [
     voucher.voucher_rows.push(row);
   };
 
-  $scope.sumCredit = function(voucher){
-    return -123;
-  };
 
   $scope.accountName = function(account){
     return account;
@@ -106,8 +115,12 @@ angular.module( 'bookie.voucher', [
   $scope.cancel = function(){
     $state.transitionTo("vouchers");
   };
+  $scope.removeVoucher = function(){
+    alert("DELETE");
+  };
 
   $scope.submit = function(){
+    $scope.voucher.$save(function(response){}, function(response){});
     if($scope.voucherId){
       $scope.voucher.$update(function(response){
         $state.transitionTo('vouchers');
