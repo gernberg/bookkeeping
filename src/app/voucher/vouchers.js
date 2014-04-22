@@ -58,6 +58,7 @@ angular.module( 'bookie.voucher', [
     var sum = 0;
     for(var i = 0; i<voucher.voucher_rows.length; i++){
       sum += +parseFloat(voucher.voucher_rows[i].debit, 10).toFixed(2);
+      console.log(sum);
     }
     return sum;
   };
