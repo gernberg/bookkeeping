@@ -140,7 +140,12 @@ angular.module( 'bookie.voucher', [
   };
 })
 .factory( 'VoucherRes', function ( $resource, CompanyService, FiscalService)  {
-  return $resource('../companies/:cid/fiscal_years/:fid/vouchers/:id.json', {fid: FiscalService.currentFiscalYearId(), cid: CompanyService.currentCompanyId(), id:'@id'}, {'update': {method: 'PATCH'}});
+  return $resource('../companies/:cid/fiscal_years/:fid/vouchers/:id.json', {fid: FiscalService.currentFiscalYearId(), cid: CompanyService.currentCompanyId(), id:'@id'}, {
+    'query' : {method: 'GET', isArray: true,
+              cache: true},
+    'update': {method: 'PATCH'}
+    
+  });
 })
 .directive('currencyInput', function($filter, $browser) {
     return {
