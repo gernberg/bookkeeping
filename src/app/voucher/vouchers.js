@@ -138,14 +138,14 @@ angular.module( 'bookie.voucher', [
     }
   };
 })
-.factory( 'VoucherRes', function ( $resource, CompanyService, FiscalService)  {
-  var voucherCache = $cacheFactory("vc");
-  voucherCache.put = function(key, val){
-    alert("K:" + key + " -- V:" + val);
-  };
+.factory( 'VoucherCache', function($cacheFactory){
+  var cache = $cacheFactory("VC");
+  return cache;
+})
+.factory( 'VoucherRes', function ( $resource, CompanyService, FiscalService, VoucherCache)  {
   return $resource('../companies/:cid/fiscal_years/:fid/vouchers/:id.json', {fid: FiscalService.currentFiscalYearId(), cid: CompanyService.currentCompanyId(), id:'@id'}, {
     'query' : {method: 'GET', isArray: true,
-              cache: voucherCache},
+              cache: VoucherCache},
     'update': {method: 'PATCH'}
     
   });
