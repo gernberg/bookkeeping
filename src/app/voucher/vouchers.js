@@ -37,7 +37,7 @@ angular.module( 'bookie.voucher', [
     $state.transitionTo('voucher', {voucherId: voucher.id});
   };
 })
-.controller('VoucherCtrl', function VoucherCtrl($scope, VoucherRes, $state, $stateParams, $rootScope){
+.controller('VoucherCtrl', function VoucherCtrl($scope, VoucherRes, $state, $stateParams, $rootScope, AccountRes){
   $rootScope.loggedIn = true;
   $scope.voucherId = parseInt($stateParams.voucherId, 10);
   if($scope.voucherId){
@@ -51,11 +51,8 @@ angular.module( 'bookie.voucher', [
     ];
   }
 
-  $scope.accounts = [
-    1920,
-    3010,
-    2640
-  ];
+  $scope.accounts = AccountRes.query();
+  console.log($scope.accounts);
 
   $scope.sumDebit = function(voucher){
     var sum = 0;
@@ -141,7 +138,7 @@ angular.module( 'bookie.voucher', [
     };
 })
 .directive('autoComplete', function($timeout) {
-  var substringMatcher = function(strs) {
+  var substringMatcher = function(accounts) {
     return function findMatches(q, cb) {
       var matches, substringRegex;
 
@@ -153,11 +150,10 @@ angular.module( 'bookie.voucher', [
 
       // iterate through the pool of strings and for any string that
       // contains the substring `q`, add it to the `matches` array
-      $.each(strs, function(i, str) {
-        if (substrRegex.test(str)) {
-          // the typeahead jQuery plugin expects suggestions to a
-          // JavaScript object, refer to typeahead docs for more info
-          matches.push({ value: str });
+      $.each(accounts, function(i, account) {
+        var display_name = account.account_number + " " + account.account_name;
+        if (substrRegex.test(display_name)){
+          matches.push({ value: ""+account.account_number, name: account.account_name });
         }
       });
 
@@ -171,9 +167,16 @@ angular.module( 'bookie.voucher', [
       minLength: 1
     },
     {
-      name: 'states',
+      name: 'accounts',
       displayKey: 'value',
-      source: substringMatcher(scope[iAttrs.uiItems])
+      source: substringMatcher(scope[iAttrs.uiItems]),
+      templates:{
+         suggestion: Handlebars.compile('<p><strong>{{value}}</strong> – {{name}}</p>')
+      }
+
+    });
+    $(iElement).blur(function(){
+      $(this).val($(this).val().substr(0,4));
     });
   };
 })

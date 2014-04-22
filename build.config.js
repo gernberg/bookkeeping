@@ -76,7 +76,9 @@ module.exports = {
       'vendor/angular-grid/build/ng-grid.js',
       'vendor/angular-local-storage/angular-local-storage.js',
       'vendor/angular-bootstrap-datetimepicker/src/js/datetimepicker.js',
-      'vendor/typeahead.js/dist/typeahead.jquery.min.js'
+      'vendor/typeahead.js/dist/typeahead.jquery.min.js',
+      'src/assets/handlebars-v1.3.0.js'
+
     ],
     css: [
     ],
