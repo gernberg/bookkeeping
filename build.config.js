@@ -75,7 +75,8 @@ module.exports = {
       'src/assets/d3/d3.min.js',
       'vendor/angular-grid/build/ng-grid.js',
       'vendor/angular-local-storage/angular-local-storage.js',
-      'vendor/angular-bootstrap-datetimepicker/src/js/datetimepicker.js'
+      'vendor/angular-bootstrap-datetimepicker/src/js/datetimepicker.js',
+      'vendor/typeahead.js/dist/typeahead.jquery.min.js'
     ],
     css: [
     ],

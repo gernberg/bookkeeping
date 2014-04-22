@@ -13,7 +13,8 @@
     "angular-local-storage":"latest",
     "d3":"latest",
     "angular-charts": "latest",
-    "angular-bootstrap-datetimepicker": "latest"
+    "angular-bootstrap-datetimepicker": "latest",
+    "typeahead.js" : "~0.10.0"
   },
   "dependencies": {
     "nvd3": "~1.1.15-beta"
