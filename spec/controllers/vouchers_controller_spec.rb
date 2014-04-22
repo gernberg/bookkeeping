@@ -23,24 +23,30 @@ describe VouchersController do
     before :each do 
       sign_in @user 
     end
+
+    pending "accepts nested params"
+    
     it "new voucher belongs to current fiscal year" do
       expect{
         post :create, company_id: @user_company.id, fiscal_year_id: @fiscal_year.id, voucher: FactoryGirl.attributes_for(:voucher), format: :json
         @fiscal_year.reload
       }.to change(@fiscal_year.vouchers, :count).by(1)
     end
+    
     it "updates voucher for user" do
       expect{
         patch :update, company_id: @user_company.id, fiscal_year_id: @fiscal_year.id, id: @user_voucher.id, voucher: {title: "Newtitle"}, format: :json
         @user_voucher.reload
       }.to change(@user_voucher, :title).to("Newtitle")
     end
+
     it "doesnt create vouchers to other companies fiscal years" do
       expect{
         post :create, company_id: @user_company.id, fiscal_year_id: @random_fiscal_year.id, voucher: FactoryGirl.attributes_for(:voucher), format: :json
         @fiscal_year.reload
       }.to raise_error
     end
+
     it "doesnt create vouchers to other companies fiscal years" do
       expect{
         post :create, company_id: @random_company.id, fiscal_year_id: @random_fiscal_year.id, voucher: FactoryGirl.attributes_for(:voucher), format: :json
@@ -54,6 +60,7 @@ describe VouchersController do
       assigns(:vouchers).to_a.should match_array(@fiscal_year.vouchers.to_a)
     end
   end
+
   describe "not signed in" do
     it "returns only the current companys fiscal years vouchers" do
       get "index", :company_id => @user_company.id, :fiscal_year_id => @fiscal_year.id

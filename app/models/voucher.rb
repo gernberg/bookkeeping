@@ -5,6 +5,9 @@ class Voucher < ActiveRecord::Base
 
   validates_date :date, :on_or_before => Proc.new{|f| f.fiscal_year.end_date}
   validates_date :date, :on_or_after => Proc.new{|f| f.fiscal_year.start_date}
+
+  accepts_nested_attributes_for :voucher_rows
+
   has_paper_trail
 
   before_create :increase_number

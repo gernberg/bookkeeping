@@ -106,4 +106,8 @@ describe Voucher do
     @voucher.to_s.should eq("1")
   end
 
+  pending "must have at least 2 rows"
+  pending "must balance"
+
+
 end
