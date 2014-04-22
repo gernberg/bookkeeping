@@ -42,7 +42,7 @@
       <div class="col-sm-6">
         <div class="row">
           <div class="col-sm-3">
-            <input auto-complete ui-items="accounts" ng-model="row.account">
+            <input class="form-control" auto-complete ui-items="accounts" ng-model="row.account">
           </div>
           <div class="col-sm-9">
             <label>
@@ -52,10 +52,10 @@
         </div>
       </div>
       <div class="col-sm-3">
-        <input currency-input = ""  class="text-right form-control" ng-model="row.debit">
+        <input currency-input = ""  class="text-right form-control" ng-model="row.debit" ng-change="checkRow(row, 'debit')">
       </div>
       <div class="col-sm-3">
-        <input currency-input = ""  class="form-control" ng-model="row.credit">
+        <input currency-input = ""  class="text-right form-control" ng-model="row.credit" ng-change="checkRow(row)">
       </div>
     </div>
     <div class="row">

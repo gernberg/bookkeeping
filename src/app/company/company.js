@@ -71,13 +71,15 @@ angular.module( 'bookie.company', [
   return {
     selectCompany: function(companyId){
       // Persist current company ID in local storage
-       localStorageService.add("companyId", companyId);
+      localStorageService.add("companyId", companyId);
       $rootScope.companyId = companyId;
+      console.log("selectCompany", companyId);
     },
     currentCompanyId: function(){
       if($rootScope.companyId == null){
         $location.path("/companies");
       }
+      console.log("currentCompanyId", $rootScope.companyId);
       return $rootScope.companyId;
     }
   };

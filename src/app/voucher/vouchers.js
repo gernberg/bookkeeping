@@ -62,6 +62,16 @@ angular.module( 'bookie.voucher', [
     return sum;
   };
 
+  $scope.checkRow = function(row, field){
+    if(row.debit && row.credit){
+      if(field == "debit"){
+        row.credit = "";
+      }else{
+        row.debit = "";
+      }
+    }
+  };
+
   $scope.sumCredit = function(voucher){
     return -123;
   };
