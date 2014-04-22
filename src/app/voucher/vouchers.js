@@ -52,7 +52,6 @@ angular.module( 'bookie.voucher', [
   }
 
   $scope.accounts = AccountRes.query();
-  console.log($scope.accounts);
 
 
   // TODO Cleanup!!
