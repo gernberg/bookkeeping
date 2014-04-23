@@ -72,6 +72,6 @@ class VouchersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def voucher_params
-    params.require(:voucher).permit(:title, :date, :fiscal_year_id, :voucher_rows=>[:account, :debit, :credit])
+    params.require(:voucher).permit(:title, :date, :fiscal_year_id, :voucher_rows_attributes=>[:account_id, :debit, :credit])
   end
 end

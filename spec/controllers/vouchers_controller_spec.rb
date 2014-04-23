@@ -24,7 +24,23 @@ describe VouchersController do
       sign_in @user 
     end
 
-    pending "accepts nested params"
+    it "accepts nested params" do
+      expect{
+        #voucher = FactoryGirl.attributes_for(:voucher)
+        voucher = {
+          title: "Title test",
+          date: @user_voucher.date,
+          fiscal_year_id: @user_voucher.fiscal_year.id
+        }
+        voucher[:voucher_rows_attributes] = [
+          {account_id: FactoryGirl.create(:account).id, debit: 100},
+          {account_id: FactoryGirl.create(:account).id, credit: 100}
+        ]
+        #
+        post :create, company_id: @user_company.id, fiscal_year_id: @fiscal_year.id, voucher: voucher, format: :json 
+        @fiscal_year.reload
+      }.to change(VoucherRow, :count).by(2)
+    end
 
     it "returns only the current companys fiscal years vouchers" do
       get "index", :company_id => @user_company.id, :fiscal_year_id => @fiscal_year.id, format: :json

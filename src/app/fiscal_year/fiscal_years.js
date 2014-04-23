@@ -83,6 +83,7 @@ angular.module( 'bookie.fiscal_year', [
       if($rootScope.fiscalYearId == null){
         $location.path("/fiscal_years");
       }
+      console.log("currentFiscalYearId", $rootScope.fiscalYearId);
       return $rootScope.fiscalYearId;
     }
   };

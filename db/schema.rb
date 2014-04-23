@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140419164713) do
+ActiveRecord::Schema.define(version: 20140423163843) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -86,6 +86,8 @@ ActiveRecord::Schema.define(version: 20140419164713) do
     t.float    "sum"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.float    "debit"
+    t.float    "credit"
   end
 
   add_index "voucher_rows", ["account_id"], name: "index_voucher_rows_on_account_id", using: :btree

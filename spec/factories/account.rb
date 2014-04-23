@@ -2,5 +2,6 @@
 
 FactoryGirl.define do
   factory :account do
+    account_number 1234
   end
 end
