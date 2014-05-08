@@ -355,18 +355,35 @@ module.exports = function ( grunt ) {
     /**
      * The Karma configurations.
      */
+    /**
     karma: {
       options: {
         configFile: '<%= build_dir %>/karma-unit.js'
       },
       unit: {
-        runnerPort: 9101,
+        port: 9101,
         background: true
       },
       continuous: {
         singleRun: true
       }
-    },
+    },*/
+    karma: {
+             unit: {
+                     configFile: 'karma.conf.js',
+                     runnerPort: 9999,
+                     singleRun: true,
+                     browsers: ['PhantomJS'],
+                     logLevel: 'ERROR'
+                   },
+               continuous: {
+                                 singleRun: true,
+                                     browsers: ['PhantomJS']
+                                         },
+                 dev: {
+                            reporters: 'dots'
+                                }
+           },
 
     /**
      * The `index` task compiles the `index.html` file as a Grunt template. CSS
@@ -374,54 +391,54 @@ module.exports = function ( grunt ) {
      */
     index: {
 
-      /**
-       * During development, we don't want to have wait for compilation,
-       * concatenation, minification, etc. So to avoid these steps, we simply
-       * add all script files directly to the `<head>` of `index.html`. The
-       * `src` property contains the list of included files.
-       */
-      build: {
-        dir: '<%= build_dir %>',
-        src: [
-          '<%= vendor_files.js %>',
-          '<%= build_dir %>/src/**/*.js',
-          '<%= html2js.common.dest %>',
-          '<%= html2js.app.dest %>',
-          '<%= vendor_files.css %>',
-          '<%= less.build.dest %>'
-        ]
-      },
+             /**
+              * During development, we don't want to have wait for compilation,
+              * concatenation, minification, etc. So to avoid these steps, we simply
+              * add all script files directly to the `<head>` of `index.html`. The
+              * `src` property contains the list of included files.
+              */
+             build: {
+                      dir: '<%= build_dir %>',
+                      src: [
+                        '<%= vendor_files.js %>',
+                      '<%= build_dir %>/src/**/*.js',
+                                                '<%= html2js.common.dest %>',
+                                                '<%= html2js.app.dest %>',
+                                                '<%= vendor_files.css %>',
+                                                '<%= less.build.dest %>'
+                                                ]
+                                                },
 
-      /**
-       * When it is time to have a completely compiled application, we can
-       * alter the above to include only a single JavaScript and a single CSS
-       * file. Now we're back!
-       */
-      compile: {
-        dir: '<%= compile_dir %>',
-        src: [
-          '<%= concat.compile_js.dest %>',
-          '<%= vendor_files.css %>',
-          '<%= less.compile.dest %>'
-        ]
-      }
-    },
+                      /**
+                       * When it is time to have a completely compiled application, we can
+                       * alter the above to include only a single JavaScript and a single CSS
+                       * file. Now we're back!
+                       */
+                      compile: {
+                        dir: '<%= compile_dir %>',
+                        src: [
+                          '<%= concat.compile_js.dest %>',
+                        '<%= vendor_files.css %>',
+                        '<%= less.compile.dest %>'
+                          ]
+                      }
+           },
 
     /**
      * This task compiles the karma template so that changes to its file array
      * don't have to be managed manually.
      */
     karmaconfig: {
-      unit: {
-        dir: '<%= build_dir %>',
-        src: [ 
-          '<%= vendor_files.js %>',
-          '<%= html2js.app.dest %>',
-          '<%= html2js.common.dest %>',
-          '<%= test_files.js %>'
-        ]
-      }
-    },
+                   unit: {
+                           dir: '<%= build_dir %>',
+                           src: [ 
+                             '<%= vendor_files.js %>',
+                           '<%= html2js.app.dest %>',
+                           '<%= html2js.common.dest %>',
+                           '<%= test_files.js %>'
+                             ]
+                         }
+                 },
 
     /**
      * And for rapid development, we have a watch set up that checks to see if
@@ -434,123 +451,123 @@ module.exports = function ( grunt ) {
      * But we don't need the same thing to happen for all the files. 
      */
     delta: {
-      /**
-       * By default, we want the Live Reload to work for all tasks; this is
-       * overridden in some tasks (like this file) where browser resources are
-       * unaffected. It runs by default on port 35729, which your browser
-       * plugin should auto-detect.
-       */
-      options: {
-        livereload: true,
-        interrupt: true
-      },
+             /**
+              * By default, we want the Live Reload to work for all tasks; this is
+              * overridden in some tasks (like this file) where browser resources are
+              * unaffected. It runs by default on port 35729, which your browser
+              * plugin should auto-detect.
+              */
+             options: {
+                        livereload: true,
+                        interrupt: true
+                      },
 
-      /**
-       * When the Gruntfile changes, we just want to lint it. In fact, when
-       * your Gruntfile changes, it will automatically be reloaded!
-       */
-      gruntfile: {
-        files: 'Gruntfile.js',
-        tasks: [ 'jshint:gruntfile' ],
-        options: {
-          livereload: false
-        }
-      },
+             /**
+              * When the Gruntfile changes, we just want to lint it. In fact, when
+              * your Gruntfile changes, it will automatically be reloaded!
+              */
+             gruntfile: {
+                          files: 'Gruntfile.js',
+                          tasks: [ 'jshint:gruntfile' ],
+                          options: {
+                            livereload: false
+                          }
+                        },
 
-      /**
-       * When our JavaScript source files change, we want to run lint them and
-       * run our unit tests.
-       */
-      jssrc: {
-        files: [ 
-          '<%= app_files.js %>'
-        ],
-        /* tasks: [ 'jshint:src', 'karma:unit:run', 'copy:build_appjs'], */
-        tasks: [ 'default'],
-        options: {
-          interrupt: true
-        }
+             /**
+              * When our JavaScript source files change, we want to run lint them and
+              * run our unit tests.
+              */
+             jssrc: {
+                      files: [ 
+                        '<%= app_files.js %>'
+                        ],
+                      /* tasks: [ 'jshint:src', 'karma:unit:run', 'copy:build_appjs'], */
+                      tasks: [ 'default'],
+                      options: {
+                        interrupt: true
+                      }
 
-      },
+                    },
 
-      /**
-       * When our CoffeeScript source files change, we want to run lint them and
-       * run our unit tests.
-       */
-      /*      coffeesrc: {
-        files: [ 
-          '<%= app_files.coffee %>'
-        ],
-        tasks: [ 'coffeelint:src', 'coffee:source', 'karma:unit:run', 'copy:build_appjs' ]
-      },
-      */
+             /**
+              * When our CoffeeScript source files change, we want to run lint them and
+              * run our unit tests.
+              */
+             /*      coffeesrc: {
+                     files: [ 
+                     '<%= app_files.coffee %>'
+                     ],
+                     tasks: [ 'coffeelint:src', 'coffee:source', 'karma:unit:run', 'copy:build_appjs' ]
+                     },
+                     */
 
-      /**
-       * When assets are changed, copy them. Note that this will *not* copy new
-       * files, so this is probably not very useful.
-       */
-      assets: {
-        files: [ 
-          'src/assets/**/*'
-        ],
-        tasks: [ 'copy:build_assets' ]
-      },
+             /**
+              * When assets are changed, copy them. Note that this will *not* copy new
+              * files, so this is probably not very useful.
+              */
+             assets: {
+                       files: [ 
+                         'src/assets/**/*'
+                                         ],
+                                         tasks: [ 'copy:build_assets' ]
+                                         },
 
-      /**
-       * When index.html changes, we need to compile it.
-       */
-      html: {
-        files: [ '<%= app_files.html %>' ],
-        tasks: [ 'index:build' ]
-      },
+                         /**
+                          * When index.html changes, we need to compile it.
+                          */
+                         html: {
+                           files: [ '<%= app_files.html %>' ],
+                           tasks: [ 'index:build' ]
+                         },
 
-      /**
-       * When our templates change, we only rewrite the template cache.
-       */
-      tpls: {
-        files: [ 
-          '<%= app_files.atpl %>', 
-          '<%= app_files.ctpl %>'
-        ],
-        tasks: [ 'html2js' ]
-      },
+             /**
+              * When our templates change, we only rewrite the template cache.
+              */
+             tpls: {
+                     files: [ 
+                       '<%= app_files.atpl %>', 
+                     '<%= app_files.ctpl %>'
+                       ],
+                     tasks: [ 'html2js' ]
+                   },
 
-      /**
-       * When the CSS files change, we need to compile and minify them.
-       */
-      less: {
-        files: [ 'src/**/*.less' ],
-        tasks: [ 'less:build' ]
-      },
+             /**
+              * When the CSS files change, we need to compile and minify them.
+              */
+             less: {
+                     files: [ 'src/**/*.less' ],
+                                       tasks: [ 'less:build' ]
+                                       },
 
-      /**
-       * When a JavaScript unit test file changes, we only want to lint it and
-       * run the unit tests. We don't want to do any live reloading.
-       */
-      jsunit: {
-        files: [
-          '<%= app_files.jsunit %>'
-        ],
-        tasks: [ 'jshint:test', 'karma:unit:run' ],
-        options: {
-          livereload: false
-        }
-      },
+             /**
+              * When a JavaScript unit test file changes, we only want to lint it and
+              * run the unit tests. We don't want to do any live reloading.
+              */
+             jsunit: {
+               files: [
+                 '<%= app_files.jsunit %>'
+                 ],
+               tasks: [ 'jshint:test', 'karma:unit:run' ],
+               options: {
+                 livereload: false
+               }
+             },
 
-      /**
-       * When a CoffeeScript unit test file changes, we only want to lint it and
-       * run the unit tests. We don't want to do any live reloading.
-       */
-      coffeeunit: {
-        files: [
-          '<%= app_files.coffeeunit %>'
-        ],
-        tasks: [ 'coffeelint:test', 'karma:unit:run' ],
-        options: {
-          livereload: false
-        }
-      }
-    }
+             /**
+              * When a CoffeeScript unit test file changes, we only want to lint it and
+              * run the unit tests. We don't want to do any live reloading.
+              */
+             coffeeunit: {
+                           files: [
+                             '<%= app_files.coffeeunit %>'
+                             ],
+                           tasks: [ 'coffeelint:test', 'karma:unit:run' ],
+                           options: {
+                             livereload: false
+                           }
+                         }
+           }
   };
 
   grunt.initConfig( grunt.util._.extend( taskConfig, userConfig ) );
@@ -574,19 +591,19 @@ module.exports = function ( grunt ) {
    * The `build` task gets your app ready to run for development and testing.
    */
   grunt.registerTask( 'build', [
-    'clean', 'html2js', 'jshint', 'coffeelint', 'coffee', 'less:build',
-    'concat:build_css', 'copy:build_app_assets', 'copy:build_vendor_assets',
-    'copy:build_appjs', 'copy:build_vendorjs', 'index:build', 'karmaconfig',
-    'karma:continuous' 
-  ]);
+      'clean', 'html2js', 'jshint', 'coffeelint', 'coffee', 'less:build',
+      'concat:build_css', 'copy:build_app_assets', 'copy:build_vendor_assets',
+      'copy:build_appjs', 'copy:build_vendorjs', 'index:build', 'karmaconfig',
+      'karma:continuous' 
+      ]);
 
   /**
    * The `compile` task gets your app ready for deployment by concatenating and
    * minifying your code.
    */
   grunt.registerTask( 'compile', [
-    'less:compile', 'copy:compile_assets', 'ngmin', 'concat:compile_js', 'uglify', 'index:compile'
-  ]);
+      'less:compile', 'copy:compile_assets', 'ngmin', 'concat:compile_js', 'uglify', 'index:compile'
+      ]);
 
   /**
    * A utility function to get all app JavaScript sources.
@@ -623,14 +640,14 @@ module.exports = function ( grunt ) {
 
     grunt.file.copy('src/index.html', this.data.dir + '/index.html', { 
       process: function ( contents, path ) {
-        return grunt.template.process( contents, {
-          data: {
-            scripts: jsFiles,
-            styles: cssFiles,
-            version: grunt.config( 'pkg.version' )
-          }
-        });
-      }
+                 return grunt.template.process( contents, {
+                   data: {
+                           scripts: jsFiles,
+                        styles: cssFiles,
+                        version: grunt.config( 'pkg.version' )
+                         }
+                 });
+               }
     });
   });
 
@@ -641,15 +658,15 @@ module.exports = function ( grunt ) {
    */
   grunt.registerMultiTask( 'karmaconfig', 'Process karma config templates', function () {
     var jsFiles = filterForJS( this.filesSrc );
-    
+
     grunt.file.copy( 'karma/karma-unit.tpl.js', grunt.config( 'build_dir' ) + '/karma-unit.js', { 
       process: function ( contents, path ) {
-        return grunt.template.process( contents, {
-          data: {
-            scripts: jsFiles
-          }
-        });
-      }
+                 return grunt.template.process( contents, {
+                   data: {
+                           scripts: jsFiles
+                         }
+                 });
+               }
     });
   });
 
