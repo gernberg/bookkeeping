@@ -37,15 +37,14 @@ angular.module( 'bookie.account', [
 /**
  * And of course we define a controller for our route.
  */
-.controller( 'AccountsCtrl', function AccountsController( $scope, AccountRes, $state, CompanyService, $rootScope) {
-    $rootScope.loggedIn = true;
+.controller( 'AccountsCtrl', function AccountsController( $scope, AccountRes, $state, CompanyService) {
     $scope.accounts = AccountRes.query();
     $scope.gridOptions = {
       data: 'accounts',
       columnDefs: [
         {field: 'id', displayName: 'Id'},
-        {field: 'account_name', displayName: 'Account Name'},
-        {field: 'account_number', displayName: 'Account Number'},
+        {field: 'account_name', displayName: 'Club Name'},
+        {field: 'account_number', displayName: 'Contact Officer'},
          {displayName: 'Edit', cellTemplate: '<button id="editBtn" type="button" class="btn-small" ng-click="editAccount(row.entity)" >Edit</button> '}
            
       ],
@@ -60,15 +59,14 @@ angular.module( 'bookie.account', [
       $state.transitionTo('account', { accountId: account.id });
     };
 })
-.controller('AccountCtrl', function AccountController($scope, AccountRes, $state, $stateParams, $rootScope){
-  $rootScope.loggedIn = true;
+.controller('AccountCtrl', function AccountController($scope, AccountRes, $state, $stateParams){
   $scope.accountId = parseInt($stateParams.accountId, 10);
   if($scope.accountId){
     $scope.account = AccountRes.get({id: $scope.accountId});
   }else{
     $scope.account = new AccountRes();
   }
-
+  
   $scope.cancel = function(){
     $state.transitionTo("accounts");
   };

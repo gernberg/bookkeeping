@@ -25,7 +25,7 @@ angular.module( 'bookie', [
   $rootScope.fiscalYearId = localStorageService.get('fiscalYearId');
   $rootScope.loggedIn = false;
   /*
-  onRouteChangeOff = $rootScope.$on('$locationChangeStart', function(event, newUrl){
+   $rootScope.$on('$locationChangeStart', function(event, newUrl){
     console.log(newUrl, event);
     onRouteChangeOff(); //Stop listening for location changes
     if($rootScope.companyId  == null){
