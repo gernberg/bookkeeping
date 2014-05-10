@@ -5,7 +5,7 @@ FactoryGirl.define do
     date Date.new(Time.now.year)
     voucher_rows {[
       FactoryGirl.build(:voucher_row, debit: 100),
-      FactoryGirl.build(:voucher_row, credit: -100)
+      FactoryGirl.build(:voucher_row, credit: 100)
     ]}
   end
 end

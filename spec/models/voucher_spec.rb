@@ -147,9 +147,18 @@ describe Voucher do
     end
   end
 
-  pending "must have at least 2 rows"
-  pending "must balance"
+  it "is invalid with one row" do
+    @voucher = FactoryGirl.build(:voucher, :voucher_rows => [FactoryGirl.build(:voucher_row, debit: 100)])
+    @voucher.should_not be_valid
+  end
+  it "is invalid without rows" do 
+    @voucher = FactoryGirl.build(:voucher, :voucher_rows => [])
+    @voucher.should_not be_valid
+  end
 
-
+  it "is invalid when not in balance" do 
+    @voucher = FactoryGirl.build(:voucher, :voucher_rows => [FactoryGirl.build(:voucher_row, debit: 100)])
+    @voucher.should_not be_valid
+  end
 
 end
