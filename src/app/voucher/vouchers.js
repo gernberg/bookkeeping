@@ -41,15 +41,29 @@ angular.module( 'bookie.voucher', [
 .controller('VoucherCtrl', function VoucherCtrl($scope, VoucherRes, $state, $stateParams, $rootScope, AccountRes){
   $rootScope.loggedIn = true;
   $scope.voucherId = parseInt($stateParams.voucherId, 10);
-  if($scope.voucherId){
-    $scope.voucher = VoucherRes.get({id: $scope.voucherId});
-  }else{
-    $scope.voucher = new VoucherRes();
-    $scope.voucher.voucher_rows = [
+  var loadVouchers = function(){
+  $scope.vouchers_loaded = false;
+  $scope.vouchers = VoucherRes.query(function(res){
+    $scope.vouchers_loaded = true;
+    if($scope.voucher.date === undefined){
+      $scope.voucher.date = res[0].date;
+    }
+  });
+  };
+  var newVoucher = function(){
+    loadVouchers();
+    voucher = new VoucherRes();
+    voucher.voucher_rows = [
       {},
       {},
       {}
     ];
+    return voucher;
+  };
+  if($scope.voucherId){
+    $scope.voucher = VoucherRes.get({id: $scope.voucherId});
+  }else{
+    $scope.voucher = newVoucher();
   }
 
   $scope.accounts = AccountRes.query();
@@ -129,6 +143,8 @@ angular.module( 'bookie.voucher', [
   };
 
   $scope.submit = function(){
+    // reset errors
+    $scope.errors = [];
     if(true){
       $scope.voucher.voucher_rows_attributes = [];
       for(var i = 0; i < $scope.voucher.voucher_rows.length; i++){
@@ -139,7 +155,12 @@ angular.module( 'bookie.voucher', [
           debit: $scope.voucher.voucher_rows[i].debit
             });
       }
-      $scope.voucher.$save();
+      $scope.voucher.$save(function(response){
+        $scope.voucher = newVoucher();
+      }, function(response){
+        console.log(response.data);
+        $scope.errors = response.data; 
+      });
       return false;
     }
     if($scope.voucherId){

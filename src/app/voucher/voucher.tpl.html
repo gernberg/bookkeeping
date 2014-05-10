@@ -1,23 +1,33 @@
 <div class="panel panel-default">
   <div class="panel-heading">
     <h1 class="panel-title">
-      Voucher {{voucher.number}}
+      Voucher <span ng-show="vouchers_loaded">{{vouchers[0].number+1}}</span>
     </h1>
   </div>
   <div class="panel-body">
     <div class="form-group">
       <div class="row">
         <div class="col-sm-6">
-          <label>
-            Title
-          </label>
-          <input class="form-control" ng-model="voucher.title">
+          <div ng-class="{'has-error has-feedback': errors.title}">
+            <label>
+              Title
+            </label>
+            <input class="form-control" ng-model="voucher.title">
+            <span class="help-block" ng-repeat="error in errors.title track by $index">
+              {{error}}
+            </span>
+          </div>
         </div>
         <div class="col-sm-3">
-          <label>
-            Date
-          </label>
+          <div ng-class="{'has-error has-feedback': errors.date}">
+            <label>
+              Date
+            </label>
             <input class="form-control" ng-model="voucher.date">
+            <span class="help-block" ng-repeat="error in errors.date track by $index">
+              {{error}}
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -73,18 +83,18 @@
       </div>
       <div class="col-sm-3">
         <div class="row form-group">
-      <div class="col-sm-12">
-          <button class="pull-right btn btn-lg btn-primary" ng-click="submit()">
-            Save
-          </button>
-        </div>
+          <div class="col-sm-12">
+            <button class="pull-right btn btn-lg btn-primary" ng-click="submit()">
+              Save
+            </button>
+          </div>
         </div>
         <div class="row form-group">
-      <div class="col-sm-12">
-          <button class="pull-right btn btn-danger" ng-click="removeVoucher()">
-            Remove
-          </button>
-        </div>
+          <div class="col-sm-12">
+            <button class="pull-right btn btn-danger" ng-click="removeVoucher()">
+              Remove
+            </button>
+          </div>
         </div>
       </div>
     </div>
