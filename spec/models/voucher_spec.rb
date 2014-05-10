@@ -106,8 +106,50 @@ describe Voucher do
     @voucher.to_s.should eq("1")
   end
 
+
+  describe "from array" do 
+    before do
+      @fiscal_year = FactoryGirl.create(:fiscal_year, :start_date => 2.years.ago, :end_date => 1.year.ago)
+      @voucher_params = {
+        date: 18.months.ago,
+        voucher_rows_attributes: [
+          {
+            account_id: FactoryGirl.create(:account).id,
+            credit: 100
+          },
+          {
+            account_id: FactoryGirl.create(:account).id,
+            debit: 100
+          }
+        ],
+        title: "Foo"
+      }
+
+    end
+    it "is valid" do
+      @voucher = Voucher.new(@voucher_params)
+      @voucher.fiscal_year = @fiscal_year
+      @voucher.should be_valid
+    end
+    it "has two rows" do
+      @voucher = Voucher.new(@voucher_params)
+      @voucher.fiscal_year = @fiscal_year
+      @voucher.save
+      @voucher.voucher_rows.count.should eq(2)
+      Voucher.find(@voucher.id).voucher_rows.count.should eq(2)
+    end
+    it "changes total voucher_rowcount by two" do
+      expect{
+        @voucher = Voucher.new(@voucher_params)
+        @voucher.fiscal_year = @fiscal_year
+        @voucher.save
+      }.to change(VoucherRow, :count).by(2)
+    end
+  end
+
   pending "must have at least 2 rows"
   pending "must balance"
+
 
 
 end

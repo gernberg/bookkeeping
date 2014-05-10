@@ -61,7 +61,10 @@ angular.module( 'bookie.voucher', [
     return voucher;
   };
   if($scope.voucherId){
-    $scope.voucher = VoucherRes.get({id: $scope.voucherId});
+    $scope.voucher = VoucherRes.get({id: $scope.voucherId}, function(res){
+      // Add empty row at the end.
+      res.voucher_rows.push({}); 
+    });
   }else{
     $scope.voucher = newVoucher();
   }
