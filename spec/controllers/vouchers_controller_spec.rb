@@ -51,7 +51,17 @@ describe VouchersController do
 
     it "new voucher belongs to current fiscal year" do
       expect{
-        post :create, company_id: @user_company.id, fiscal_year_id: @fiscal_year.id, voucher: FactoryGirl.attributes_for(:voucher), format: :json
+        voucher = {
+          title: "Title test",
+          date: @user_voucher.date,
+          fiscal_year_id: @user_voucher.fiscal_year.id
+        }
+        voucher[:voucher_rows_attributes] = [
+          {account_id: FactoryGirl.create(:account).id, debit: 100},
+          {account_id: FactoryGirl.create(:account).id, credit: 100}
+        ]
+        #
+        post :create, company_id: @user_company.id, fiscal_year_id: @fiscal_year.id, voucher: voucher, format: :json 
         @fiscal_year.reload
       }.to change(@fiscal_year.vouchers, :count).by(1)
     end
