@@ -31,6 +31,10 @@ angular.module( 'bookie.voucher', [
   $rootScope.loggedIn = true;
   $scope.vouchers = VoucherRes.query();
   console.log($scope.vouchers);
+  $scope.openVoucherByNumber = function(number){
+    VoucherRes.
+  };
+
   $scope.newVoucher = function(){
     $state.transitionTo('voucher');
   };
@@ -60,6 +64,7 @@ angular.module( 'bookie.voucher', [
     ];
     return voucher;
   };
+
   if($scope.voucherId){
     $scope.voucher = VoucherRes.get({id: $scope.voucherId}, function(res){
       // Add empty row at the end.
@@ -186,6 +191,14 @@ angular.module( 'bookie.voucher', [
 .factory( 'VoucherCache', function($cacheFactory){
   var cache = $cacheFactory("VC");
   return cache;
+})
+.factory( 'VoucherRes', function ( $resource, CompanyService, FiscalService, VoucherCache)  {
+  return $resource('../companies/:cid/fiscal_years/:fid/vouchers/:id.json', {fid: FiscalService.currentFiscalYearId(), cid: CompanyService.currentCompanyId(), id:'@id'}, {
+    'query' : {method: 'GET', isArray: true
+    },
+         'update': {method: 'PATCH'}
+
+  });
 })
 .factory( 'VoucherRes', function ( $resource, CompanyService, FiscalService, VoucherCache)  {
   return $resource('../companies/:cid/fiscal_years/:fid/vouchers/:id.json', {fid: FiscalService.currentFiscalYearId(), cid: CompanyService.currentCompanyId(), id:'@id'}, {

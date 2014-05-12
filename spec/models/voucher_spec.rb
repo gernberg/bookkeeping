@@ -120,7 +120,9 @@ describe Voucher do
           {
             account_id: FactoryGirl.create(:account).id,
             debit: 100
-          }
+          },
+          {
+          } # totaly empty row just to stir it up :-)
         ],
         title: "Foo"
       }

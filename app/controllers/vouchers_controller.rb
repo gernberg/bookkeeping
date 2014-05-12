@@ -26,6 +26,7 @@ class VouchersController < ApplicationController
   # POST /vouchers
   # POST /vouchers.json
   def create
+    params[:voucher][:voucher_rows_attributes] = params[:voucher_rows_attributes]
     @voucher = Voucher.new(voucher_params)
     @voucher.fiscal_year = current_user.companies.find(params[:company_id]).fiscal_years.find(params[:fiscal_year_id])
 

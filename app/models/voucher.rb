@@ -8,6 +8,8 @@ class Voucher < ActiveRecord::Base
 
   validate :validate_rows
 
+  before_validation :remove_empty_rows
+
   accepts_nested_attributes_for :voucher_rows
 
   has_paper_trail
@@ -15,7 +17,9 @@ class Voucher < ActiveRecord::Base
   before_create :increase_number
   before_destroy :check_if_last
 
-
+  def remove_empty_rows
+    self.voucher_rows = self.voucher_rows.delete_if {|row| row.account == nil}
+  end
   def check_if_last
     number == last_number
   end

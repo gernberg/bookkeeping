@@ -18,7 +18,7 @@ angular.module( 'bookie.dashboard', [
     data: {pageTitle: "Dashboard"}
   })
 
-.controller('DasboardCtrl', ($scope, $http, $location,
+.controller('DasboardCtrl', ($scope, $http, $location, $state,
   $rootScope, AccountRes, VoucherRes, FiscalYearRes) ->
   $rootScope.loggedIn = true
   $scope.data = [
@@ -46,7 +46,8 @@ angular.module( 'bookie.dashboard', [
     (label:"Genomsnittlig bokföringstid", data:13)
     (label:"Ojoj", data:17)
   ]
-
+  $scope.showVoucher = (voucher) ->
+    $state.transitionTo('voucher', {voucherId: voucher.id})
 )
 .factory( 'VoucherRes', ($resource, FiscalService, CompanyService) ->
   $resource('../companies/:cid/fiscal_years/:fid/vouchers/:id.json', {
