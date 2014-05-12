@@ -169,6 +169,11 @@ angular.module( 'bookie.voucher', [
       }, function(response){
         console.log(response.data);
         $scope.errors = response.data; 
+        if($scope.errors.voucher_rows){
+          angular.forEach($scope.errors.voucher_rows, function(key, val){
+            alert(val);
+          });
+        }
       });
       return false;
     }
