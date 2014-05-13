@@ -77,7 +77,10 @@ module.exports = {
       'vendor/angular-local-storage/angular-local-storage.js',
       'vendor/angular-bootstrap-datetimepicker/src/js/datetimepicker.js',
       'vendor/typeahead.js/dist/typeahead.jquery.min.js',
-      'src/assets/handlebars-v1.3.0.js'
+      'src/assets/handlebars-v1.3.0.js',
+      'vendor/pdfmake/build/pdfmake.min.js',
+      'vendor/pdfmake/build/vfs_fonts.js',
+      'vendor/jspdf/dist/jspdf.min.js'
 
     ],
     css: [
