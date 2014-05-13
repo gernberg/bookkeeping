@@ -73,8 +73,8 @@ link: function(scope, elem, attrs){
 
 
   var stack = true,
-bars = true,
-lines = 0,
+bars = false,
+lines = true,
 steps = true;
 var options = {
   series: {

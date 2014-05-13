@@ -51,6 +51,8 @@ angular.module( 'bookie.dashboard', [
     (label:"Accounts payable", data:40000, color:"#FF7F76")
     (label:"Long term loans", data:10000, color:"#FF8F86")
   ]
+  $scope.newVoucher = () ->
+    $state.transitionTo('voucher')
   $scope.showVoucher = (voucher) ->
     $state.transitionTo('showVoucher', {voucherId: voucher.id})
 )
