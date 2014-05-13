@@ -28,6 +28,8 @@ angular.module( 'bookie.dashboard', [
   $scope.accounts = AccountRes.query()
   $scope.vouchers = VoucherRes.query()
   $scope.fiscal_years = FiscalYearRes.query()
+  $scope.result = -100000
+  $scope.balance = 100000
   $scope.monthly = [
     [[1,3], [2,3], [3,10],[4,0],[5,50000],[6,70]],
     [[1,3], [2,-3], [3,-10], [4,-10], [5,-10]],
@@ -45,9 +47,9 @@ angular.module( 'bookie.dashboard', [
     (label:"Current assets", data:30000, color:"#4D9CDF")
     (label:"Liquid assets", data:20000, color:"#5DACFF")
     (label:"Absolute liquid assets", data:90000, color:"#6DBCFF")
-    (label:"Current assets", data:50000, color:"#FF6F66")
-    (label:"Liquid assets", data:40000, color:"#FF7F76")
-    (label:"Absolute liquid assets", data:80000, color:"#FF8F86")
+    (label:"Salaries payable", data:50000, color:"#FF6F66")
+    (label:"Accounts payable", data:40000, color:"#FF7F76")
+    (label:"Long term loans", data:10000, color:"#FF8F86")
   ]
   $scope.showVoucher = (voucher) ->
     $state.transitionTo('showVoucher', {voucherId: voucher.id})
