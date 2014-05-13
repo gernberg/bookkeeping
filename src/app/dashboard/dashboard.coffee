@@ -11,14 +11,14 @@ angular.module( 'bookie.dashboard', [
     url: '/dashboard',
     views: {
       "main":{
-      controller: "DasboardCtrl",
+      controller: "DashboardCtrl",
       templateUrl: "dashboard/dashboard.tpl.html"
       }
     },
     data: {pageTitle: "Dashboard"}
   })
 
-.controller('DasboardCtrl', ($scope, $http, $location, $state,
+.controller('DashboardCtrl', ($scope, $http, $location, $state,
   $rootScope, AccountRes, VoucherRes, FiscalYearRes) ->
   $rootScope.loggedIn = true
   $scope.data = [
@@ -34,20 +34,23 @@ angular.module( 'bookie.dashboard', [
     [[1,6], [2,-3]]
   ]
   $scope.assets = [
-    (label:"Kundfodringar", data:40000)
-    (label:"Tillgångar", data:120000)
+    (label:"Domestic sales", data:140000, color:"#C3CC7C")
+    (label:"International sales", data:90000, color:"#D3DC8C")
+    (label:"Supplies", data:140000, color:"#FF6F66")
+    (label:"Staff", data:140000, color:"#FF7F76")
+    (label:"Other expenses", data:90000, color:"#FF8F86")
   ]
-  $scope.budget = [
-    (label:"Omsättning", data:15000, color:"#090")
-    (label:"Budgeterat för period", color:"#900", data:3000)
-    (label:"Budgeterat för period", color:"#ccc", data:17000)
-  ]
+  #C3CC7C
   $scope.what = [
-    (label:"Genomsnittlig bokföringstid", data:13)
-    (label:"Ojoj", data:17)
+    (label:"Current assets", data:30000, color:"#4D9CDF")
+    (label:"Liquid assets", data:20000, color:"#5DACFF")
+    (label:"Absolute liquid assets", data:90000, color:"#6DBCFF")
+    (label:"Current assets", data:50000, color:"#FF6F66")
+    (label:"Liquid assets", data:40000, color:"#FF7F76")
+    (label:"Absolute liquid assets", data:80000, color:"#FF8F86")
   ]
   $scope.showVoucher = (voucher) ->
-    $state.transitionTo('voucher', {voucherId: voucher.id})
+    $state.transitionTo('showVoucher', {voucherId: voucher.id})
 )
 .factory( 'VoucherRes', ($resource, FiscalService, CompanyService) ->
   $resource('../companies/:cid/fiscal_years/:fid/vouchers/:id.json', {
