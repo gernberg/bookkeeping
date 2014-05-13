@@ -90,53 +90,15 @@
 </div>
 <div class="container-fluid">
   <div class="row">
-    <div class="col-sm-2" ng-show="$root.loggedIn">
-      <ul class="hidden-print nav nav-pills nav-stacked">
-        <li ui-route="/dashboard" ng-class="{active:$uiRoute}">
-        <a href="#/dashboard" >
-          <span class="glyphicon glyphicon-asterisk"></span>
-          Dashboard
-        </a>
-        </li>
-        <li ui-route="/vouchers" ng-class="{active:$uiRoute}">
-        <a href="#/vouchers">
-          <span class="glyphicon glyphicon-list"></span>
-          &nbsp;
-          Vouchers
-        </a>
-        </li>
-        <li ui-route="/reports" ng-class="{active:$uiRoute}">
-        <a href="#/reports">
-          <span class="glyphicon glyphicon-signal"></span>
-          &nbsp;
-          Reports
-        </a>
-        </li>
-        <li ui-route="/accounts" ng-class="{active:$uiRoute}">
-        <a href="#/accounts">
-          <span class="glyphicon glyphicon-list"></span>
-          &nbsp;
-          Accounts
-        </a>
-        </li>
-        <li ui-route="/settings" ng-class="{active:$uiRoute}">
-        <a href="#/settings">
-          <span class="glyphicon glyphicon-cog"></span>
-          &nbsp;
-          Settings
-        </a>
-        </li>
-      </ul>
-    </div>
-    <div ng-class="($root.loggedIn ? 'col-sm-10' : 'container')">
+    <div class="container">
       <div ui-view="main"></div>
     </div>
   </div>
   <div class="row">
     <div class="container">
       <footer class="footer">
-      Bookie version: 
-      <%= version %>
+        Bookie version: 
+        <%= version %>
       </footer>
     </div>
   </div>
