@@ -33,7 +33,6 @@ describe FiscalYearsController do
       expect{
         put :update, id:@fiscal_year, company_id: @user_company.id, fiscal_year: {start_date: 8.years.ago, end_date: 7.years.ago}
         @fiscal_year.reload
-        puts @fiscal_year.inspect
       }.to change(@fiscal_year, :start_date).to(8.years.ago.to_date)
     end
     it "shows companies fiscal year" do

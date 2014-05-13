@@ -21,3 +21,12 @@
 
 en:
   hello: "Hello world"
+  activerecord:
+    errors:
+      models:
+        voucher:
+          attributes:
+            voucher_rows:
+              must_exist: "A voucher needs rows"
+              must_balance: "Rows must balance"
+

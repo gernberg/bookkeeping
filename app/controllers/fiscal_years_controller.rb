@@ -5,7 +5,7 @@ class FiscalYearsController < ApplicationController
   # GET /fiscal_years
   # GET /fiscal_years.json
   def index
-    @fiscal_years = current_user.companies.find(params[:company_id]).fiscal_years.all
+    @fiscal_years = current_user.companies.find(params[:company_id]).fiscal_years
   end
 
   # GET /fiscal_years/1
@@ -44,13 +44,11 @@ class FiscalYearsController < ApplicationController
   # PATCH/PUT /fiscal_years/1.json
   def update
     @fiscal_year = current_user.companies.find(params[:company_id]).fiscal_years.find(params[:id])
-    puts @fiscal_year.inspect
     respond_to do |format|
       if @fiscal_year.update(fiscal_year_params)
         format.html { redirect_to company_fiscal_year_url(params[:company_id], @fiscal_year), notice: 'Fiscal year was successfully updated.' }
         format.json { head :no_content }
       else
-        p @fiscal_year.errors.inspect
         format.html { render action: 'edit' }
         format.json { render json: @fiscal_year.errors, status: :unprocessable_entity }
       end

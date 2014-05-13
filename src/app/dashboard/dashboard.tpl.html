@@ -11,9 +11,12 @@
       </h3>
     </div>
     <div class="panel-body">
-  <ul>
+  <ul class="list-unstyled">
     <li ng-repeat="voucher in vouchers">
-      {{voucher.title}}
+      <a ng-click="showVoucher(voucher)">
+        #{{voucher.number}}
+        {{voucher.title}}
+      </a>
     </li>
   </ul>
   </div>
@@ -32,21 +35,3 @@
     <pie-chart style="display:block;height:250px;width:100%" ng-model="what"></chart>
   </div>
 </div>
-<ul>
-  <li ng-repeat="d in fiscal_years">
-  a
-  {{d.start_date}} -
-  {{d.end_date}}
-  </li>
-</ul>
-<ul>
-  <li ng-repeat="d in vouchers">b
-
-  {{d.title}}
-  </li>
-</ul>
-<ul>
-  <li ng-repeat="d in accounts">
-  c {{d.account_name}}
-  </li>
-</ul>
