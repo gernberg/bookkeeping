@@ -1,0 +1,18 @@
+<div>
+  <h1>Companies</h1>
+</div>
+<ul class="list-group">
+  <li class="list-group-item"><b>Switch to Company</b></li>
+  <li ng-repeat="company in companies" class="list-group-item">
+  <button ng-click="selectCompany(company)" class="btn btn-success" >
+    <b>
+      {{company.name}}
+    </b>
+    <span class="glyphicon glyphicon-play"></span>
+  </button>
+  </li>
+</ul>
+<button ng-click="newCompany()" class="btn btn-primary" >
+  <span class="glyphicon glyphicon-plus"></span>
+  New company
+</button>

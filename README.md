@@ -26,7 +26,7 @@ Ruby on Rails
 ### 2. Client framework
 AngularJS
 ### 3. Persistance
-Since the data I'm going to store works perfectly nice with a RDBMS (MySQL) I'm not going to try a NoSQL (eventhough that could be fun I feel like NoSQL)
+Since the data I'm going to store works perfectly nice with a RDBMS (MySQL) I'm not going to try a NoSQL (eventhough that could be fun I feel like NoSQL is not a great choice for this app)
 ### 4. Authentication
 The application will target companies and will have the authentication in the framework and provide LinkedIn / Facebook / Google as an alternative.
 ### 5. Multiple clients with different functionality and if you intend to use a 

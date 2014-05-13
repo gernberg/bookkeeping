@@ -3,5 +3,6 @@ class VoucherRow < ActiveRecord::Base
 
   belongs_to :account
   belongs_to :voucher
-  validates_presence_of :account, :voucher
+  validates_presence_of :account
+
 end

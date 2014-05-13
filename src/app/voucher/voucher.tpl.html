@@ -1,0 +1,125 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h1 class="panel-title">
+      Voucher <span ng-show="vouchers_loaded">{{vouchers[0].number+1}}</span>
+      <span class="pull-right">
+        Last voucher: <button class="btn btn-default btn-xs" ng-click='editVoucher(lastVoucher)'>#{{lastVoucher.number}} ({{lastVoucher.title}})</button>
+      </span>
+    </h1>
+  </div>
+  <div class="panel-body">
+    <div class="form-group">
+      <div class="row">
+        <div class="col-sm-6">
+          <div ng-class="{'has-error has-feedback': errors.title}">
+            <label class="control-label">
+              Title
+            </label>
+            <input id="voucher-title" class="form-control" ng-model="voucher.title">
+            <span class="help-block" ng-repeat="error in errors.title track by $index">
+              {{error}}
+            </span>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div ng-class="{'has-error has-feedback': errors.date}">
+            <label class="control-label">
+              Date
+            </label>
+            <input class="form-control" ng-model="voucher.date">
+            <span class="help-block" ng-repeat="error in errors.date track by $index">
+              {{error}}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <label>
+          Account
+        </label>
+      </div>
+      <div class="col-sm-3">
+        <label>
+          Debit
+        </label>
+      </div>
+      <div class="col-sm-3">
+        <label>
+          Credit
+        </label>
+      </div>
+    </div>
+    <div class="row" ng-repeat="row in voucher.voucher_rows">
+      <div class="col-sm-6">
+        <div class="row">
+          <div class="col-sm-3">
+            <input class="form-control input-sm" auto-complete ui-items="accounts" ng-model="row.account" ng-blur="checkIfFilled(voucher)" ng-enter="focusNext(this)" ng-focus="checkIfFilled(voucher)">
+          </div>
+          <div class="col-sm-9">
+            <label>
+              {{findAccount(row.account)}}
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <input currency-input=""  class="input-sm text-right form-control" ng-model="row.debit" ng-change="checkRow(row, 'debit')" ng-enter="autoFillRow(row)" ng->
+      </div>
+      <div class="col-sm-3">
+        <input currency-input=""  class="input-sm text-right form-control" ng-model="row.credit" ng-change="checkRow(row)" ng-blur="autoFillRow(row)" ng-enter="finishRow(row)">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+      </div>
+      <div class="col-sm-3">
+        <p>
+        {{sumDebit(voucher)}}
+        </p>
+      </div>
+      <div class="col-sm-3">
+        <p>
+        {{sumCredit(voucher)}}
+        </p>
+      </div>
+    </div>
+    <div class="bg-warning row" ng-show="(sumDebit(voucher)-sumCredit(voucher)) !== 0">
+      <div class="col-sm-6 text-right">
+        Warning - difference
+      </div>
+      <div class="col-sm-3">
+        <label ng-show="(sumDebit(voucher)-sumCredit(voucher)) < 0">
+          {{sumCredit(voucher)-sumDebit(voucher)}}
+        </label>
+      </div>
+      <div class="col-sm-3 ">
+        <label ng-show="(sumDebit(voucher)-sumCredit(voucher)) > 0">
+          {{sumDebit(voucher)-sumCredit(voucher)}}
+        </label>
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-sm-9">
+      </div>
+      <div class="col-sm-3">
+        <div class="row form-group">
+          <div class="col-sm-12">
+            <button class="pull-right btn btn-lg btn-primary" ng-click="submit()">
+              Save
+            </button>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-sm-12">
+            <button class="pull-right btn btn-danger" ng-click="removeVoucher()">
+              Remove
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -37,15 +37,15 @@ angular.module( 'bookie.account', [
 /**
  * And of course we define a controller for our route.
  */
-.controller( 'AccountsCtrl', function AccountsController( $scope, AccountRes, $state, $rootScope) {
-    $scope.accounts = AccountRes.query();
+.controller( 'AccountsCtrl', function AccountsController( $scope, AccountRes, $state, CompanyService, $rootScope) {
     $rootScope.loggedIn = true;
+    $scope.accounts = AccountRes.query();
     $scope.gridOptions = {
       data: 'accounts',
       columnDefs: [
         {field: 'id', displayName: 'Id'},
-        {field: 'account_name', displayName: 'Club Name'},
-        {field: 'account_number', displayName: 'Contact Officer'},
+        {field: 'account_name', displayName: 'Account Name'},
+        {field: 'account_number', displayName: 'Account Number'},
          {displayName: 'Edit', cellTemplate: '<button id="editBtn" type="button" class="btn-small" ng-click="editAccount(row.entity)" >Edit</button> '}
            
       ],
@@ -60,14 +60,15 @@ angular.module( 'bookie.account', [
       $state.transitionTo('account', { accountId: account.id });
     };
 })
-.controller('AccountCtrl', function AccountController($scope, AccountRes, $state, $stateParams){
+.controller('AccountCtrl', function AccountController($scope, AccountRes, $state, $stateParams, $rootScope){
+  $rootScope.loggedIn = true;
   $scope.accountId = parseInt($stateParams.accountId, 10);
   if($scope.accountId){
     $scope.account = AccountRes.get({id: $scope.accountId});
   }else{
     $scope.account = new AccountRes();
   }
-  
+
   $scope.cancel = function(){
     $state.transitionTo("accounts");
   };
@@ -75,10 +76,12 @@ angular.module( 'bookie.account', [
   $scope.submit = function(){
     if($scope.accountId){
       $scope.account.$update(function(response){
+        AccountCache.removeAll();
         $state.transitionTo('accounts');
       });
     }else{
       $scope.account.$save(function(response){
+        AccountCache.removeAll();
         $state.transitionTo('accounts');
       });
     }
@@ -87,8 +90,18 @@ angular.module( 'bookie.account', [
 /**
  * Add a resource to allow us to get at the server
  */
-.factory( 'AccountRes', function ( $resource )  {
-  return $resource('../accounts/:id.json', {id:'@id'}, {'update': {method: 'PATCH'}});
+.factory( 'AccountCache', function($cacheFactory){
+  var cache = $cacheFactory("AC");
+  return cache;
+})
+.factory( 'AccountRes', function ( $resource, CompanyService, AccountCache)  {
+  //return $resource('../accounts/:id.json', {id:'@id'}, {'update': {method: 'PATCH'}});
+  return $resource('../companies/:vid/accounts/:id.json', {vid:CompanyService.currentCompanyId}, {'update': {method: 'PATCH'},
+    'query': {
+      cache: AccountCache,
+      isArray: true
+    }
+  });
 });
 
 
