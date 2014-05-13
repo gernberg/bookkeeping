@@ -20,7 +20,7 @@
 </head>
 <body ng-class="{'logged-in': $root.loggedIn}">
 <div ng-switch on="$root.loggedIn">
-<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" ng-switch-when="true">
+<nav class="hidden-print navbar navbar-inverse navbar-fixed-top" role="navigation" ng-switch-when="true">
   <div class="container-fluid">
     <div class="navbar-header">
       <a href='#' class="navbar-brand">
@@ -91,7 +91,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-sm-2" ng-show="$root.loggedIn">
-      <ul class="nav nav-pills nav-stacked">
+      <ul class="hidden-print nav nav-pills nav-stacked">
         <li ui-route="/dashboard" ng-class="{active:$uiRoute}">
         <a href="#/dashboard" >
           <span class="glyphicon glyphicon-asterisk"></span>

@@ -76,10 +76,12 @@ angular.module( 'bookie.account', [
   $scope.submit = function(){
     if($scope.accountId){
       $scope.account.$update(function(response){
+        AccountCache.removeAll();
         $state.transitionTo('accounts');
       });
     }else{
       $scope.account.$save(function(response){
+        AccountCache.removeAll();
         $state.transitionTo('accounts');
       });
     }
@@ -88,9 +90,18 @@ angular.module( 'bookie.account', [
 /**
  * Add a resource to allow us to get at the server
  */
-.factory( 'AccountRes', function ( $resource, CompanyService)  {
+.factory( 'AccountCache', function($cacheFactory){
+  var cache = $cacheFactory("AC");
+  return cache;
+})
+.factory( 'AccountRes', function ( $resource, CompanyService, AccountCache)  {
   //return $resource('../accounts/:id.json', {id:'@id'}, {'update': {method: 'PATCH'}});
-  return $resource('../companies/:vid/accounts/:id.json', {vid:CompanyService.currentCompanyId}, {'update': {method: 'PATCH'}});
+  return $resource('../companies/:vid/accounts/:id.json', {vid:CompanyService.currentCompanyId}, {'update': {method: 'PATCH'},
+    'query': {
+      cache: AccountCache,
+      isArray: true
+    }
+  });
 });
 
 

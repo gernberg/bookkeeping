@@ -43022,20 +43022,35 @@ angular.module('bookie.account', [
     $scope.submit = function () {
       if ($scope.accountId) {
         $scope.account.$update(function (response) {
+          AccountCache.removeAll();
           $state.transitionTo('accounts');
         });
       } else {
         $scope.account.$save(function (response) {
+          AccountCache.removeAll();
           $state.transitionTo('accounts');
         });
       }
     };
   }
+]).factory('AccountCache', [
+  '$cacheFactory',
+  function ($cacheFactory) {
+    var cache = $cacheFactory('AC');
+    return cache;
+  }
 ]).factory('AccountRes', [
   '$resource',
   'CompanyService',
-  function ($resource, CompanyService) {
-    return $resource('../companies/:vid/accounts/:id.json', { vid: CompanyService.currentCompanyId }, { 'update': { method: 'PATCH' } });
+  'AccountCache',
+  function ($resource, CompanyService, AccountCache) {
+    return $resource('../companies/:vid/accounts/:id.json', { vid: CompanyService.currentCompanyId }, {
+      'update': { method: 'PATCH' },
+      'query': {
+        cache: AccountCache,
+        isArray: true
+      }
+    });
   }
 ]);
 angular.module('bookie', [
@@ -51619,7 +51634,7 @@ angular.module("home/references.tpl.html", []).run(["$templateCache", function($
 
 angular.module("voucher/showVoucher.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("voucher/showVoucher.tpl.html",
-    "<div class=\"panel panel-primary\">\n" +
+    "<div class=\"panel panel-default\">\n" +
     "  <div class=\"panel-heading\">\n" +
     "    <h1 class=\"panel-title\">\n" +
     "      Voucher {{voucher.number}}\n" +
@@ -51650,45 +51665,49 @@ angular.module("voucher/showVoucher.tpl.html", []).run(["$templateCache", functi
     "            </span>\n" +
     "          </div>\n" +
     "        </div>\n" +
+    "        <div class=\"col-sm-3\">\n" +
+    "          <label>\n" +
+    "            &nbsp;\n" +
+    "          </label>\n" +
+    "          <button class=\"hidden-print form-control btn btn-success\">\n" +
+    "            Update\n" +
+    "          </button>\n" +
+    "        </div>\n" +
     "      </div>\n" +
     "    </div>\n" +
-    "    <div class=\"row\">\n" +
-    "      <div class=\"col-sm-6\">\n" +
-    "        <label>\n" +
+    "    <table class=\"table table-bordered\">\n" +
+    "      <tr>\n" +
+    "      <th class=\"col-sm-6\">\n" +
     "          Account\n" +
-    "        </label>\n" +
-    "      </div>\n" +
-    "      <div class=\"col-sm-3\">\n" +
-    "        <label>\n" +
+    "      </th>\n" +
+    "      <th class=\"col-sm-3\">\n" +
     "          Debit\n" +
-    "        </label>\n" +
-    "      </div>\n" +
-    "      <div class=\"col-sm-3\">\n" +
-    "        <label>\n" +
+    "      </th>\n" +
+    "      <th class=\"col-sm-3\">\n" +
     "          Credit\n" +
-    "        </label>\n" +
-    "      </div>\n" +
-    "    </div>\n" +
-    "    <div class=\"row\" ng-repeat=\"row in voucher.voucher_rows\">\n" +
-    "      <div class=\"col-sm-6\">\n" +
+    "      </th>\n" +
+    "    </tr>\n" +
+    "    <tr class=\"\" ng-repeat=\"row in voucher.voucher_rows\">\n" +
+    "      <td class=\"col-sm-6\">\n" +
     "        <div class=\"row\">\n" +
     "          <div class=\"col-sm-3\">\n" +
-    "            <input class=\"form-control input-sm\" auto-complete ui-items=\"accounts\" ng-model=\"row.account\" ng-blur=\"checkIfFilled(voucher)\" ng-enter=\"focusNext(this)\" ng-focus=\"checkIfFilled(voucher)\">\n" +
+    "            {{getAccountNumberFromId(row.account_id)}}\n" +
     "          </div>\n" +
     "          <div class=\"col-sm-9\">\n" +
     "            <label>\n" +
-    "              {{accountName(row.account)}}\n" +
+    "              {{getAccountNameFromId(row.account_id)}}\n" +
     "            </label>\n" +
     "          </div>\n" +
     "        </div>\n" +
-    "      </div>\n" +
-    "      <div class=\"col-sm-3\">\n" +
-    "        <input currency-input=\"\"  class=\"input-sm text-right form-control\" ng-model=\"row.debit\" ng-change=\"checkRow(row, 'debit')\" ng-enter=\"autoFillRow(row)\" ng->\n" +
-    "      </div>\n" +
-    "      <div class=\"col-sm-3\">\n" +
-    "        <input currency-input=\"\"  class=\"input-sm text-right form-control\" ng-model=\"row.credit\" ng-change=\"checkRow(row)\" ng-blur=\"autoFillRow(row)\" ng-enter=\"finishRow(row)\">\n" +
-    "      </div>\n" +
-    "    </div>\n" +
+    "      </td>\n" +
+    "      <td class=\"col-sm-3 text-right\">\n" +
+    "        {{row.debit}}\n" +
+    "      </td>\n" +
+    "      <td class=\"col-sm-3 text-right\">\n" +
+    "        {{row.credit}}\n" +
+    "      </td>\n" +
+    "    </tr>\n" +
+    "  </table>\n" +
     "    <div class=\"row\">\n" +
     "      <div class=\"col-sm-6\">\n" +
     "      </div>\n" +
