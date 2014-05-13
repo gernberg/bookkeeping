@@ -59,7 +59,7 @@
           </div>
           <div class="col-sm-9">
             <label>
-              {{accountName(row.account)}}
+              {{findAccount(row.account)}}
             </label>
           </div>
         </div>
@@ -75,10 +75,29 @@
       <div class="col-sm-6">
       </div>
       <div class="col-sm-3">
+        <p>
         {{sumDebit(voucher)}}
+        </p>
       </div>
       <div class="col-sm-3">
+        <p>
         {{sumCredit(voucher)}}
+        </p>
+      </div>
+    </div>
+    <div class="bg-warning row" ng-show="(sumDebit(voucher)-sumCredit(voucher)) !== 0">
+      <div class="col-sm-6 text-right">
+        Warning - difference
+      </div>
+      <div class="col-sm-3">
+        <label ng-show="(sumDebit(voucher)-sumCredit(voucher)) < 0">
+          {{sumCredit(voucher)-sumDebit(voucher)}}
+        </label>
+      </div>
+      <div class="col-sm-3 ">
+        <label ng-show="(sumDebit(voucher)-sumCredit(voucher)) > 0">
+          {{sumDebit(voucher)-sumCredit(voucher)}}
+        </label>
       </div>
     </div>
     <div class="row form-group">

@@ -1,6 +1,7 @@
 angular.module( 'bookie.voucher', [
   'ui.state',
-  'ngResource'
+  'ngResource',
+  'LocalStorageModule'
 ])
 .config(function config($stateProvider){
   $stateProvider.state('vouchers', {
@@ -57,9 +58,12 @@ angular.module( 'bookie.voucher', [
   $rootScope.loggedIn = true;
   $scope.voucherId = parseInt($stateParams.voucherId, 10);
   $scope.voucher = VoucherRes.get({id: $scope.voucherId}, function(res){
+    angular.forEach(res.voucher_rows, function(val, key){
+      val.account = AccountRes.get({id: val.account_id});
+    });
   });
 })
-.controller('VoucherCtrl', function VoucherCtrl($scope, VoucherRes, $state, $stateParams, $rootScope, AccountRes, VoucherCache){
+.controller('VoucherCtrl', function VoucherCtrl($scope, VoucherRes, $state, $stateParams, $rootScope, AccountRes, VoucherCache, $cacheFactory){
   $rootScope.loggedIn = true;
   $scope.editVoucher = function(voucher){
     $state.transitionTo('showVoucher', {voucherId: voucher.id});
@@ -164,10 +168,14 @@ $scope.addVoucherRow = function(voucher, row){
   voucher.voucher_rows.push(row);
 };
 
+$scope.accountSum = function(row){
+  var account_id = $scope.findAccountId(row.account);
+  account = AccountRes.get(account_id);
+};
 
 $scope.accountName = function(account){
-
-  return account;
+  var account_id = $scope.findAccountId(account);
+  return account_id;
 };
 
 $scope.cancel = function(){
@@ -176,7 +184,13 @@ $scope.cancel = function(){
 $scope.removeVoucher = function(){
   alert("DELETE");
 };
-
+$scope.findAccount = function(account_number){
+  for(var i = 0; i < $scope.accounts.length; i++){
+    if($scope.accounts[i].account_number == account_number){
+      return $scope.accounts[i].id;
+    }
+  }
+};
 $scope.findAccountId = function(account_number){
   for(var i = 0; i < $scope.accounts.length; i++){
     if($scope.accounts[i].account_number == account_number){
@@ -237,8 +251,9 @@ $scope.submit = function(){
   }
 };
 })
-.factory( 'VoucherCache', function($cacheFactory){
+.factory( 'VoucherCache', function(localStorageService, $cacheFactory){
   var cache = $cacheFactory("VC");
+
   return cache;
 })
 .factory( 'VoucherRes', function ( $resource, CompanyService, FiscalService, VoucherCache)  {
@@ -258,46 +273,46 @@ $scope.submit = function(){
 .directive('currencyInput', function($filter, $browser) {
   return {
     require: 'ngModel',
-  link: function($scope, $element, $attrs, ngModelCtrl) {
-    var listener = function() {
-      console.log("listener");
-      var value = $element.val().replace(/,/g, '.');
-      value = value.replace(/(\d*\.\d\d)(.*)/, '$1');
-      //$element.val($filter('number')(value, false));
-      console.log($element.val(), value);
-      $element.val(value);
-    };
-
-    // This runs when we update the text field
-    ngModelCtrl.$parsers.push(function(viewValue) {
-      return viewValue.replace(/,/g, '');
-    });
-
-    // This runs when the model gets updated on the scope directly and keeps our view in sync
-    ngModelCtrl.$render = function() {
-      $element.val(ngModelCtrl.$viewValue);
-    };
-
-    $element.bind('change', listener);
-    $element.bind('keydown', function(event) {
-      var key = event.keyCode;
-      // If the keys include the CTRL, SHIFT, ALT, or META keys, or the arrow keys, do nothing.
-      // This lets us support copy and paste too
-      if (key == 91 || (15 < key && key < 19) || (37 <= key && key <= 40)){
-        return ;
-      }
-      if (event.keyCode == 188)
-    {
-    }
-
-    $browser.defer(listener); // Have to do this or changes don't get picked up properly
-    });
-
-    $element.bind('paste cut', function() {
-      $browser.defer(listener);
-    });
-  }
+link: function($scope, $element, $attrs, ngModelCtrl) {
+  var listener = function() {
+    console.log("listener");
+    var value = $element.val().replace(/,/g, '.');
+    value = value.replace(/(\d*\.\d\d)(.*)/, '$1');
+    $element.val($filter('number')(value, false));
+    console.log($element.val(), value);
+    $element.val(value);
   };
+
+  // This runs when we update the text field
+  ngModelCtrl.$parsers.push(function(viewValue) {
+    return viewValue.replace(/,/g, '');
+  });
+
+  // This runs when the model gets updated on the scope directly and keeps our view in sync
+  ngModelCtrl.$render = function() {
+    $element.val(ngModelCtrl.$viewValue);
+  };
+
+  $element.bind('change', listener);
+  $element.bind('keydown', function(event) {
+    var key = event.keyCode;
+    // If the keys include the CTRL, SHIFT, ALT, or META keys, or the arrow keys, do nothing.
+    // This lets us support copy and paste too
+    if (key == 91 || (15 < key && key < 19) || (37 <= key && key <= 40)){
+      return ;
+    }
+    if (event.keyCode == 188)
+  {
+  }
+
+  $browser.defer(listener); // Have to do this or changes don't get picked up properly
+  });
+
+  $element.bind('paste cut', function() {
+    $browser.defer(listener);
+  });
+}
+};
 })
 .directive('autoComplete', function($timeout) {
   var substringMatcher = function(accounts) {
