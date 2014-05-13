@@ -1,13 +1,14 @@
 Bookie::Application.routes.draw do
-  resources :voucher_rows
 
-  resources :vouchers
+  resources :companies do
+    resources :accounts
+    resources :fiscal_years do
+      resources :vouchers do
+        resources :voucher_rows
+      end
+    end
+  end
 
-  resources :fiscal_years
-
-  resources :companies
-
-  resources :accounts
 
   devise_for :users
   root "welcome#index"

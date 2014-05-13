@@ -5,17 +5,43 @@ angular.module( 'bookie', [
   'bookie.home',
   'bookie.about',
   'bookie.account',
+  'bookie.company',
   'bookie.devise',
   'bookie.dashboard',
+  'bookie.fiscal_year',
+  'bookie.voucher',
   'ui.state',
-  'ui.route'
+  'ui.route',
+  'LocalStorageModule'
 ])
 
 .config( function myAppConfig ( $stateProvider, $urlRouterProvider ) {
   $urlRouterProvider.otherwise( '/home' );
 })
 
-.run( function run () {
+.run( function run ($http, $rootScope, $location, localStorageService, $state) {
+  // makes sure we have a fresh CSRF cookie
+  $rootScope.companyId = localStorageService.get('companyId');
+  $rootScope.fiscalYearId = localStorageService.get('fiscalYearId');
+  $rootScope.loggedIn = false;
+  /*
+  onRouteChangeOff = $rootScope.$on('$locationChangeStart', function(event, newUrl){
+    console.log(newUrl, event);
+    onRouteChangeOff(); //Stop listening for location changes
+    if($rootScope.companyId  == null){
+      $location.path("/companies"); //Go to page they're interested in
+    }else{
+      $location.path(newUrl); //Go to page they're interested in
+    }
+    event.preventDefault();
+    return;
+  });
+  */
+
+  setInterval(function(){
+    $http({method: 'GET', url: '/?authCookie'});
+  }, 30000);
+  $http({method: 'GET', url: '/?authCookie'});
 })
 
 .controller( 'AppCtrl', function AppCtrl ( $scope, $location ) {
@@ -39,82 +65,82 @@ angular.module( 'bookie', [
   };
 })
 .directive('areaChart', function(){
-    return{
-        restrict: 'E',
-        link: function(scope, elem, attrs){
-            
-            var chart = null;
-            
+  return{
+    restrict: 'E',
+link: function(scope, elem, attrs){
 
-		var stack = true,
-			bars = true,
-			lines = 0,
-			steps = true;
-            var options = {
-            series: {
-                stack: stack,
-                lines: {
-                  show: lines,
-                  fill: true,
-                  steps: steps
-                },
-                bars: {
-                  show: bars,
-                  barWidth: 0.6
-                }
-              }
-            };
+  var chart = null;
 
-            var data = scope[attrs.ngModel];            
 
-            // If the data changes somehow, update it in the chart
-            scope.$watch(attrs.ngModel, function(v){
-              if(!chart){
-                chart = $.plot(elem, v , options);
-                elem.show();
-              }else{
-                chart.setData(v);
-                chart.setupGrid();
-                chart.draw();
-              }
-            });
-        }
-    };
+  var stack = true,
+bars = true,
+lines = 0,
+steps = true;
+var options = {
+  series: {
+    stack: stack,
+lines: {
+  show: lines,
+fill: true,
+steps: steps
+},
+bars: {
+  show: bars,
+  barWidth: 0.6
+}
+}
+};
+
+var data = scope[attrs.ngModel];            
+
+// If the data changes somehow, update it in the chart
+scope.$watch(attrs.ngModel, function(v){
+  if(!chart){
+    chart = $.plot(elem, v , options);
+    elem.show();
+  }else{
+    chart.setData(v);
+    chart.setupGrid();
+    chart.draw();
+  }
+});
+}
+};
 })
 .directive('pieChart', function(){
-    return{
-        restrict: 'E',
-        link: function(scope, elem, attrs){
-            
-            var chart = null;
-            var options = {
-              series: {
-                pie: {
-                  innerRadius: 0.4,
-                  show: true,
-                  startAngle: 1
-                }
-              },
-              legend: {
-                  show: false
-              }
-            };
+  return{
+    restrict: 'E',
+  link: function(scope, elem, attrs){
 
-            var data = scope[attrs.ngModel];            
-
-            // If the data changes somehow, update it in the chart
-            scope.$watch(attrs.ngModel, function(v){
-              if(!chart){
-                chart = $.plot(elem, v , options);
-                elem.show();
-              }else{
-                chart.setData(v);
-                chart.setupGrid();
-                chart.draw();
-              }
-            });
+    var chart = null;
+    var options = {
+      series: {
+        pie: {
+          innerRadius: 0.4,
+  show: true,
+  startAngle: 1
         }
+      },
+  legend: {
+    show: false
+  }
     };
+
+    var data = scope[attrs.ngModel];            
+
+    // If the data changes somehow, update it in the chart
+    scope.$watch(attrs.ngModel, function(v){
+      if(!chart){
+        chart = $.plot(elem, v , options);
+        elem.show();
+      }else{
+        chart.setData(v);
+        chart.setupGrid();
+        chart.draw();
+      }
+    });
+  }
+  };
 })
 .directive('barsChart', function ($parse) {
   //explicitly creating a directive definition variable

@@ -465,7 +465,8 @@ module.exports = function ( grunt ) {
         files: [ 
           '<%= app_files.js %>'
         ],
-        tasks: [ 'jshint:src', 'karma:unit:run', 'copy:build_appjs'],
+        /* tasks: [ 'jshint:src', 'karma:unit:run', 'copy:build_appjs'], */
+        tasks: [ 'default'],
         options: {
           interrupt: true
         }
@@ -584,7 +585,9 @@ module.exports = function ( grunt ) {
    * minifying your code.
    */
   grunt.registerTask( 'compile', [
-    'less:compile', 'copy:compile_assets', 'ngmin', 'concat:compile_js', 'uglify', 'index:compile'
+    'less:compile', 'copy:compile_assets', 'ngmin', 'concat:compile_js', 
+    //'uglify', 
+    'index:compile'
   ]);
 
   /**
