@@ -52,6 +52,7 @@ angular.module( 'bookie.voucher', [
     if($scope.voucher.date === undefined){
       $scope.voucher.date = res[0].date;
     }
+    $scope.lastVoucher = res[0];
   });
   };
   var newVoucher = function(){
@@ -62,6 +63,9 @@ angular.module( 'bookie.voucher', [
       {},
       {}
     ];
+
+    // Focus on the title field after create
+    jQuery("#voucher-title").focus();
     return voucher;
   };
 
@@ -101,11 +105,29 @@ angular.module( 'bookie.voucher', [
   };
 
   $scope.checkRow = function(row, field){
+    console.log("checkRow", row, field);
+    // If both debit and credit is filled - clear one
     if(row.debit && row.credit){
       if(field == "debit"){
         row.credit = "";
       }else{
         row.debit = "";
+      }
+    } 
+  };
+
+
+  $scope.autoFillRow = function(row){
+    if(!row.debit && !row.credit){
+      debit = parseFloat($scope.sumDebit(voucher));
+      credit = parseFloat($scope.sumCredit(voucher));
+      console.log(debit, credit, debit-credit, credit-debit);
+      if (debit > credit){
+        row.credit = debit-credit;
+        return true;
+      }else if(debit < credit){
+        row.debit = credit-debit;
+        return true;
       }
     }
   };
@@ -132,6 +154,7 @@ angular.module( 'bookie.voucher', [
 
 
   $scope.accountName = function(account){
+
     return account;
   };
 
@@ -147,6 +170,13 @@ angular.module( 'bookie.voucher', [
       if($scope.accounts[i].account_number == account_number){
         return $scope.accounts[i].id;
       }
+    }
+  };
+
+  // Finish row
+  $scope.finishRow = function(row){
+    if(!$scope.autoFillRow(row)){
+      $scope.submit();
     }
   };
 
@@ -166,11 +196,12 @@ angular.module( 'bookie.voucher', [
       $scope.voucher.$save(function(response){
         VoucherCache.removeAll();
         $scope.voucher = newVoucher();
+        $scope.lastVoucher = response;
       }, function(response){
         console.log(response.data);
         $scope.errors = response.data; 
         if($scope.errors.voucher_rows){
-          angular.forEach($scope.errors.voucher_rows, function(key, val){
+          angular.forEach($scope.errors.voucher_rows, function(val, key){
             alert(val);
           });
         }
@@ -202,13 +233,13 @@ angular.module( 'bookie.voucher', [
   return $resource('../companies/:cid/fiscal_years/:fid/vouchers/:id.json', {fid: FiscalService.currentFiscalYearId(), cid: CompanyService.currentCompanyId(), id:'@id'}, {
     'query' : {
       method: 'GET', 
-      cache: VoucherCache,
-      isArray: true
+         cache: VoucherCache,
+         isArray: true
     },
-    'update': {
-      method: 'PATCH'
-    }
-    
+         'update': {
+           method: 'PATCH'
+         }
+
 
   });
 })
@@ -217,9 +248,11 @@ angular.module( 'bookie.voucher', [
     require: 'ngModel',
 link: function($scope, $element, $attrs, ngModelCtrl) {
   var listener = function() {
+    console.log("listener");
     var value = $element.val().replace(/,/g, '.');
     value = value.replace(/(\d*\.\d\d)(.*)/, '$1');
     //$element.val($filter('number')(value, false));
+    console.log($element.val(), value);
     $element.val(value);
   };
 
@@ -230,7 +263,7 @@ link: function($scope, $element, $attrs, ngModelCtrl) {
 
   // This runs when the model gets updated on the scope directly and keeps our view in sync
   ngModelCtrl.$render = function() {
-    $element.val($filter('number')(ngModelCtrl.$viewValue, false));
+    $element.val(ngModelCtrl.$viewValue);
   };
 
   $element.bind('change', listener);

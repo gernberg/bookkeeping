@@ -2,6 +2,9 @@
   <div class="panel-heading">
     <h1 class="panel-title">
       Voucher <span ng-show="vouchers_loaded">{{vouchers[0].number+1}}</span>
+      <span class="pull-right">
+        Last voucher: <button class="btn btn-default btn-xs" ng-click='editVoucher(lastVoucher)'>#{{lastVoucher.number}} ({{lastVoucher.title}})</button>
+      </span>
     </h1>
   </div>
   <div class="panel-body">
@@ -9,10 +12,10 @@
       <div class="row">
         <div class="col-sm-6">
           <div ng-class="{'has-error has-feedback': errors.title}">
-            <label>
+            <label class="control-label">
               Title
             </label>
-            <input class="form-control" ng-model="voucher.title">
+            <input id="voucher-title" class="form-control" ng-model="voucher.title">
             <span class="help-block" ng-repeat="error in errors.title track by $index">
               {{error}}
             </span>
@@ -20,7 +23,7 @@
         </div>
         <div class="col-sm-3">
           <div ng-class="{'has-error has-feedback': errors.date}">
-            <label>
+            <label class="control-label">
               Date
             </label>
             <input class="form-control" ng-model="voucher.date">
@@ -48,11 +51,11 @@
         </label>
       </div>
     </div>
-    <div class="row form-group" ng-repeat="row in voucher.voucher_rows">
+    <div class="row " ng-repeat="row in voucher.voucher_rows">
       <div class="col-sm-6">
         <div class="row">
           <div class="col-sm-3">
-            <input class="form-control" auto-complete ui-items="accounts" ng-model="row.account" ng-blur="checkIfFilled(voucher)" ng-focus="checkIfFilled(voucher)" ng-disabled="{{row.account_id}}">
+            <input class="form-control input-sm" auto-complete ui-items="accounts" ng-model="row.account" ng-blur="checkIfFilled(voucher)" ng-enter="focusNext(this)" ng-focus="checkIfFilled(voucher)" ng-disabled="{{row.account_id}}">
           </div>
           <div class="col-sm-9">
             <label>
@@ -62,10 +65,10 @@
         </div>
       </div>
       <div class="col-sm-3">
-        <input currency-input = ""  class="text-right form-control" ng-model="row.debit" ng-change="checkRow(row, 'debit')"ng-disabled="{{row.account_id}}">
+        <input currency-input=""  class="input-sm text-right form-control" ng-model="row.debit" ng-change="checkRow(row, 'debit')" ng-enter="autoFillRow(row)" ng-disabled="{{row.account_id}}">
       </div>
       <div class="col-sm-3">
-        <input currency-input = ""  class="text-right form-control" ng-model="row.credit" ng-change="checkRow(row)"ng-disabled="{{row.account_id}}">
+        <input currency-input=""  class="input-sm text-right form-control" ng-model="row.credit" ng-change="checkRow(row)" ng-blur="autoFillRow(row)" ng-enter="finishRow(row)" ng-disabled="{{row.account_id}}">
       </div>
     </div>
     <div class="row">

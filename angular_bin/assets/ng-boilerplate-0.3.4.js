@@ -1,5 +1,5 @@
 /**
- * ng-boilerplate - v0.3.4 - 2014-05-12
+ * ng-boilerplate - v0.3.4 - 2014-05-13
  * http://bit.ly/ng-boilerplate
  *
  * Copyright (c) 2014 Josh David Miller
@@ -43779,6 +43779,7 @@ angular.module('bookie.voucher', [
         if ($scope.voucher.date === undefined) {
           $scope.voucher.date = res[0].date;
         }
+        $scope.lastVoucher = res[0];
       });
     };
     var newVoucher = function () {
@@ -43789,6 +43790,7 @@ angular.module('bookie.voucher', [
         {},
         {}
       ];
+      jQuery('#voucher-title').focus();
       return voucher;
     };
     if ($scope.voucherId) {
@@ -43821,11 +43823,26 @@ angular.module('bookie.voucher', [
       return sum.toFixed(2);
     };
     $scope.checkRow = function (row, field) {
+      console.log('checkRow', row, field);
       if (row.debit && row.credit) {
         if (field == 'debit') {
           row.credit = '';
         } else {
           row.debit = '';
+        }
+      }
+    };
+    $scope.autoFillRow = function (row) {
+      if (!row.debit && !row.credit) {
+        debit = parseFloat($scope.sumDebit(voucher));
+        credit = parseFloat($scope.sumCredit(voucher));
+        console.log(debit, credit, debit - credit, credit - debit);
+        if (debit > credit) {
+          row.credit = debit - credit;
+          return true;
+        } else if (debit < credit) {
+          row.debit = credit - debit;
+          return true;
         }
       }
     };
@@ -43863,6 +43880,11 @@ angular.module('bookie.voucher', [
         }
       }
     };
+    $scope.finishRow = function (row) {
+      if (!$scope.autoFillRow(row)) {
+        $scope.submit();
+      }
+    };
     $scope.submit = function () {
       $scope.errors = [];
       if (true) {
@@ -43877,9 +43899,15 @@ angular.module('bookie.voucher', [
         $scope.voucher.$save(function (response) {
           VoucherCache.removeAll();
           $scope.voucher = newVoucher();
+          $scope.lastVoucher = response;
         }, function (response) {
           console.log(response.data);
           $scope.errors = response.data;
+          if ($scope.errors.voucher_rows) {
+            angular.forEach($scope.errors.voucher_rows, function (val, key) {
+              alert(val);
+            });
+          }
         });
         return false;
       }
@@ -43933,15 +43961,17 @@ angular.module('bookie.voucher', [
       require: 'ngModel',
       link: function ($scope, $element, $attrs, ngModelCtrl) {
         var listener = function () {
+          console.log('listener');
           var value = $element.val().replace(/,/g, '.');
           value = value.replace(/(\d*\.\d\d)(.*)/, '$1');
+          console.log($element.val(), value);
           $element.val(value);
         };
         ngModelCtrl.$parsers.push(function (viewValue) {
           return viewValue.replace(/,/g, '');
         });
         ngModelCtrl.$render = function () {
-          $element.val($filter('number')(ngModelCtrl.$viewValue, false));
+          $element.val(ngModelCtrl.$viewValue);
         };
         $element.bind('change', listener);
         $element.bind('keydown', function (event) {
@@ -51574,6 +51604,9 @@ angular.module("voucher/voucher.tpl.html", []).run(["$templateCache", function($
     "  <div class=\"panel-heading\">\n" +
     "    <h1 class=\"panel-title\">\n" +
     "      Voucher <span ng-show=\"vouchers_loaded\">{{vouchers[0].number+1}}</span>\n" +
+    "      <span class=\"pull-right\">\n" +
+    "        Last voucher: <button class=\"btn btn-default btn-xs\" ng-click='editVoucher(lastVoucher)'>#{{lastVoucher.number}} ({{lastVoucher.title}})</button>\n" +
+    "      </span>\n" +
     "    </h1>\n" +
     "  </div>\n" +
     "  <div class=\"panel-body\">\n" +
@@ -51584,7 +51617,7 @@ angular.module("voucher/voucher.tpl.html", []).run(["$templateCache", function($
     "            <label>\n" +
     "              Title\n" +
     "            </label>\n" +
-    "            <input class=\"form-control\" ng-model=\"voucher.title\">\n" +
+    "            <input id=\"voucher-title\" class=\"form-control\" ng-model=\"voucher.title\">\n" +
     "            <span class=\"help-block\" ng-repeat=\"error in errors.title track by $index\">\n" +
     "              {{error}}\n" +
     "            </span>\n" +
@@ -51624,7 +51657,7 @@ angular.module("voucher/voucher.tpl.html", []).run(["$templateCache", function($
     "      <div class=\"col-sm-6\">\n" +
     "        <div class=\"row\">\n" +
     "          <div class=\"col-sm-3\">\n" +
-    "            <input class=\"form-control\" auto-complete ui-items=\"accounts\" ng-model=\"row.account\" ng-blur=\"checkIfFilled(voucher)\" ng-focus=\"checkIfFilled(voucher)\" ng-disabled=\"{{row.account_id}}\">\n" +
+    "            <input class=\"form-control\" auto-complete ui-items=\"accounts\" ng-model=\"row.account\" ng-blur=\"checkIfFilled(voucher)\" ng-enter=\"focusNext(this)\" ng-focus=\"checkIfFilled(voucher)\" ng-disabled=\"{{row.account_id}}\">\n" +
     "          </div>\n" +
     "          <div class=\"col-sm-9\">\n" +
     "            <label>\n" +
@@ -51634,10 +51667,11 @@ angular.module("voucher/voucher.tpl.html", []).run(["$templateCache", function($
     "        </div>\n" +
     "      </div>\n" +
     "      <div class=\"col-sm-3\">\n" +
-    "        <input currency-input = \"\"  class=\"text-right form-control\" ng-model=\"row.debit\" ng-change=\"checkRow(row, 'debit')\"ng-disabled=\"{{row.account_id}}\">\n" +
+    "        <input currency-input=\"\"  class=\"text-right form-control\" ng-model=\"row.debit\" ng-change=\"checkRow(row, 'debit')\" ng-enter=\"autoFillRow(row)\" ng-disabled=\"{{row.account_id}}\">\n" +
+    "        {{row.debit}}\n" +
     "      </div>\n" +
     "      <div class=\"col-sm-3\">\n" +
-    "        <input currency-input = \"\"  class=\"text-right form-control\" ng-model=\"row.credit\" ng-change=\"checkRow(row)\"ng-disabled=\"{{row.account_id}}\">\n" +
+    "        <input currency-input=\"\"  class=\"text-right form-control\" ng-model=\"row.credit\" ng-change=\"checkRow(row)\" ng-blur=\"autoFillRow(row)\" ng-enter=\"finishRow(row)\" ng-disabled=\"{{row.account_id}}\">\n" +
     "      </div>\n" +
     "    </div>\n" +
     "    <div class=\"row\">\n" +
