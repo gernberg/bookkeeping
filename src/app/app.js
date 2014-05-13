@@ -8,6 +8,7 @@ angular.module( 'bookie', [
   'bookie.company',
   'bookie.devise',
   'bookie.dashboard',
+  'bookie.report',
   'bookie.fiscal_year',
   'bookie.voucher',
   'ui.state',
