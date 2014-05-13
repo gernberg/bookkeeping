@@ -43733,11 +43733,20 @@ angular.module('bookie.voucher', [
       },
       data: { pageTitle: 'Voucher' }
     }).state('voucher', {
-      url: '/voucher?voucherId',
+      url: '/voucher',
       views: {
         'main': {
           controller: 'VoucherCtrl',
           templateUrl: 'voucher/voucher.tpl.html'
+        }
+      },
+      data: { pageTitle: 'Voucher' }
+    }).state('showVoucher', {
+      url: '/show-voucher?voucherId',
+      views: {
+        'main': {
+          controller: 'VoucherShowCtrl',
+          templateUrl: 'voucher/showVoucher.tpl.html'
         }
       },
       data: { pageTitle: 'Voucher' }
@@ -43758,8 +43767,22 @@ angular.module('bookie.voucher', [
       $state.transitionTo('voucher');
     };
     $scope.editVoucher = function (voucher) {
-      $state.transitionTo('voucher', { voucherId: voucher.id });
+      $state.transitionTo('showVoucher', { voucherId: voucher.id });
     };
+  }
+]).controller('VoucherShowCtrl', [
+  '$scope',
+  'VoucherRes',
+  '$state',
+  '$stateParams',
+  '$rootScope',
+  'AccountRes',
+  'VoucherCache',
+  function VoucherCtrl($scope, VoucherRes, $state, $stateParams, $rootScope, AccountRes, VoucherCache) {
+    $rootScope.loggedIn = true;
+    $scope.voucherId = parseInt($stateParams.voucherId, 10);
+    $scope.voucher = VoucherRes.get({ id: $scope.voucherId }, function (res) {
+    });
   }
 ]).controller('VoucherCtrl', [
   '$scope',
@@ -43771,7 +43794,9 @@ angular.module('bookie.voucher', [
   'VoucherCache',
   function VoucherCtrl($scope, VoucherRes, $state, $stateParams, $rootScope, AccountRes, VoucherCache) {
     $rootScope.loggedIn = true;
-    $scope.voucherId = parseInt($stateParams.voucherId, 10);
+    $scope.editVoucher = function (voucher) {
+      $state.transitionTo('showVoucher', { voucherId: voucher.id });
+    };
     var loadVouchers = function () {
       $scope.vouchers_loaded = false;
       $scope.vouchers = VoucherRes.query(function (res) {
@@ -43793,13 +43818,7 @@ angular.module('bookie.voucher', [
       jQuery('#voucher-title').focus();
       return voucher;
     };
-    if ($scope.voucherId) {
-      $scope.voucher = VoucherRes.get({ id: $scope.voucherId }, function (res) {
-        res.voucher_rows.push({});
-      });
-    } else {
-      $scope.voucher = newVoucher();
-    }
+    $scope.voucher = newVoucher();
     $scope.accounts = AccountRes.query();
     console.log($scope.accounts);
     $scope.sumCredit = function (voucher) {
@@ -50961,7 +50980,7 @@ angular.module('plusOne', []).directive('plusOne', function () {
   };
 });
 ;
-angular.module('templates-app', ['about/about.tpl.html', 'account/account.tpl.html', 'account/accounts.tpl.html', 'company/companies.tpl.html', 'company/company.tpl.html', 'dashboard/dashboard.tpl.html', 'devise/login.tpl.html', 'fiscal_year/fiscal_year.tpl.html', 'fiscal_year/fiscal_years.tpl.html', 'home/home.tpl.html', 'home/pricing.tpl.html', 'home/references.tpl.html', 'voucher/voucher.tpl.html', 'voucher/vouchers.tpl.html']);
+angular.module('templates-app', ['about/about.tpl.html', 'account/account.tpl.html', 'account/accounts.tpl.html', 'company/companies.tpl.html', 'company/company.tpl.html', 'dashboard/dashboard.tpl.html', 'devise/login.tpl.html', 'fiscal_year/fiscal_year.tpl.html', 'fiscal_year/fiscal_years.tpl.html', 'home/home.tpl.html', 'home/pricing.tpl.html', 'home/references.tpl.html', 'voucher/showVoucher.tpl.html', 'voucher/voucher.tpl.html', 'voucher/vouchers.tpl.html']);
 
 angular.module("about/about.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("about/about.tpl.html",
@@ -51598,15 +51617,12 @@ angular.module("home/references.tpl.html", []).run(["$templateCache", function($
     "");
 }]);
 
-angular.module("voucher/voucher.tpl.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("voucher/voucher.tpl.html",
-    "<div class=\"panel panel-default\">\n" +
+angular.module("voucher/showVoucher.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("voucher/showVoucher.tpl.html",
+    "<div class=\"panel panel-primary\">\n" +
     "  <div class=\"panel-heading\">\n" +
     "    <h1 class=\"panel-title\">\n" +
-    "      Voucher <span ng-show=\"vouchers_loaded\">{{vouchers[0].number+1}}</span>\n" +
-    "      <span class=\"pull-right\">\n" +
-    "        Last voucher: <button class=\"btn btn-default btn-xs\" ng-click='editVoucher(lastVoucher)'>#{{lastVoucher.number}} ({{lastVoucher.title}})</button>\n" +
-    "      </span>\n" +
+    "      Voucher {{voucher.number}}\n" +
     "    </h1>\n" +
     "  </div>\n" +
     "  <div class=\"panel-body\">\n" +
@@ -51614,7 +51630,7 @@ angular.module("voucher/voucher.tpl.html", []).run(["$templateCache", function($
     "      <div class=\"row\">\n" +
     "        <div class=\"col-sm-6\">\n" +
     "          <div ng-class=\"{'has-error has-feedback': errors.title}\">\n" +
-    "            <label>\n" +
+    "            <label class=\"control-label\">\n" +
     "              Title\n" +
     "            </label>\n" +
     "            <input id=\"voucher-title\" class=\"form-control\" ng-model=\"voucher.title\">\n" +
@@ -51625,7 +51641,7 @@ angular.module("voucher/voucher.tpl.html", []).run(["$templateCache", function($
     "        </div>\n" +
     "        <div class=\"col-sm-3\">\n" +
     "          <div ng-class=\"{'has-error has-feedback': errors.date}\">\n" +
-    "            <label>\n" +
+    "            <label class=\"control-label\">\n" +
     "              Date\n" +
     "            </label>\n" +
     "            <input class=\"form-control\" ng-model=\"voucher.date\">\n" +
@@ -51653,11 +51669,11 @@ angular.module("voucher/voucher.tpl.html", []).run(["$templateCache", function($
     "        </label>\n" +
     "      </div>\n" +
     "    </div>\n" +
-    "    <div class=\"row form-group\" ng-repeat=\"row in voucher.voucher_rows\">\n" +
+    "    <div class=\"row\" ng-repeat=\"row in voucher.voucher_rows\">\n" +
     "      <div class=\"col-sm-6\">\n" +
     "        <div class=\"row\">\n" +
     "          <div class=\"col-sm-3\">\n" +
-    "            <input class=\"form-control\" auto-complete ui-items=\"accounts\" ng-model=\"row.account\" ng-blur=\"checkIfFilled(voucher)\" ng-enter=\"focusNext(this)\" ng-focus=\"checkIfFilled(voucher)\" ng-disabled=\"{{row.account_id}}\">\n" +
+    "            <input class=\"form-control input-sm\" auto-complete ui-items=\"accounts\" ng-model=\"row.account\" ng-blur=\"checkIfFilled(voucher)\" ng-enter=\"focusNext(this)\" ng-focus=\"checkIfFilled(voucher)\">\n" +
     "          </div>\n" +
     "          <div class=\"col-sm-9\">\n" +
     "            <label>\n" +
@@ -51667,11 +51683,101 @@ angular.module("voucher/voucher.tpl.html", []).run(["$templateCache", function($
     "        </div>\n" +
     "      </div>\n" +
     "      <div class=\"col-sm-3\">\n" +
-    "        <input currency-input=\"\"  class=\"text-right form-control\" ng-model=\"row.debit\" ng-change=\"checkRow(row, 'debit')\" ng-enter=\"autoFillRow(row)\" ng-disabled=\"{{row.account_id}}\">\n" +
-    "        {{row.debit}}\n" +
+    "        <input currency-input=\"\"  class=\"input-sm text-right form-control\" ng-model=\"row.debit\" ng-change=\"checkRow(row, 'debit')\" ng-enter=\"autoFillRow(row)\" ng->\n" +
     "      </div>\n" +
     "      <div class=\"col-sm-3\">\n" +
-    "        <input currency-input=\"\"  class=\"text-right form-control\" ng-model=\"row.credit\" ng-change=\"checkRow(row)\" ng-blur=\"autoFillRow(row)\" ng-enter=\"finishRow(row)\" ng-disabled=\"{{row.account_id}}\">\n" +
+    "        <input currency-input=\"\"  class=\"input-sm text-right form-control\" ng-model=\"row.credit\" ng-change=\"checkRow(row)\" ng-blur=\"autoFillRow(row)\" ng-enter=\"finishRow(row)\">\n" +
+    "      </div>\n" +
+    "    </div>\n" +
+    "    <div class=\"row\">\n" +
+    "      <div class=\"col-sm-6\">\n" +
+    "      </div>\n" +
+    "      <div class=\"col-sm-3\">\n" +
+    "        {{sumDebit(voucher)}}\n" +
+    "      </div>\n" +
+    "      <div class=\"col-sm-3\">\n" +
+    "        {{sumCredit(voucher)}}\n" +
+    "      </div>\n" +
+    "    </div>\n" +
+    "  </div>\n" +
+    "</div>\n" +
+    "\n" +
+    "");
+}]);
+
+angular.module("voucher/voucher.tpl.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("voucher/voucher.tpl.html",
+    "<div class=\"panel panel-default\">\n" +
+    "  <div class=\"panel-heading\">\n" +
+    "    <h1 class=\"panel-title\">\n" +
+    "      Voucher <span ng-show=\"vouchers_loaded\">{{vouchers[0].number+1}}</span>\n" +
+    "      <span class=\"pull-right\">\n" +
+    "        Last voucher: <button class=\"btn btn-default btn-xs\" ng-click='editVoucher(lastVoucher)'>#{{lastVoucher.number}} ({{lastVoucher.title}})</button>\n" +
+    "      </span>\n" +
+    "    </h1>\n" +
+    "  </div>\n" +
+    "  <div class=\"panel-body\">\n" +
+    "    <div class=\"form-group\">\n" +
+    "      <div class=\"row\">\n" +
+    "        <div class=\"col-sm-6\">\n" +
+    "          <div ng-class=\"{'has-error has-feedback': errors.title}\">\n" +
+    "            <label class=\"control-label\">\n" +
+    "              Title\n" +
+    "            </label>\n" +
+    "            <input id=\"voucher-title\" class=\"form-control\" ng-model=\"voucher.title\">\n" +
+    "            <span class=\"help-block\" ng-repeat=\"error in errors.title track by $index\">\n" +
+    "              {{error}}\n" +
+    "            </span>\n" +
+    "          </div>\n" +
+    "        </div>\n" +
+    "        <div class=\"col-sm-3\">\n" +
+    "          <div ng-class=\"{'has-error has-feedback': errors.date}\">\n" +
+    "            <label class=\"control-label\">\n" +
+    "              Date\n" +
+    "            </label>\n" +
+    "            <input class=\"form-control\" ng-model=\"voucher.date\">\n" +
+    "            <span class=\"help-block\" ng-repeat=\"error in errors.date track by $index\">\n" +
+    "              {{error}}\n" +
+    "            </span>\n" +
+    "          </div>\n" +
+    "        </div>\n" +
+    "      </div>\n" +
+    "    </div>\n" +
+    "    <div class=\"row\">\n" +
+    "      <div class=\"col-sm-6\">\n" +
+    "        <label>\n" +
+    "          Account\n" +
+    "        </label>\n" +
+    "      </div>\n" +
+    "      <div class=\"col-sm-3\">\n" +
+    "        <label>\n" +
+    "          Debit\n" +
+    "        </label>\n" +
+    "      </div>\n" +
+    "      <div class=\"col-sm-3\">\n" +
+    "        <label>\n" +
+    "          Credit\n" +
+    "        </label>\n" +
+    "      </div>\n" +
+    "    </div>\n" +
+    "    <div class=\"row\" ng-repeat=\"row in voucher.voucher_rows\">\n" +
+    "      <div class=\"col-sm-6\">\n" +
+    "        <div class=\"row\">\n" +
+    "          <div class=\"col-sm-3\">\n" +
+    "            <input class=\"form-control input-sm\" auto-complete ui-items=\"accounts\" ng-model=\"row.account\" ng-blur=\"checkIfFilled(voucher)\" ng-enter=\"focusNext(this)\" ng-focus=\"checkIfFilled(voucher)\">\n" +
+    "          </div>\n" +
+    "          <div class=\"col-sm-9\">\n" +
+    "            <label>\n" +
+    "              {{accountName(row.account)}}\n" +
+    "            </label>\n" +
+    "          </div>\n" +
+    "        </div>\n" +
+    "      </div>\n" +
+    "      <div class=\"col-sm-3\">\n" +
+    "        <input currency-input=\"\"  class=\"input-sm text-right form-control\" ng-model=\"row.debit\" ng-change=\"checkRow(row, 'debit')\" ng-enter=\"autoFillRow(row)\" ng->\n" +
+    "      </div>\n" +
+    "      <div class=\"col-sm-3\">\n" +
+    "        <input currency-input=\"\"  class=\"input-sm text-right form-control\" ng-model=\"row.credit\" ng-change=\"checkRow(row)\" ng-blur=\"autoFillRow(row)\" ng-enter=\"finishRow(row)\">\n" +
     "      </div>\n" +
     "    </div>\n" +
     "    <div class=\"row\">\n" +
