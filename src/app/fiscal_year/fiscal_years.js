@@ -13,6 +13,9 @@ angular.module( 'bookie.fiscal_year', [
         controller: "FiscalYearsCtrl",
         templateUrl: "fiscal_year/fiscal_years.tpl.html"
       }
+    },
+    data:{
+      pageTitle: "Fiscal Years"
     }
   }).state('fiscal_year', {
     url: '/fiscal_year?fiscalYearId',
@@ -21,6 +24,9 @@ angular.module( 'bookie.fiscal_year', [
         controller: "FiscalYearCtrl",
         templateUrl: "fiscal_year/fiscal_year.tpl.html"
       }
+    },
+    data:{
+      pageTitle: "Fiscal Year"
     }
   });
 })

@@ -25,6 +25,14 @@ angular.module( 'bookie', [
   $rootScope.companyId = localStorageService.get('companyId');
   $rootScope.fiscalYearId = localStorageService.get('fiscalYearId');
   $rootScope.loggedIn = false;
+  $rootScope.logout = function() {
+      $location.path("/login");
+    $http({method: 'DELETE', url: '../users/sign_out.json', data: {}})
+    .success(function(){
+      $scope.error.message = "Signed out";
+      $location.path("/login");
+    });
+  };
   /*
   onRouteChangeOff = $rootScope.$on('$locationChangeStart', function(event, newUrl){
     console.log(newUrl, event);

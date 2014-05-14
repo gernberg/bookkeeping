@@ -39,8 +39,15 @@ angular.module( 'bookie.voucher', [
     }
   });
 })
-.controller( 'VouchersCtrl', function VouchersController( $scope, VoucherRes, $state, $rootScope) {
+.controller( 'VouchersCtrl', function VouchersController( $scope, VoucherRes, $state, $rootScope, AccountRes, FiscalService, CompanyService) {
+  if(CompanyService.currentCompanyId() == null){
+    return false;
+  }
+  if(FiscalService.currentFiscalYearId() == null){
+    return false;
+  }
   $rootScope.loggedIn = true;
+  $scope.accounts = AccountRes.query();
   $scope.vouchers = VoucherRes.query();
   console.log($scope.vouchers);
   $scope.openVoucherByNumber = function(number){
@@ -260,14 +267,12 @@ $scope.submit = function(){
   return $resource('../companies/:cid/fiscal_years/:fid/vouchers/:id.json', {fid: FiscalService.currentFiscalYearId(), cid: CompanyService.currentCompanyId(), id:'@id'}, {
     'query' : {
       method: 'GET', 
-         cache: VoucherCache,
-         isArray: true
+      cache: VoucherCache,
+      isArray: true
     },
-         'update': {
-           method: 'PATCH'
-         }
-
-
+   'update': {
+     method: 'PATCH'
+   }
   });
 })
 .directive('currencyInput', function($filter, $browser) {
