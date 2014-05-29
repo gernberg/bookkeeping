@@ -43998,7 +43998,7 @@ angular.module('bookie.report', [
         console.log(res);
         var JsPDF = jsPDF;
         var doc = new JsPDF();
-        var y = 0;
+        var y = 10;
         var columns = [
             10,
             30,
@@ -52044,7 +52044,7 @@ angular.module("report/reports.tpl.html", []).run(["$templateCache", function($t
     "  <button class=\"btn btn-lg btn-primary\" ng-click=\"downloadReport('voucherlist')\">\n" +
     "    Voucher list\n" +
     "    &nbsp;\n" +
-    "    <span class=\" glyphicon glyphicon-list-alt  \"></span>\n" +
+    "    <span class=\" glyphicon glyphicon-save  \"></span>\n" +
     "  </button>\n" +
     "\n" +
     "  </li>\n" +
@@ -52052,7 +52052,7 @@ angular.module("report/reports.tpl.html", []).run(["$templateCache", function($t
     "  <button class=\"btn btn-lg btn-primary\" ng-click=\"downloadReport('result')\">\n" +
     "    Result report\n" +
     "    &nbsp;\n" +
-    "    <span class=\" glyphicon glyphicon-signal  \"></span>\n" +
+    "    <span class=\" glyphicon glyphicon-save  \"></span>\n" +
     "  </button>\n" +
     "\n" +
     "  </li>\n" +
@@ -52060,7 +52060,7 @@ angular.module("report/reports.tpl.html", []).run(["$templateCache", function($t
     "  <button class=\"btn btn-lg btn-primary\" ng-click=\"downloadReport('balance')\">\n" +
     "    Balance report\n" +
     "    &nbsp;\n" +
-    "    <span class=\"glyphicon glyphicon-transfer\"></span>\n" +
+    "    <span class=\" glyphicon glyphicon-save  \"></span>\n" +
     "  </button>\n" +
     "  </li>\n" +
     "</ul>\n" +

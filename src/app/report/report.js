@@ -43,7 +43,7 @@ angular.module( 'bookie.report', [
       // Fix för JSLint
       var JsPDF = jsPDF;
       var doc = new JsPDF();
-      var y = 0;
+      var y = 10;
       var columns = [
       10,
       30,
