@@ -96,7 +96,7 @@ angular.module( 'bookie.account', [
 })
 .factory( 'AccountRes', function ( $resource, CompanyService, AccountCache)  {
   //return $resource('../accounts/:id.json', {id:'@id'}, {'update': {method: 'PATCH'}});
-  return $resource('../companies/:vid/accounts/:id.json', {vid:CompanyService.currentCompanyId}, {'update': {method: 'PATCH'},
+  return $resource('../companies/:vid/accounts/:id.json', {id: '@id', vid:CompanyService.currentCompanyId}, {'update': {method: 'PATCH'},
     'query': {
       cache: AccountCache,
       isArray: true

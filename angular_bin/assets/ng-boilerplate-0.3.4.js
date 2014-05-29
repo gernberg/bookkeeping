@@ -1,5 +1,5 @@
 /**
- * ng-boilerplate - v0.3.4 - 2014-05-14
+ * ng-boilerplate - v0.3.4 - 2014-05-30
  * http://bit.ly/ng-boilerplate
  *
  * Copyright (c) 2014 Josh David Miller
@@ -43222,7 +43222,10 @@ angular.module('bookie.account', [
   'CompanyService',
   'AccountCache',
   function ($resource, CompanyService, AccountCache) {
-    return $resource('../companies/:vid/accounts/:id.json', { vid: CompanyService.currentCompanyId }, {
+    return $resource('../companies/:vid/accounts/:id.json', {
+      id: '@id',
+      vid: CompanyService.currentCompanyId
+    }, {
       'update': { method: 'PATCH' },
       'query': {
         cache: AccountCache,
