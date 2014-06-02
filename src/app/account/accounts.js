@@ -75,7 +75,7 @@ angular.module( 'bookie.account', [
 
   $scope.submit = function(){
     if($scope.accountId){
-      $scope.account.$update(function(response){
+      $scope.account.$update({cid: CompanyService.currentCompanyId()}, function(response){
         AccountCache.removeAll();
         $state.transitionTo('accounts');
       });

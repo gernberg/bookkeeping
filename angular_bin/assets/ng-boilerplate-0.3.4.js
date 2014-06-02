@@ -1,5 +1,5 @@
 /**
- * ng-boilerplate - v0.3.4 - 2014-06-02
+ * ng-boilerplate - v0.3.4 - 2014-06-03
  * http://bit.ly/ng-boilerplate
  *
  * Copyright (c) 2014 Josh David Miller
@@ -43204,7 +43204,7 @@ angular.module('bookie.account', [
     };
     $scope.submit = function () {
       if ($scope.accountId) {
-        $scope.account.$update(function (response) {
+        $scope.account.$update({ cid: CompanyService.currentCompanyId() }, function (response) {
           AccountCache.removeAll();
           $state.transitionTo('accounts');
         });
@@ -43839,9 +43839,10 @@ angular.module('bookie.fiscal_year', [
   '$rootScope',
   'FiscalService',
   '$location',
-  function FiscalYearsCtrl($scope, FiscalYearRes, $state, $rootScope, FiscalService, $location) {
+  'CompanyService',
+  function FiscalYearsCtrl($scope, FiscalYearRes, $state, $rootScope, FiscalService, $location, CompanyService) {
     $rootScope.loggedIn = true;
-    $scope.fiscal_years = FiscalYearRes.query();
+    $scope.fiscal_years = FiscalYearRes.query({ cid: CompanyService.currentCompanyId() });
     $scope.newFiscalYear = function () {
       $state.transitionTo('fiscal_year');
     };
@@ -43863,9 +43864,12 @@ angular.module('bookie.fiscal_year', [
     $rootScope.loggedIn = true;
     $scope.fiscalYearId = parseInt($stateParams.fiscalYearId, 10);
     if ($scope.fiscalYearId) {
-      $scope.fiscal_year = FiscalYearRes.get({ id: $scope.fiscalYearId });
+      $scope.fiscal_year = FiscalYearRes.get({
+        cid: CompanyService.currentCompanyId(),
+        id: $scope.fiscalYearId
+      });
     } else {
-      $scope.fiscal_year = new FiscalYearRes();
+      $scope.fiscal_year = new FiscalYearRes({ cid: CompanyService.currentCompanyId() });
     }
     $scope.cancel = function () {
       $state.transitionTo('fiscal_years');
@@ -43890,10 +43894,9 @@ angular.module('bookie.fiscal_year', [
   }
 ]).factory('FiscalYearRes', [
   '$resource',
-  'CompanyService',
-  function ($resource, CompanyService) {
+  function ($resource) {
     return $resource('../companies/:cid/fiscal_years/:id.json', {
-      cid: CompanyService.currentCompanyId(),
+      cid: '@cid',
       id: '@id'
     }, { 'update': { method: 'PATCH' } });
   }
@@ -43982,9 +43985,10 @@ angular.module('bookie.report', [
   'CompanyService',
   'AccountRes',
   'VoucherRes',
-  function CompaniesController($scope, CompanyRes, $state, $rootScope, CompanyService, AccountRes, VoucherRes) {
+  'FiscalService',
+  function CompaniesController($scope, CompanyRes, $state, $rootScope, CompanyService, AccountRes, VoucherRes, FiscalService) {
     $rootScope.loggedIn = true;
-    $scope.accounts = AccountRes.query();
+    $scope.accounts = AccountRes.query({ cid: CompanyService.currentCompanyId() });
     $scope.downloadReport = function (report) {
       if (report == 'voucherlist') {
         voucherList();
@@ -44001,7 +44005,11 @@ angular.module('bookie.report', [
       }
     };
     var voucherList = function () {
-      VoucherRes.query(function (res) {
+      var vouchers = VoucherRes.query({
+          cid: CompanyService.currentCompanyId(),
+          fid: FiscalService.currentFiscalYearId()
+        });
+      vouchers.$promise.then(function (res) {
         console.log(res);
         var JsPDF = jsPDF;
         var doc = new JsPDF();
@@ -44058,6 +44066,8 @@ angular.module('bookie.report', [
           doc.line(10, y - rowHeight / 2, width, y - rowHeight / 2);
         });
         doc.save('VoucherList.pdf');
+      }, function () {
+        alert('Error when retrieving vouchers');
       });
     };
   }
@@ -44114,8 +44124,11 @@ angular.module('bookie.voucher', [
       return false;
     }
     $rootScope.loggedIn = true;
-    $scope.accounts = AccountRes.query();
-    $scope.vouchers = VoucherRes.query();
+    $scope.accounts = AccountRes.query({ cid: CompanyService.currentCompanyId() });
+    $scope.vouchers = VoucherRes.query({
+      cid: CompanyService.currentCompanyId(),
+      fid: FiscalService.currentFiscalYearId()
+    });
     console.log($scope.vouchers);
     $scope.openVoucherByNumber = function (number) {
     };
@@ -44134,14 +44147,38 @@ angular.module('bookie.voucher', [
   '$rootScope',
   'AccountRes',
   'VoucherCache',
-  function VoucherCtrl($scope, VoucherRes, $state, $stateParams, $rootScope, AccountRes, VoucherCache) {
+  'CompanyService',
+  'FiscalService',
+  function VoucherCtrl($scope, VoucherRes, $state, $stateParams, $rootScope, AccountRes, VoucherCache, CompanyService, FiscalService) {
     $rootScope.loggedIn = true;
     $scope.voucherId = parseInt($stateParams.voucherId, 10);
-    $scope.voucher = VoucherRes.get({ id: $scope.voucherId }, function (res) {
+    $scope.voucher = VoucherRes.get({
+      fid: FiscalService.currentFiscalYearId(),
+      cid: CompanyService.currentCompanyId(),
+      id: $scope.voucherId
+    }, function (res) {
       angular.forEach(res.voucher_rows, function (val, key) {
-        val.account = AccountRes.get({ id: val.account_id });
+        val.account = AccountRes.get({
+          cid: CompanyService.currentCompanyId(),
+          id: val.account_id
+        });
       });
     });
+    $scope.updateVoucher = function () {
+      $scope.voucher.$update({
+        cid: CompanyService.currentCompanyId(),
+        fid: FiscalService.currentFiscalYearId()
+      }, function () {
+        $state.transitionTo('vouchers');
+      }, function (error) {
+        if (error.data.date) {
+          alert('Date: ' + error.data.date[0]);
+        }
+        if (error.data.title) {
+          alert('Title: ' + error.data.title[0]);
+        }
+      });
+    };
   }
 ]).controller('VoucherCtrl', [
   '$scope',
@@ -44152,14 +44189,19 @@ angular.module('bookie.voucher', [
   'AccountRes',
   'VoucherCache',
   '$cacheFactory',
-  function VoucherCtrl($scope, VoucherRes, $state, $stateParams, $rootScope, AccountRes, VoucherCache, $cacheFactory) {
+  'CompanyService',
+  'FiscalService',
+  function VoucherCtrl($scope, VoucherRes, $state, $stateParams, $rootScope, AccountRes, VoucherCache, $cacheFactory, CompanyService, FiscalService) {
     $rootScope.loggedIn = true;
     $scope.editVoucher = function (voucher) {
       $state.transitionTo('showVoucher', { voucherId: voucher.id });
     };
     var loadVouchers = function () {
       $scope.vouchers_loaded = false;
-      $scope.vouchers = VoucherRes.query(function (res) {
+      $scope.vouchers = VoucherRes.query({
+        cid: CompanyService.currentCompanyId(),
+        fid: FiscalService.currentFiscalYearId()
+      }, function (res) {
         $scope.vouchers_loaded = true;
         if ($scope.voucher.date === undefined) {
           $scope.voucher.date = res[0].date;
@@ -44169,7 +44211,10 @@ angular.module('bookie.voucher', [
     };
     var newVoucher = function () {
       loadVouchers();
-      voucher = new VoucherRes();
+      voucher = new VoucherRes({
+        fid: FiscalService.currentFiscalYearId(),
+        cid: CompanyService.currentCompanyId()
+      });
       voucher.voucher_rows = [
         {},
         {},
@@ -44179,7 +44224,7 @@ angular.module('bookie.voucher', [
       return voucher;
     };
     $scope.voucher = newVoucher();
-    $scope.accounts = AccountRes.query();
+    $scope.accounts = AccountRes.query({ cid: CompanyService.currentCompanyId() });
     console.log($scope.accounts);
     $scope.sumCredit = function (voucher) {
       var sum = 0;
@@ -44302,21 +44347,12 @@ angular.module('bookie.voucher', [
         });
         return false;
       }
-      if ($scope.voucherId) {
-        $scope.voucher.$update(function (response) {
-          $state.transitionTo('vouchers');
-        }, function (response) {
-          $scope.start_date_errors = response.data.start_date;
-          $scope.end_date_errors = response.data.end_date;
-        });
-      } else {
-        $scope.voucher.$save(function (response) {
-          $state.transitionTo('vouchers');
-        }, function (response) {
-          $scope.start_date_errors = response.data.start_date;
-          $scope.end_date_errors = response.data.end_date;
-        });
-      }
+      $scope.voucher.$save(function (response) {
+        $state.transitionTo('vouchers');
+      }, function (response) {
+        $scope.start_date_errors = response.data.start_date;
+        $scope.end_date_errors = response.data.end_date;
+      });
     };
   }
 ]).factory('VoucherCache', [
@@ -44333,8 +44369,8 @@ angular.module('bookie.voucher', [
   'VoucherCache',
   function ($resource, CompanyService, FiscalService, VoucherCache) {
     return $resource('../companies/:cid/fiscal_years/:fid/vouchers/:id.json', {
-      fid: FiscalService.currentFiscalYearId(),
-      cid: CompanyService.currentCompanyId(),
+      fid: '@fid',
+      cid: '@cid',
       id: '@id'
     }, {
       'query': {
@@ -44342,7 +44378,7 @@ angular.module('bookie.voucher', [
         cache: VoucherCache,
         isArray: true
       },
-      'update': { method: 'PATCH' }
+      'update': { method: 'PUT' }
     });
   }
 ]).directive('currencyInput', [
@@ -44415,6 +44451,7 @@ angular.module('bookie.voucher', [
       });
       $(iElement).blur(function () {
         $(this).val($(this).val().substr(0, 4));
+        iElement.triggerHandler('change');
       });
     };
   }
@@ -52113,7 +52150,7 @@ angular.module("voucher/showVoucher.tpl.html", []).run(["$templateCache", functi
     "          <label>\n" +
     "            &nbsp;\n" +
     "          </label>\n" +
-    "          <button class=\"hidden-print form-control btn btn-success\">\n" +
+    "          <button ng-click=\"updateVoucher()\" class=\"hidden-print form-control btn btn-success\">\n" +
     "            Update\n" +
     "          </button>\n" +
     "        </div>\n" +
@@ -52183,7 +52220,7 @@ angular.module("voucher/voucher.tpl.html", []).run(["$templateCache", function($
     "<div class=\"panel panel-default\">\n" +
     "  <div class=\"panel-heading\">\n" +
     "    <h1 class=\"panel-title\">\n" +
-    "      Voucher <span ng-show=\"vouchers_loaded\">{{vouchers[0].number+1}}</span>\n" +
+    "      Voucher <span ng-show=\"vouchers_loaded\">{{vouchers[0].number+1}}<abbr title='Preliminary'>*</abbr></span>\n" +
     "      <span class=\"pull-right\">\n" +
     "        Last voucher: <button class=\"btn btn-default btn-xs\" ng-click='editVoucher(lastVoucher)'>#{{lastVoucher.number}} ({{lastVoucher.title}})</button>\n" +
     "      </span>\n" +

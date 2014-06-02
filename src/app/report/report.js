@@ -18,9 +18,9 @@ angular.module( 'bookie.report', [
     data:{pageTitle: "Reports"}
   });
 })
-.controller( 'ReportsController', function CompaniesController( $scope, CompanyRes, $state, $rootScope, CompanyService, AccountRes, VoucherRes) {
+.controller( 'ReportsController', function CompaniesController( $scope, CompanyRes, $state, $rootScope, CompanyService, AccountRes, VoucherRes, FiscalService) {
   $rootScope.loggedIn = true;
-  $scope.accounts = AccountRes.query();
+  $scope.accounts = AccountRes.query({cid: CompanyService.currentCompanyId()});
   $scope.downloadReport = function(report){
     if(report == "voucherlist"){
       voucherList();
@@ -38,7 +38,8 @@ angular.module( 'bookie.report', [
     }
   };
   var voucherList = function(){
-    VoucherRes.query(function(res){
+    var vouchers = VoucherRes.query({cid: CompanyService.currentCompanyId(), fid: FiscalService.currentFiscalYearId()});
+     vouchers.$promise.then(function(res){
       console.log(res);
       // Fix för JSLint
       var JsPDF = jsPDF;
@@ -101,6 +102,8 @@ angular.module( 'bookie.report', [
 
     doc.save('VoucherList.pdf');
     // jQuery(".preview-pane").attr("src", doc.output('datauristring'));
+    }, function(){
+      alert("Error when retrieving vouchers");
     });
   };
 });
