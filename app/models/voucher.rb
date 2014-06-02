@@ -1,6 +1,6 @@
 class Voucher < ActiveRecord::Base
   belongs_to :fiscal_year
-  has_many :voucher_rows
+  has_many :voucher_rows, :conditions=>"debit > 0 OR credit > 0"
   validates_presence_of :fiscal_year, :title, :date
 
   validates_date :date, :on_or_before => Proc.new{|f| f.fiscal_year.end_date}

@@ -1,6 +1,9 @@
 <div>
   <h1>Fiscal years</h1>
 </div>
+<div class="alert alert-warning" ng-hide="$rootScope.fiscalYearId">
+  Please select or create a fiscal year
+</div>
 <ul class="list-group">
   <li class="list-group-item"><b>Switch to Fiscal Year</b></li>
   <li ng-repeat="fiscal_year in fiscal_years" class="list-group-item">

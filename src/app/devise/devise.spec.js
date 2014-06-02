@@ -17,7 +17,7 @@ describe( 'devise', function() {
       $controller("LoginCtrl", {$scope: scope}); 
     }));
     describe('Login redirects', function(){
-      it('logins user', function(){
+      /* it('logins user', function(){
         scope.httpBackend.expect('POST', '../users/sign_in.json', '{"user":{"email":"a@a.a","password":"a"}}').respond(201, '');
         scope.user = {
           email: "a@a.a",
@@ -29,6 +29,7 @@ describe( 'devise', function() {
 
         expect(location.path()).toBe('/dashboard');
       });
+      */
     });
   });
 });
