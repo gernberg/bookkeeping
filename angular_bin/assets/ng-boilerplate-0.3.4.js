@@ -1,5 +1,5 @@
 /**
- * ng-boilerplate - v0.3.4 - 2014-05-30
+ * ng-boilerplate - v0.3.4 - 2014-06-02
  * http://bit.ly/ng-boilerplate
  *
  * Copyright (c) 2014 Josh David Miller
@@ -43150,7 +43150,7 @@ angular.module('bookie.account', [
   '$rootScope',
   function AccountsController($scope, AccountRes, $state, CompanyService, $rootScope) {
     $rootScope.loggedIn = true;
-    $scope.accounts = AccountRes.query();
+    $scope.accounts = AccountRes.query({ cid: CompanyService.currentCompanyId() });
     $scope.gridOptions = {
       data: 'accounts',
       columnDefs: [
@@ -43186,13 +43186,18 @@ angular.module('bookie.account', [
   '$state',
   '$stateParams',
   '$rootScope',
-  function AccountController($scope, AccountRes, $state, $stateParams, $rootScope) {
+  'CompanyService',
+  'AccountCache',
+  function AccountController($scope, AccountRes, $state, $stateParams, $rootScope, CompanyService, AccountCache) {
     $rootScope.loggedIn = true;
     $scope.accountId = parseInt($stateParams.accountId, 10);
     if ($scope.accountId) {
-      $scope.account = AccountRes.get({ id: $scope.accountId });
+      $scope.account = AccountRes.get({
+        cid: CompanyService.currentCompanyId(),
+        id: $scope.accountId
+      });
     } else {
-      $scope.account = new AccountRes();
+      $scope.account = new AccountRes({ cid: CompanyService.currentCompanyId() });
     }
     $scope.cancel = function () {
       $state.transitionTo('accounts');
@@ -43219,12 +43224,11 @@ angular.module('bookie.account', [
   }
 ]).factory('AccountRes', [
   '$resource',
-  'CompanyService',
   'AccountCache',
-  function ($resource, CompanyService, AccountCache) {
-    return $resource('../companies/:vid/accounts/:id.json', {
+  function ($resource, AccountCache) {
+    return $resource('../companies/:cid/accounts/:id.json', {
       id: '@id',
-      vid: CompanyService.currentCompanyId
+      cid: '@cid'
     }, {
       'update': { method: 'PATCH' },
       'query': {

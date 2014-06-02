@@ -18,7 +18,9 @@ describe Account do
   it "is valid with 4 digit account no" do
     FactoryGirl.build(:account, {account_number: "1234"}).should be_valid
   end
+  it "needs company" do
+    FactoryGirl.build(:account, {company_id: nil}).should_not be_valid
+  end
   pending "does not collide with other account numbers"
-  pending "belongs to company"
   pending "by defauly - orders by account number"
 end

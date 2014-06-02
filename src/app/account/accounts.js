@@ -39,7 +39,7 @@ angular.module( 'bookie.account', [
  */
 .controller( 'AccountsCtrl', function AccountsController( $scope, AccountRes, $state, CompanyService, $rootScope) {
     $rootScope.loggedIn = true;
-    $scope.accounts = AccountRes.query();
+    $scope.accounts = AccountRes.query({cid: CompanyService.currentCompanyId()});
     $scope.gridOptions = {
       data: 'accounts',
       columnDefs: [
@@ -60,13 +60,13 @@ angular.module( 'bookie.account', [
       $state.transitionTo('account', { accountId: account.id });
     };
 })
-.controller('AccountCtrl', function AccountController($scope, AccountRes, $state, $stateParams, $rootScope){
+.controller('AccountCtrl', function AccountController($scope, AccountRes, $state, $stateParams, $rootScope, CompanyService, AccountCache){
   $rootScope.loggedIn = true;
   $scope.accountId = parseInt($stateParams.accountId, 10);
   if($scope.accountId){
-    $scope.account = AccountRes.get({id: $scope.accountId});
+    $scope.account = AccountRes.get({cid: CompanyService.currentCompanyId(), id: $scope.accountId});
   }else{
-    $scope.account = new AccountRes();
+    $scope.account = new AccountRes({cid: CompanyService.currentCompanyId()});
   }
 
   $scope.cancel = function(){
@@ -94,9 +94,9 @@ angular.module( 'bookie.account', [
   var cache = $cacheFactory("AC");
   return cache;
 })
-.factory( 'AccountRes', function ( $resource, CompanyService, AccountCache)  {
+.factory( 'AccountRes', function ( $resource, AccountCache)  {
   //return $resource('../accounts/:id.json', {id:'@id'}, {'update': {method: 'PATCH'}});
-  return $resource('../companies/:vid/accounts/:id.json', {id: '@id', vid:CompanyService.currentCompanyId}, {'update': {method: 'PATCH'},
+  return $resource('../companies/:cid/accounts/:id.json', {id: '@id', cid: '@cid'}, {'update': {method: 'PATCH'},
     'query': {
       cache: AccountCache,
       isArray: true
