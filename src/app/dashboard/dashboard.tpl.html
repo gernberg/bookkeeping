@@ -3,26 +3,26 @@
   <div class="col-sm-8">
     <div class="row">
       <div class="col-sm-6">
-        <div class="panel" ng-class="{'panel-success' : result > 0, 'panel-danger' : result <= 0}">
+        <div class="panel" ng-class="{'panel-success' : result >= 0, 'panel-danger' : result <= 0}">
           <div class="panel-heading">
             <h2 class="panel-title">
               Result: {{result}} kr
             </h2>
           </div>
-          <div class="panel-body">
-            <pie-chart style="display:block;height:250px;width:100%" ng-model="assets"></chart>
+          <div class="panel-body" ng-if="result_accounts">
+            <pie-chart style="display:block;height:250px;width:100%" ng-model="result_accounts"></chart>
           </div>
         </div>
       </div>
       <div class="col-sm-6">
-        <div class="panel" ng-class="{'panel-success' : balance > 0, 'panel-danger' : balance <= 0}">
+        <div class="panel" ng-class="{'panel-success' : balance >= 0, 'panel-danger' : balance <= 0}">
           <div class="panel-heading">
             <h2 class="panel-title">
               Balance: {{balance}} kr
             </h2>
           </div>
-          <div class="panel-body">
-            <pie-chart style="display:block;height:250px;width:100%" ng-model="what"></chart>
+          <div class="panel-body" ng-if="balance_accounts">
+            <pie-chart style="display:block;height:250px;width:100%" ng-model="balance_accounts"></chart>
           </div>
         </div>
       </div>
