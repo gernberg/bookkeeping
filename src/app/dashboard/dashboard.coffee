@@ -19,38 +19,57 @@ angular.module( 'bookie.dashboard', [
   })
 
 .controller('DashboardCtrl', ($scope, $http, $location, $state,
-  $rootScope, AccountRes, VoucherRes, FiscalYearRes) ->
+  $rootScope, AccountRes, VoucherRes, FiscalYearRes,
+  CompanyService, FiscalService) ->
+  if(CompanyService.currentCompanyId() == null)
+    return false
+  if(FiscalService.currentFiscalYearId() == null)
+    return false
   $rootScope.loggedIn = true
   $scope.data = [
     (value: 100, label: "Kundfodringar"),
     (value: 200, label: "Bankkonto")
   ]
-  $scope.accounts = AccountRes.query()
-  $scope.vouchers = VoucherRes.query()
-  $scope.fiscal_years = FiscalYearRes.query()
-  $scope.result = -100000
-  $scope.balance = 100000
-  $scope.monthly = [
-    [[1,3], [2,3], [3,10],[4,0],[5,50000],[6,70]],
-    [[1,3], [2,-3], [3,-10], [4,-10], [5,-10]],
-    [[1,6], [2,-3]]
-  ]
-  $scope.assets = [
-    (label:"Domestic sales", data:140000, color:"#C3CC7C")
-    (label:"International sales", data:90000, color:"#D3DC8C")
-    (label:"Supplies", data:140000, color:"#FF6F66")
-    (label:"Staff", data:140000, color:"#FF7F76")
-    (label:"Other expenses", data:90000, color:"#FF8F86")
-  ]
-  #C3CC7C
-  $scope.what = [
-    (label:"Current assets", data:30000, color:"#4D9CDF")
-    (label:"Liquid assets", data:20000, color:"#5DACFF")
-    (label:"Absolute liquid assets", data:90000, color:"#6DBCFF")
-    (label:"Salaries payable", data:50000, color:"#FF6F66")
-    (label:"Accounts payable", data:40000, color:"#FF7F76")
-    (label:"Long term loans", data:10000, color:"#FF8F86")
-  ]
+  $scope.accounts = AccountRes.fiscal_year({
+    cid: CompanyService.currentCompanyId(),
+    fid: FiscalService.currentFiscalYearId()
+  })
+  $scope.vouchers = VoucherRes.query({
+    cid: CompanyService.currentCompanyId(),
+    fid: FiscalService.currentFiscalYearId()
+  })
+  $scope.fiscal_years = FiscalYearRes.query({
+    cid: CompanyService.currentCompanyId()
+  })
+  $scope.result = 0
+  $scope.balance = 0
+  balance_categories = ["", "#4D9CDF", "#FF8F86"]
+  result_categories = ["", "", "",
+    "#4D9CDF", "#FF8F86",
+    "#FF8F86", "#FF8F86",
+    "#FF8F86"]
+  $scope.accounts.$promise.then ()->
+    $scope.result_accounts = []
+    $scope.balance_accounts = []
+    for i in [0..($scope.accounts.length-1)]
+      data = $scope.accounts[i].sum
+      category = Math.floor($scope.accounts[i].account_number/1000)
+      if category < balance_categories.length
+        $scope.balance += data
+        color = balance_categories[category]
+        $scope.balance_accounts.push {
+          label: $scope.accounts[i].account_name,
+          color: color,
+          data: Math.abs(data)
+        }
+      else if category < result_categories.length
+        $scope.result += data
+        color = result_categories[category]
+        $scope.result_accounts.push {
+          label: $scope.accounts[i].account_name,
+          color: color,
+          data: Math.abs(data)
+        }
   $scope.newVoucher = () ->
     $state.transitionTo('voucher')
   $scope.showVoucher = (voucher) ->

@@ -5,7 +5,6 @@ class VouchersController < ApplicationController
   # GET /vouchers
   # GET /vouchers.json
   def index
-    sleep(1)
     @vouchers = current_user.companies.find(params[:company_id]).fiscal_years.find(params[:fiscal_year_id]).vouchers
   end
 

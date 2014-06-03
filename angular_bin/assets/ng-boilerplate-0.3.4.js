@@ -1,5 +1,5 @@
 /**
- * ng-boilerplate - v0.3.4 - 2014-05-30
+ * ng-boilerplate - v0.3.4 - 2014-06-03
  * http://bit.ly/ng-boilerplate
  *
  * Copyright (c) 2014 Josh David Miller
@@ -43148,23 +43148,24 @@ angular.module('bookie.account', [
   '$state',
   'CompanyService',
   '$rootScope',
-  function AccountsController($scope, AccountRes, $state, CompanyService, $rootScope) {
+  'FiscalService',
+  function AccountsController($scope, AccountRes, $state, CompanyService, $rootScope, FiscalService) {
     $rootScope.loggedIn = true;
-    $scope.accounts = AccountRes.query();
+    $scope.accounts = AccountRes.query({ cid: CompanyService.currentCompanyId() });
     $scope.gridOptions = {
       data: 'accounts',
       columnDefs: [
         {
-          field: 'id',
-          displayName: 'Id'
+          field: 'account_number',
+          displayName: 'Account Number'
         },
         {
           field: 'account_name',
           displayName: 'Account Name'
         },
         {
-          field: 'account_number',
-          displayName: 'Account Number'
+          field: 'balance',
+          displayName: 'Balance'
         },
         {
           displayName: 'Edit',
@@ -43186,20 +43187,25 @@ angular.module('bookie.account', [
   '$state',
   '$stateParams',
   '$rootScope',
-  function AccountController($scope, AccountRes, $state, $stateParams, $rootScope) {
+  'CompanyService',
+  'AccountCache',
+  function AccountController($scope, AccountRes, $state, $stateParams, $rootScope, CompanyService, AccountCache) {
     $rootScope.loggedIn = true;
     $scope.accountId = parseInt($stateParams.accountId, 10);
     if ($scope.accountId) {
-      $scope.account = AccountRes.get({ id: $scope.accountId });
+      $scope.account = AccountRes.get({
+        cid: CompanyService.currentCompanyId(),
+        id: $scope.accountId
+      });
     } else {
-      $scope.account = new AccountRes();
+      $scope.account = new AccountRes({ cid: CompanyService.currentCompanyId() });
     }
     $scope.cancel = function () {
       $state.transitionTo('accounts');
     };
     $scope.submit = function () {
       if ($scope.accountId) {
-        $scope.account.$update(function (response) {
+        $scope.account.$update({ cid: CompanyService.currentCompanyId() }, function (response) {
           AccountCache.removeAll();
           $state.transitionTo('accounts');
         });
@@ -43219,17 +43225,22 @@ angular.module('bookie.account', [
   }
 ]).factory('AccountRes', [
   '$resource',
-  'CompanyService',
   'AccountCache',
-  function ($resource, CompanyService, AccountCache) {
-    return $resource('../companies/:vid/accounts/:id.json', {
+  function ($resource, AccountCache) {
+    return $resource('../companies/:cid/:extra/:fid/accounts/:id.json', {
       id: '@id',
-      vid: CompanyService.currentCompanyId
+      cid: '@cid',
+      fid: '@fid'
     }, {
       'update': { method: 'PATCH' },
       'query': {
         cache: AccountCache,
         isArray: true
+      },
+      'fiscal_year': {
+        params: { extra: 'fiscal_years' },
+        isArray: true,
+        method: 'GET'
       }
     });
   }
@@ -43461,7 +43472,8 @@ angular.module('bookie.company', [
   '$state',
   '$rootScope',
   'CompanyService',
-  function CompaniesController($scope, CompanyRes, $state, $rootScope, CompanyService) {
+  'FiscalService',
+  function CompaniesController($scope, CompanyRes, $state, $rootScope, CompanyService, FiscalService) {
     $rootScope.loggedIn = true;
     $scope.companies = CompanyRes.query();
     $scope.newCompany = function () {
@@ -43469,6 +43481,7 @@ angular.module('bookie.company', [
     };
     $scope.selectCompany = function (company) {
       CompanyService.selectCompany(company.id);
+      FiscalService.selectFiscalYear(null);
       $state.transitionTo('dashboard');
     };
     $scope.editCompany = function (company) {
@@ -43555,7 +43568,16 @@ angular.module('bookie.dashboard', [
   'AccountRes',
   'VoucherRes',
   'FiscalYearRes',
-  function ($scope, $http, $location, $state, $rootScope, AccountRes, VoucherRes, FiscalYearRes) {
+  'CompanyService',
+  'FiscalService',
+  function ($scope, $http, $location, $state, $rootScope, AccountRes, VoucherRes, FiscalYearRes, CompanyService, FiscalService) {
+    var balance_categories, result_categories;
+    if (CompanyService.currentCompanyId() === null) {
+      return false;
+    }
+    if (FiscalService.currentFiscalYearId() === null) {
+      return false;
+    }
     $rootScope.loggedIn = true;
     $scope.data = [
       {
@@ -43567,130 +43589,62 @@ angular.module('bookie.dashboard', [
         label: 'Bankkonto'
       }
     ];
-    $scope.accounts = AccountRes.query();
-    $scope.vouchers = VoucherRes.query();
-    $scope.fiscal_years = FiscalYearRes.query();
-    $scope.result = -100000;
-    $scope.balance = 100000;
-    $scope.monthly = [
-      [
-        [
-          1,
-          3
-        ],
-        [
-          2,
-          3
-        ],
-        [
-          3,
-          10
-        ],
-        [
-          4,
-          0
-        ],
-        [
-          5,
-          50000
-        ],
-        [
-          6,
-          70
-        ]
-      ],
-      [
-        [
-          1,
-          3
-        ],
-        [
-          2,
-          -3
-        ],
-        [
-          3,
-          -10
-        ],
-        [
-          4,
-          -10
-        ],
-        [
-          5,
-          -10
-        ]
-      ],
-      [
-        [
-          1,
-          6
-        ],
-        [
-          2,
-          -3
-        ]
-      ]
+    $scope.accounts = AccountRes.fiscal_year({
+      cid: CompanyService.currentCompanyId(),
+      fid: FiscalService.currentFiscalYearId()
+    });
+    $scope.vouchers = VoucherRes.query({
+      cid: CompanyService.currentCompanyId(),
+      fid: FiscalService.currentFiscalYearId()
+    });
+    $scope.fiscal_years = FiscalYearRes.query({ cid: CompanyService.currentCompanyId() });
+    $scope.result = 0;
+    $scope.balance = 0;
+    balance_categories = [
+      '',
+      '#4D9CDF',
+      '#FF8F86'
     ];
-    $scope.assets = [
-      {
-        label: 'Domestic sales',
-        data: 140000,
-        color: '#C3CC7C'
-      },
-      {
-        label: 'International sales',
-        data: 90000,
-        color: '#D3DC8C'
-      },
-      {
-        label: 'Supplies',
-        data: 140000,
-        color: '#FF6F66'
-      },
-      {
-        label: 'Staff',
-        data: 140000,
-        color: '#FF7F76'
-      },
-      {
-        label: 'Other expenses',
-        data: 90000,
-        color: '#FF8F86'
+    result_categories = [
+      '',
+      '',
+      '',
+      '#4D9CDF',
+      '#FF8F86',
+      '#FF8F86',
+      '#FF8F86',
+      '#FF8F86'
+    ];
+    $scope.accounts.$promise.then(function () {
+      var category, color, data, i, _i, _ref, _results;
+      $scope.result_accounts = [];
+      $scope.balance_accounts = [];
+      _results = [];
+      for (i = _i = 0, _ref = $scope.accounts.length - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
+        data = $scope.accounts[i].sum;
+        category = Math.floor($scope.accounts[i].account_number / 1000);
+        if (category < balance_categories.length) {
+          $scope.balance += data;
+          color = balance_categories[category];
+          _results.push($scope.balance_accounts.push({
+            label: $scope.accounts[i].account_name,
+            color: color,
+            data: Math.abs(data)
+          }));
+        } else if (category < result_categories.length) {
+          $scope.result += data;
+          color = result_categories[category];
+          _results.push($scope.result_accounts.push({
+            label: $scope.accounts[i].account_name,
+            color: color,
+            data: Math.abs(data)
+          }));
+        } else {
+          _results.push(void 0);
+        }
       }
-    ];
-    $scope.what = [
-      {
-        label: 'Current assets',
-        data: 30000,
-        color: '#4D9CDF'
-      },
-      {
-        label: 'Liquid assets',
-        data: 20000,
-        color: '#5DACFF'
-      },
-      {
-        label: 'Absolute liquid assets',
-        data: 90000,
-        color: '#6DBCFF'
-      },
-      {
-        label: 'Salaries payable',
-        data: 50000,
-        color: '#FF6F66'
-      },
-      {
-        label: 'Accounts payable',
-        data: 40000,
-        color: '#FF7F76'
-      },
-      {
-        label: 'Long term loans',
-        data: 10000,
-        color: '#FF8F86'
-      }
-    ];
+      return _results;
+    });
     $scope.newVoucher = function () {
       return $state.transitionTo('voucher');
     };
@@ -43835,9 +43789,10 @@ angular.module('bookie.fiscal_year', [
   '$rootScope',
   'FiscalService',
   '$location',
-  function FiscalYearsCtrl($scope, FiscalYearRes, $state, $rootScope, FiscalService, $location) {
+  'CompanyService',
+  function FiscalYearsCtrl($scope, FiscalYearRes, $state, $rootScope, FiscalService, $location, CompanyService) {
     $rootScope.loggedIn = true;
-    $scope.fiscal_years = FiscalYearRes.query();
+    $scope.fiscal_years = FiscalYearRes.query({ cid: CompanyService.currentCompanyId() });
     $scope.newFiscalYear = function () {
       $state.transitionTo('fiscal_year');
     };
@@ -43855,13 +43810,17 @@ angular.module('bookie.fiscal_year', [
   '$state',
   '$stateParams',
   '$rootScope',
-  function FiscalYearCtrl($scope, FiscalYearRes, $state, $stateParams, $rootScope) {
+  'CompanyService',
+  function FiscalYearCtrl($scope, FiscalYearRes, $state, $stateParams, $rootScope, CompanyService) {
     $rootScope.loggedIn = true;
     $scope.fiscalYearId = parseInt($stateParams.fiscalYearId, 10);
     if ($scope.fiscalYearId) {
-      $scope.fiscal_year = FiscalYearRes.get({ id: $scope.fiscalYearId });
+      $scope.fiscal_year = FiscalYearRes.get({
+        cid: CompanyService.currentCompanyId(),
+        id: $scope.fiscalYearId
+      });
     } else {
-      $scope.fiscal_year = new FiscalYearRes();
+      $scope.fiscal_year = new FiscalYearRes({ cid: CompanyService.currentCompanyId() });
     }
     $scope.cancel = function () {
       $state.transitionTo('fiscal_years');
@@ -43886,10 +43845,9 @@ angular.module('bookie.fiscal_year', [
   }
 ]).factory('FiscalYearRes', [
   '$resource',
-  'CompanyService',
-  function ($resource, CompanyService) {
+  function ($resource) {
     return $resource('../companies/:cid/fiscal_years/:id.json', {
-      cid: CompanyService.currentCompanyId(),
+      cid: '@cid',
       id: '@id'
     }, { 'update': { method: 'PATCH' } });
   }
@@ -43978,12 +43936,15 @@ angular.module('bookie.report', [
   'CompanyService',
   'AccountRes',
   'VoucherRes',
-  function CompaniesController($scope, CompanyRes, $state, $rootScope, CompanyService, AccountRes, VoucherRes) {
+  'FiscalService',
+  function CompaniesController($scope, CompanyRes, $state, $rootScope, CompanyService, AccountRes, VoucherRes, FiscalService) {
     $rootScope.loggedIn = true;
-    $scope.accounts = AccountRes.query();
+    $scope.accounts = AccountRes.query({ cid: CompanyService.currentCompanyId() });
     $scope.downloadReport = function (report) {
       if (report == 'voucherlist') {
         voucherList();
+      } else if (report == 'balance') {
+        balance();
       } else {
         alert('Under construction');
       }
@@ -43996,8 +43957,117 @@ angular.module('bookie.report', [
         }
       }
     };
+    var balance = function () {
+      $scope.accounts = AccountRes.fiscal_year({
+        cid: CompanyService.currentCompanyId(),
+        fid: FiscalService.currentFiscalYearId()
+      }, function (res) {
+        createBalancePDF(res);
+      });
+    };
+    var createBalancePDF = function (res) {
+      var categories = [
+          '',
+          'Assets',
+          'Liabilites'
+        ];
+      var JsPDF = jsPDF;
+      var doc = new JsPDF();
+      var y = 10;
+      var columns = [
+          10,
+          30,
+          70,
+          130,
+          160
+        ];
+      var width = 200;
+      var rowHeight = 6;
+      y += rowHeight;
+      doc.setFontType('bold');
+      doc.setFontSize(22);
+      doc.text(columns[0], y, 'Balance report');
+      doc.setFontSize(14);
+      y += rowHeight * 2;
+      doc.text(columns[0], y, 'Account');
+      doc.text(columns[1], y, '');
+      doc.text(columns[2], y, '');
+      doc.text(columns[3], y, '');
+      doc.text(columns[4], y, 'Sum');
+      y += 2;
+      doc.setLineWidth(0.9);
+      doc.line(10, y, width, y);
+      doc.setLineWidth(0.2);
+      var current_group = 0;
+      var total_sum = 0;
+      var group_sum = 0;
+      function printGroup(group) {
+        y += rowHeight * 2;
+        doc.setFontType('bold');
+        doc.text(columns[0], y, '' + categories[group]);
+        doc.setFontType('normal');
+        y += rowHeight;
+        doc.setLineWidth(0.5);
+        doc.line(10, y - rowHeight / 2, width, y - rowHeight / 2);
+        doc.setLineWidth(0.2);
+      }
+      function printPreviousGroup(group, total_sum) {
+        if (group === 0) {
+          return false;
+        }
+        var lineWidth = 0.9;
+        var text = 'Sum';
+        if (group === 9) {
+          lineWidth = 2;
+          text = 'Result';
+        }
+        y += rowHeight;
+        doc.setFontType('bold');
+        doc.text(columns[0], y, text);
+        doc.text(columns[4], y, '' + total_sum);
+        doc.setFontType('normal');
+        y += rowHeight;
+        doc.setLineWidth(lineWidth);
+        doc.line(10, y - rowHeight / 2, width, y - rowHeight / 2);
+        doc.setLineWidth(0.2);
+      }
+      var done = false;
+      angular.forEach(res, function (account, key) {
+        if (done) {
+          return false;
+        }
+        console.log(account.account_number, Math.floor(account.account_number / 1000));
+        while (Math.floor(account.account_number / 1000) != current_group) {
+          printPreviousGroup(current_group, group_sum);
+          group_sum = 0;
+          current_group++;
+          if (current_group > categories.length - 1) {
+            done = true;
+            return false;
+          }
+          printGroup(current_group);
+        }
+        console.log(account.account_number);
+        total_sum += account.sum;
+        group_sum += account.sum;
+        y += rowHeight;
+        doc.setFontType('bold');
+        doc.text(columns[0], y, '' + account.account_number);
+        doc.text(columns[1], y, account.account_name);
+        doc.text(columns[4], y, '' + account.sum);
+        doc.setFontType('normal');
+        y += rowHeight;
+        doc.line(10, y - rowHeight / 2, width, y - rowHeight / 2);
+      });
+      printPreviousGroup(9, total_sum);
+      jQuery('.preview-pane').attr('src', doc.output('datauristring'));
+    };
     var voucherList = function () {
-      VoucherRes.query(function (res) {
+      var vouchers = VoucherRes.query({
+          cid: CompanyService.currentCompanyId(),
+          fid: FiscalService.currentFiscalYearId()
+        });
+      vouchers.$promise.then(function (res) {
         console.log(res);
         var JsPDF = jsPDF;
         var doc = new JsPDF();
@@ -44054,6 +44124,8 @@ angular.module('bookie.report', [
           doc.line(10, y - rowHeight / 2, width, y - rowHeight / 2);
         });
         doc.save('VoucherList.pdf');
+      }, function () {
+        alert('Error when retrieving vouchers');
       });
     };
   }
@@ -44110,8 +44182,11 @@ angular.module('bookie.voucher', [
       return false;
     }
     $rootScope.loggedIn = true;
-    $scope.accounts = AccountRes.query();
-    $scope.vouchers = VoucherRes.query();
+    $scope.accounts = AccountRes.query({ cid: CompanyService.currentCompanyId() });
+    $scope.vouchers = VoucherRes.query({
+      cid: CompanyService.currentCompanyId(),
+      fid: FiscalService.currentFiscalYearId()
+    });
     console.log($scope.vouchers);
     $scope.openVoucherByNumber = function (number) {
     };
@@ -44130,14 +44205,38 @@ angular.module('bookie.voucher', [
   '$rootScope',
   'AccountRes',
   'VoucherCache',
-  function VoucherCtrl($scope, VoucherRes, $state, $stateParams, $rootScope, AccountRes, VoucherCache) {
+  'CompanyService',
+  'FiscalService',
+  function VoucherCtrl($scope, VoucherRes, $state, $stateParams, $rootScope, AccountRes, VoucherCache, CompanyService, FiscalService) {
     $rootScope.loggedIn = true;
     $scope.voucherId = parseInt($stateParams.voucherId, 10);
-    $scope.voucher = VoucherRes.get({ id: $scope.voucherId }, function (res) {
+    $scope.voucher = VoucherRes.get({
+      fid: FiscalService.currentFiscalYearId(),
+      cid: CompanyService.currentCompanyId(),
+      id: $scope.voucherId
+    }, function (res) {
       angular.forEach(res.voucher_rows, function (val, key) {
-        val.account = AccountRes.get({ id: val.account_id });
+        val.account = AccountRes.get({
+          cid: CompanyService.currentCompanyId(),
+          id: val.account_id
+        });
       });
     });
+    $scope.updateVoucher = function () {
+      $scope.voucher.$update({
+        cid: CompanyService.currentCompanyId(),
+        fid: FiscalService.currentFiscalYearId()
+      }, function () {
+        $state.transitionTo('vouchers');
+      }, function (error) {
+        if (error.data.date) {
+          alert('Date: ' + error.data.date[0]);
+        }
+        if (error.data.title) {
+          alert('Title: ' + error.data.title[0]);
+        }
+      });
+    };
   }
 ]).controller('VoucherCtrl', [
   '$scope',
@@ -44148,14 +44247,19 @@ angular.module('bookie.voucher', [
   'AccountRes',
   'VoucherCache',
   '$cacheFactory',
-  function VoucherCtrl($scope, VoucherRes, $state, $stateParams, $rootScope, AccountRes, VoucherCache, $cacheFactory) {
+  'CompanyService',
+  'FiscalService',
+  function VoucherCtrl($scope, VoucherRes, $state, $stateParams, $rootScope, AccountRes, VoucherCache, $cacheFactory, CompanyService, FiscalService) {
     $rootScope.loggedIn = true;
     $scope.editVoucher = function (voucher) {
       $state.transitionTo('showVoucher', { voucherId: voucher.id });
     };
     var loadVouchers = function () {
       $scope.vouchers_loaded = false;
-      $scope.vouchers = VoucherRes.query(function (res) {
+      $scope.vouchers = VoucherRes.query({
+        cid: CompanyService.currentCompanyId(),
+        fid: FiscalService.currentFiscalYearId()
+      }, function (res) {
         $scope.vouchers_loaded = true;
         if ($scope.voucher.date === undefined) {
           $scope.voucher.date = res[0].date;
@@ -44165,7 +44269,10 @@ angular.module('bookie.voucher', [
     };
     var newVoucher = function () {
       loadVouchers();
-      voucher = new VoucherRes();
+      voucher = new VoucherRes({
+        fid: FiscalService.currentFiscalYearId(),
+        cid: CompanyService.currentCompanyId()
+      });
       voucher.voucher_rows = [
         {},
         {},
@@ -44175,7 +44282,7 @@ angular.module('bookie.voucher', [
       return voucher;
     };
     $scope.voucher = newVoucher();
-    $scope.accounts = AccountRes.query();
+    $scope.accounts = AccountRes.query({ cid: CompanyService.currentCompanyId() });
     console.log($scope.accounts);
     $scope.sumCredit = function (voucher) {
       var sum = 0;
@@ -44298,21 +44405,12 @@ angular.module('bookie.voucher', [
         });
         return false;
       }
-      if ($scope.voucherId) {
-        $scope.voucher.$update(function (response) {
-          $state.transitionTo('vouchers');
-        }, function (response) {
-          $scope.start_date_errors = response.data.start_date;
-          $scope.end_date_errors = response.data.end_date;
-        });
-      } else {
-        $scope.voucher.$save(function (response) {
-          $state.transitionTo('vouchers');
-        }, function (response) {
-          $scope.start_date_errors = response.data.start_date;
-          $scope.end_date_errors = response.data.end_date;
-        });
-      }
+      $scope.voucher.$save(function (response) {
+        $state.transitionTo('vouchers');
+      }, function (response) {
+        $scope.start_date_errors = response.data.start_date;
+        $scope.end_date_errors = response.data.end_date;
+      });
     };
   }
 ]).factory('VoucherCache', [
@@ -44329,8 +44427,8 @@ angular.module('bookie.voucher', [
   'VoucherCache',
   function ($resource, CompanyService, FiscalService, VoucherCache) {
     return $resource('../companies/:cid/fiscal_years/:fid/vouchers/:id.json', {
-      fid: FiscalService.currentFiscalYearId(),
-      cid: CompanyService.currentCompanyId(),
+      fid: '@fid',
+      cid: '@cid',
       id: '@id'
     }, {
       'query': {
@@ -44338,7 +44436,7 @@ angular.module('bookie.voucher', [
         cache: VoucherCache,
         isArray: true
       },
-      'update': { method: 'PATCH' }
+      'update': { method: 'PUT' }
     });
   }
 ]).directive('currencyInput', [
@@ -44411,6 +44509,7 @@ angular.module('bookie.voucher', [
       });
       $(iElement).blur(function () {
         $(this).val($(this).val().substr(0, 4));
+        iElement.triggerHandler('change');
       });
     };
   }
@@ -51706,26 +51805,26 @@ angular.module("dashboard/dashboard.tpl.html", []).run(["$templateCache", functi
     "  <div class=\"col-sm-8\">\n" +
     "    <div class=\"row\">\n" +
     "      <div class=\"col-sm-6\">\n" +
-    "        <div class=\"panel\" ng-class=\"{'panel-success' : result > 0, 'panel-danger' : result <= 0}\">\n" +
+    "        <div class=\"panel\" ng-class=\"{'panel-success' : result >= 0, 'panel-danger' : result <= 0}\">\n" +
     "          <div class=\"panel-heading\">\n" +
     "            <h2 class=\"panel-title\">\n" +
     "              Result: {{result}} kr\n" +
     "            </h2>\n" +
     "          </div>\n" +
-    "          <div class=\"panel-body\">\n" +
-    "            <pie-chart style=\"display:block;height:250px;width:100%\" ng-model=\"assets\"></chart>\n" +
+    "          <div class=\"panel-body\" ng-if=\"result_accounts\">\n" +
+    "            <pie-chart style=\"display:block;height:250px;width:100%\" ng-model=\"result_accounts\"></chart>\n" +
     "          </div>\n" +
     "        </div>\n" +
     "      </div>\n" +
     "      <div class=\"col-sm-6\">\n" +
-    "        <div class=\"panel\" ng-class=\"{'panel-success' : balance > 0, 'panel-danger' : balance <= 0}\">\n" +
+    "        <div class=\"panel\" ng-class=\"{'panel-success' : balance >= 0, 'panel-danger' : balance <= 0}\">\n" +
     "          <div class=\"panel-heading\">\n" +
     "            <h2 class=\"panel-title\">\n" +
     "              Balance: {{balance}} kr\n" +
     "            </h2>\n" +
     "          </div>\n" +
-    "          <div class=\"panel-body\">\n" +
-    "            <pie-chart style=\"display:block;height:250px;width:100%\" ng-model=\"what\"></chart>\n" +
+    "          <div class=\"panel-body\" ng-if=\"balance_accounts\">\n" +
+    "            <pie-chart style=\"display:block;height:250px;width:100%\" ng-model=\"balance_accounts\"></chart>\n" +
     "          </div>\n" +
     "        </div>\n" +
     "      </div>\n" +
@@ -52109,7 +52208,7 @@ angular.module("voucher/showVoucher.tpl.html", []).run(["$templateCache", functi
     "          <label>\n" +
     "            &nbsp;\n" +
     "          </label>\n" +
-    "          <button class=\"hidden-print form-control btn btn-success\">\n" +
+    "          <button ng-click=\"updateVoucher()\" class=\"hidden-print form-control btn btn-success\">\n" +
     "            Update\n" +
     "          </button>\n" +
     "        </div>\n" +
@@ -52179,7 +52278,7 @@ angular.module("voucher/voucher.tpl.html", []).run(["$templateCache", function($
     "<div class=\"panel panel-default\">\n" +
     "  <div class=\"panel-heading\">\n" +
     "    <h1 class=\"panel-title\">\n" +
-    "      Voucher <span ng-show=\"vouchers_loaded\">{{vouchers[0].number+1}}</span>\n" +
+    "      Voucher <span ng-show=\"vouchers_loaded\">{{vouchers[0].number+1}}<abbr title='Preliminary'>*</abbr></span>\n" +
     "      <span class=\"pull-right\">\n" +
     "        Last voucher: <button class=\"btn btn-default btn-xs\" ng-click='editVoucher(lastVoucher)'>#{{lastVoucher.number}} ({{lastVoucher.title}})</button>\n" +
     "      </span>\n" +

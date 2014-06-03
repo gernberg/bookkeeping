@@ -30,9 +30,9 @@ angular.module( 'bookie.fiscal_year', [
     }
   });
 })
-.controller( 'FiscalYearsCtrl', function FiscalYearsCtrl( $scope, FiscalYearRes, $state, $rootScope, FiscalService, $location) {
+.controller( 'FiscalYearsCtrl', function FiscalYearsCtrl( $scope, FiscalYearRes, $state, $rootScope, FiscalService, $location, CompanyService) {
   $rootScope.loggedIn = true;
-  $scope.fiscal_years = FiscalYearRes.query();
+  $scope.fiscal_years = FiscalYearRes.query({cid: CompanyService.currentCompanyId()});
   $scope.newFiscalYear = function(){
     $state.transitionTo('fiscal_year');
   };
@@ -44,13 +44,14 @@ angular.module( 'bookie.fiscal_year', [
     $location.path("/dashboard");
   };
 })
-.controller('FiscalYearCtrl', function FiscalYearCtrl($scope, FiscalYearRes, $state, $stateParams, $rootScope){
+.controller('FiscalYearCtrl', function FiscalYearCtrl($scope, FiscalYearRes, $state, $stateParams, $rootScope,
+      CompanyService){
   $rootScope.loggedIn = true;
   $scope.fiscalYearId = parseInt($stateParams.fiscalYearId, 10);
   if($scope.fiscalYearId){
-    $scope.fiscal_year = FiscalYearRes.get({id: $scope.fiscalYearId});
+    $scope.fiscal_year = FiscalYearRes.get({cid: CompanyService.currentCompanyId(), id: $scope.fiscalYearId});
   }else{
-    $scope.fiscal_year = new FiscalYearRes();
+    $scope.fiscal_year = new FiscalYearRes({cid: CompanyService.currentCompanyId()});
   }
 
   $scope.cancel = function(){
@@ -75,8 +76,8 @@ angular.module( 'bookie.fiscal_year', [
     }
   };
 })
-.factory( 'FiscalYearRes', function ( $resource, CompanyService )  {
-  return $resource('../companies/:cid/fiscal_years/:id.json', {cid: CompanyService.currentCompanyId(), id:'@id'}, {'update': {method: 'PATCH'}});
+.factory( 'FiscalYearRes', function ( $resource )  {
+  return $resource('../companies/:cid/fiscal_years/:id.json', {cid: '@cid', id:'@id'}, {'update': {method: 'PATCH'}});
 })
 .service( 'FiscalService',function ($location, $rootScope, localStorageService){
   return {
