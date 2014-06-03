@@ -6,6 +6,9 @@ class AccountsController < ApplicationController
   # GET /accounts.json
   def index
     @accounts = current_user.companies.find(params[:company_id]).accounts
+    if params[:fiscal_year_id].present?
+      @accounts = @accounts.joins(:voucher_rows).select("accounts.*, (coalesce(sum(voucher_rows.debit), 0) - coalesce(sum(voucher_rows.credit), 0)) AS sum").group("accounts.id")
+    end
     respond_to do |format|
       format.html 
       format.json { render_with_protection @accounts }

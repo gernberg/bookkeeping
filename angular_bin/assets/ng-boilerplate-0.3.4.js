@@ -43148,23 +43148,24 @@ angular.module('bookie.account', [
   '$state',
   'CompanyService',
   '$rootScope',
-  function AccountsController($scope, AccountRes, $state, CompanyService, $rootScope) {
+  'FiscalService',
+  function AccountsController($scope, AccountRes, $state, CompanyService, $rootScope, FiscalService) {
     $rootScope.loggedIn = true;
     $scope.accounts = AccountRes.query({ cid: CompanyService.currentCompanyId() });
     $scope.gridOptions = {
       data: 'accounts',
       columnDefs: [
         {
-          field: 'id',
-          displayName: 'Id'
+          field: 'account_number',
+          displayName: 'Account Number'
         },
         {
           field: 'account_name',
           displayName: 'Account Name'
         },
         {
-          field: 'account_number',
-          displayName: 'Account Number'
+          field: 'balance',
+          displayName: 'Balance'
         },
         {
           displayName: 'Edit',
@@ -43226,14 +43227,20 @@ angular.module('bookie.account', [
   '$resource',
   'AccountCache',
   function ($resource, AccountCache) {
-    return $resource('../companies/:cid/accounts/:id.json', {
+    return $resource('../companies/:cid/:extra/:fid/accounts/:id.json', {
       id: '@id',
-      cid: '@cid'
+      cid: '@cid',
+      fid: '@fid'
     }, {
       'update': { method: 'PATCH' },
       'query': {
         cache: AccountCache,
         isArray: true
+      },
+      'fiscal_year': {
+        params: { extra: 'fiscal_years' },
+        isArray: true,
+        method: 'GET'
       }
     });
   }
@@ -43992,6 +43999,8 @@ angular.module('bookie.report', [
     $scope.downloadReport = function (report) {
       if (report == 'voucherlist') {
         voucherList();
+      } else if (report == 'balance') {
+        balance();
       } else {
         alert('Under construction');
       }
@@ -44003,6 +44012,104 @@ angular.module('bookie.report', [
           return $scope.accounts[i];
         }
       }
+    };
+    var balance = function () {
+      $scope.accounts = AccountRes.fiscal_year({
+        cid: CompanyService.currentCompanyId(),
+        fid: FiscalService.currentFiscalYearId()
+      }, function (res) {
+        createBalancePDF(res);
+      });
+    };
+    var createBalancePDF = function (res) {
+      var categories = [
+          '',
+          'Assets',
+          'Liabilites'
+        ];
+      var JsPDF = jsPDF;
+      var doc = new JsPDF();
+      var y = 10;
+      var columns = [
+          10,
+          30,
+          70,
+          130,
+          160
+        ];
+      var width = 200;
+      var rowHeight = 6;
+      y += rowHeight;
+      doc.setFontType('bold');
+      doc.setFontSize(22);
+      doc.text(columns[0], y, 'Balance report');
+      doc.setFontSize(14);
+      y += rowHeight * 2;
+      doc.text(columns[0], y, 'Account');
+      doc.text(columns[1], y, '');
+      doc.text(columns[2], y, '');
+      doc.text(columns[3], y, '');
+      doc.text(columns[4], y, 'Sum');
+      y += 2;
+      doc.setLineWidth(0.9);
+      doc.line(10, y, width, y);
+      doc.setLineWidth(0.2);
+      var current_group = 0;
+      var total_sum = 0;
+      var group_sum = 0;
+      function printGroup(group) {
+        y += rowHeight * 2;
+        doc.setFontType('bold');
+        doc.text(columns[0], y, '' + categories[group]);
+        doc.setFontType('normal');
+        y += rowHeight;
+        doc.setLineWidth(0.5);
+        doc.line(10, y - rowHeight / 2, width, y - rowHeight / 2);
+        doc.setLineWidth(0.2);
+      }
+      function printPreviousGroup(group, total_sum) {
+        if (group === 0) {
+          return false;
+        }
+        var lineWidth = 0.9;
+        var text = 'Sum';
+        if (group === 9) {
+          lineWidth = 2;
+          text = 'Result';
+        }
+        y += rowHeight * 2;
+        doc.setFontType('bold');
+        doc.text(columns[0], y, text);
+        doc.text(columns[4], y, '' + total_sum);
+        doc.setFontType('normal');
+        y += rowHeight;
+        doc.setLineWidth(lineWidth);
+        doc.line(10, y - rowHeight / 2, width, y - rowHeight / 2);
+        doc.setLineWidth(0.2);
+      }
+      angular.forEach(res, function (account, key) {
+        while (Math.floor(account.account_number / 1000) != current_group) {
+          printPreviousGroup(current_group, group_sum);
+          group_sum = 0;
+          current_group++;
+          if (current_group > categories.length - 1) {
+            return false;
+          }
+          printGroup(current_group);
+        }
+        total_sum += account.sum;
+        group_sum += account.sum;
+        y += rowHeight;
+        doc.setFontType('bold');
+        doc.text(columns[0], y, '' + account.account_number);
+        doc.text(columns[1], y, account.account_name);
+        doc.text(columns[4], y, '' + account.sum);
+        doc.setFontType('normal');
+        y += rowHeight;
+        doc.line(10, y - rowHeight / 2, width, y - rowHeight / 2);
+      });
+      printPreviousGroup(9, total_sum);
+      jQuery('.preview-pane').attr('src', doc.output('datauristring'));
     };
     var voucherList = function () {
       var vouchers = VoucherRes.query({

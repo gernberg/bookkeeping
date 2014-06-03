@@ -37,7 +37,7 @@ angular.module( 'bookie.account', [
 /**
  * And of course we define a controller for our route.
  */
-.controller( 'AccountsCtrl', function AccountsController( $scope, AccountRes, $state, CompanyService, $rootScope, FiscalService) {
+.controller( 'AccountsCtrl', function AccountsController( $scope, AccountRes, $state, CompanyService, $rootScope) {
     $rootScope.loggedIn = true;
     $scope.accounts = AccountRes.query({cid: CompanyService.currentCompanyId()});
     $scope.gridOptions = {
@@ -96,17 +96,10 @@ angular.module( 'bookie.account', [
 })
 .factory( 'AccountRes', function ( $resource, AccountCache)  {
   //return $resource('../accounts/:id.json', {id:'@id'}, {'update': {method: 'PATCH'}});
-  return $resource('../companies/:cid/:extra/:fid/accounts/:id.json', {id: '@id', cid: '@cid', fid: '@fid'}, {'update': {method: 'PATCH'},
+  return $resource('../companies/:cid/accounts/:id.json', {id: '@id', cid: '@cid'}, {'update': {method: 'PATCH'},
     'query': {
       cache: AccountCache,
       isArray: true
-    },
-    'fiscal_year' : {
-      params:{
-        extra: 'fiscal_years'
-      },
-      isArray: true,
-        method: 'GET'
     }
   });
 });
