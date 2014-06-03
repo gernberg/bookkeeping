@@ -3,17 +3,16 @@
 </h1>
 <div class="row">
   <div class="col-xs-6">
-    <button class="btn btn-primary btn-lg" ng-click="newVoucher()">
+    <button class="btn btn-primary " ng-click="newVoucher()">
       <span class="glyphicon glyphicon-plus"></span>
       New voucher
     </button>
   </div>
   <div class="col-xs-6 text-right">
-    <div class="navbar-form navbar-left" role="search">
+    <div class="navbar-form navbar-right" role="search">
       <div class="form-group">
         <input type="text" ng-model="search" class="form-control" placeholder="Search" ng-enter="openVoucherByNumber(search)">
       </div>
-      <button type="submit" ng-click="openVoucherByNumber(search)" class="btn btn-default">Submit</button>
     </div>
   </div>
 </div>
@@ -21,7 +20,7 @@
   <div class="panel-heading">
   </div>
   <div class="panel-body">
-    <div class="row" ng-repeat="voucher in vouchers">
+    <div class="row" ng-repeat="voucher in vouchers | filter:{title:search} ">
       <div class="col-xs-1">
         {{voucher.number}}
       </div>

@@ -43476,6 +43476,7 @@ angular.module('bookie.company', [
   function CompaniesController($scope, CompanyRes, $state, $rootScope, CompanyService, FiscalService) {
     $rootScope.loggedIn = true;
     $scope.companies = CompanyRes.query();
+    $scope.currentCompanyId = CompanyService.currentCompanyId();
     $scope.newCompany = function () {
       $state.transitionTo('company');
     };
@@ -43791,6 +43792,7 @@ angular.module('bookie.fiscal_year', [
   '$location',
   'CompanyService',
   function FiscalYearsCtrl($scope, FiscalYearRes, $state, $rootScope, FiscalService, $location, CompanyService) {
+    $scope.currentFiscalYearId = FiscalService.currentFiscalYearId();
     $rootScope.loggedIn = true;
     $scope.fiscal_years = FiscalYearRes.query({ cid: CompanyService.currentCompanyId() });
     $scope.newFiscalYear = function () {
@@ -51772,9 +51774,15 @@ angular.module("company/companies.tpl.html", []).run(["$templateCache", function
     "<div>\n" +
     "  <h1>Companies</h1>\n" +
     "</div>\n" +
+    "<div class=\"alert alert-warning\" ng-hide=\"currentCompanyId\">\n" +
+    "  Please select or create a fiscal year\n" +
+    "</div>\n" +
     "<ul class=\"list-group\">\n" +
     "  <li class=\"list-group-item\"><b>Switch to Company</b></li>\n" +
     "  <li ng-repeat=\"company in companies\" class=\"list-group-item\">\n" +
+    "  <span class=\"badge\" ng-show=\"{{currentCompanyId == company.id}}\">\n" +
+    "    Current \n" +
+    "  </span>\n" +
     "  <button ng-click=\"selectCompany(company)\" class=\"btn btn-success\" >\n" +
     "    <b>\n" +
     "      {{company.name}}\n" +
@@ -52040,12 +52048,15 @@ angular.module("fiscal_year/fiscal_years.tpl.html", []).run(["$templateCache", f
     "<div>\n" +
     "  <h1>Fiscal years</h1>\n" +
     "</div>\n" +
-    "<div class=\"alert alert-warning\" ng-hide=\"$rootScope.fiscalYearId\">\n" +
+    "<div class=\"alert alert-warning\" ng-hide=\"currentFiscalYearId\">\n" +
     "  Please select or create a fiscal year\n" +
     "</div>\n" +
     "<ul class=\"list-group\">\n" +
     "  <li class=\"list-group-item\"><b>Switch to Fiscal Year</b></li>\n" +
-    "  <li ng-repeat=\"fiscal_year in fiscal_years\" class=\"list-group-item\">\n" +
+    "  <li ng-repeat=\"fiscal_year in fiscal_years\" class=\"list-group-item\"> \n" +
+    "  <span class=\"badge\" ng-show=\"{{currentFiscalYearId == fiscal_year.id}}\">\n" +
+    "    Current \n" +
+    "  </span>\n" +
     "    <b>\n" +
     "      {{fiscal_year.start_date}}\n" +
     "      -\n" +

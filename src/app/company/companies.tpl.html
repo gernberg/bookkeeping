@@ -1,9 +1,15 @@
 <div>
   <h1>Companies</h1>
 </div>
+<div class="alert alert-warning" ng-hide="currentCompanyId">
+  Please select or create a fiscal year
+</div>
 <ul class="list-group">
   <li class="list-group-item"><b>Switch to Company</b></li>
   <li ng-repeat="company in companies" class="list-group-item">
+  <span class="badge" ng-show="{{currentCompanyId == company.id}}">
+    Current 
+  </span>
   <button ng-click="selectCompany(company)" class="btn btn-success" >
     <b>
       {{company.name}}
