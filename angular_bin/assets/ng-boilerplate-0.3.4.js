@@ -43472,7 +43472,8 @@ angular.module('bookie.company', [
   '$state',
   '$rootScope',
   'CompanyService',
-  function CompaniesController($scope, CompanyRes, $state, $rootScope, CompanyService) {
+  'FiscalService',
+  function CompaniesController($scope, CompanyRes, $state, $rootScope, CompanyService, FiscalService) {
     $rootScope.loggedIn = true;
     $scope.companies = CompanyRes.query();
     $scope.newCompany = function () {
@@ -43480,6 +43481,7 @@ angular.module('bookie.company', [
     };
     $scope.selectCompany = function (company) {
       CompanyService.selectCompany(company.id);
+      FiscalService.selectFiscalYear(null);
       $state.transitionTo('dashboard');
     };
     $scope.editCompany = function (company) {
@@ -43566,7 +43568,16 @@ angular.module('bookie.dashboard', [
   'AccountRes',
   'VoucherRes',
   'FiscalYearRes',
-  function ($scope, $http, $location, $state, $rootScope, AccountRes, VoucherRes, FiscalYearRes) {
+  'CompanyService',
+  'FiscalService',
+  function ($scope, $http, $location, $state, $rootScope, AccountRes, VoucherRes, FiscalYearRes, CompanyService, FiscalService) {
+    var balance_categories, result_categories;
+    if (CompanyService.currentCompanyId() === null) {
+      return false;
+    }
+    if (FiscalService.currentFiscalYearId() === null) {
+      return false;
+    }
     $rootScope.loggedIn = true;
     $scope.data = [
       {
@@ -43578,130 +43589,62 @@ angular.module('bookie.dashboard', [
         label: 'Bankkonto'
       }
     ];
-    $scope.accounts = AccountRes.query();
-    $scope.vouchers = VoucherRes.query();
-    $scope.fiscal_years = FiscalYearRes.query();
-    $scope.result = -100000;
-    $scope.balance = 100000;
-    $scope.monthly = [
-      [
-        [
-          1,
-          3
-        ],
-        [
-          2,
-          3
-        ],
-        [
-          3,
-          10
-        ],
-        [
-          4,
-          0
-        ],
-        [
-          5,
-          50000
-        ],
-        [
-          6,
-          70
-        ]
-      ],
-      [
-        [
-          1,
-          3
-        ],
-        [
-          2,
-          -3
-        ],
-        [
-          3,
-          -10
-        ],
-        [
-          4,
-          -10
-        ],
-        [
-          5,
-          -10
-        ]
-      ],
-      [
-        [
-          1,
-          6
-        ],
-        [
-          2,
-          -3
-        ]
-      ]
+    $scope.accounts = AccountRes.fiscal_year({
+      cid: CompanyService.currentCompanyId(),
+      fid: FiscalService.currentFiscalYearId()
+    });
+    $scope.vouchers = VoucherRes.query({
+      cid: CompanyService.currentCompanyId(),
+      fid: FiscalService.currentFiscalYearId()
+    });
+    $scope.fiscal_years = FiscalYearRes.query({ cid: CompanyService.currentCompanyId() });
+    $scope.result = 0;
+    $scope.balance = 0;
+    balance_categories = [
+      '',
+      '#4D9CDF',
+      '#FF8F86'
     ];
-    $scope.assets = [
-      {
-        label: 'Domestic sales',
-        data: 140000,
-        color: '#C3CC7C'
-      },
-      {
-        label: 'International sales',
-        data: 90000,
-        color: '#D3DC8C'
-      },
-      {
-        label: 'Supplies',
-        data: 140000,
-        color: '#FF6F66'
-      },
-      {
-        label: 'Staff',
-        data: 140000,
-        color: '#FF7F76'
-      },
-      {
-        label: 'Other expenses',
-        data: 90000,
-        color: '#FF8F86'
+    result_categories = [
+      '',
+      '',
+      '',
+      '#4D9CDF',
+      '#FF8F86',
+      '#FF8F86',
+      '#FF8F86',
+      '#FF8F86'
+    ];
+    $scope.accounts.$promise.then(function () {
+      var category, color, data, i, _i, _ref, _results;
+      $scope.result_accounts = [];
+      $scope.balance_accounts = [];
+      _results = [];
+      for (i = _i = 0, _ref = $scope.accounts.length - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
+        data = $scope.accounts[i].sum;
+        category = Math.floor($scope.accounts[i].account_number / 1000);
+        if (category < balance_categories.length) {
+          $scope.balance += data;
+          color = balance_categories[category];
+          _results.push($scope.balance_accounts.push({
+            label: $scope.accounts[i].account_name,
+            color: color,
+            data: Math.abs(data)
+          }));
+        } else if (category < result_categories.length) {
+          $scope.result += data;
+          color = result_categories[category];
+          _results.push($scope.result_accounts.push({
+            label: $scope.accounts[i].account_name,
+            color: color,
+            data: Math.abs(data)
+          }));
+        } else {
+          _results.push(void 0);
+        }
       }
-    ];
-    $scope.what = [
-      {
-        label: 'Current assets',
-        data: 30000,
-        color: '#4D9CDF'
-      },
-      {
-        label: 'Liquid assets',
-        data: 20000,
-        color: '#5DACFF'
-      },
-      {
-        label: 'Absolute liquid assets',
-        data: 90000,
-        color: '#6DBCFF'
-      },
-      {
-        label: 'Salaries payable',
-        data: 50000,
-        color: '#FF6F66'
-      },
-      {
-        label: 'Accounts payable',
-        data: 40000,
-        color: '#FF7F76'
-      },
-      {
-        label: 'Long term loans',
-        data: 10000,
-        color: '#FF8F86'
-      }
-    ];
+      return _results;
+    });
     $scope.newVoucher = function () {
       return $state.transitionTo('voucher');
     };
@@ -43867,7 +43810,8 @@ angular.module('bookie.fiscal_year', [
   '$state',
   '$stateParams',
   '$rootScope',
-  function FiscalYearCtrl($scope, FiscalYearRes, $state, $stateParams, $rootScope) {
+  'CompanyService',
+  function FiscalYearCtrl($scope, FiscalYearRes, $state, $stateParams, $rootScope, CompanyService) {
     $rootScope.loggedIn = true;
     $scope.fiscalYearId = parseInt($stateParams.fiscalYearId, 10);
     if ($scope.fiscalYearId) {
@@ -51861,26 +51805,26 @@ angular.module("dashboard/dashboard.tpl.html", []).run(["$templateCache", functi
     "  <div class=\"col-sm-8\">\n" +
     "    <div class=\"row\">\n" +
     "      <div class=\"col-sm-6\">\n" +
-    "        <div class=\"panel\" ng-class=\"{'panel-success' : result > 0, 'panel-danger' : result <= 0}\">\n" +
+    "        <div class=\"panel\" ng-class=\"{'panel-success' : result >= 0, 'panel-danger' : result <= 0}\">\n" +
     "          <div class=\"panel-heading\">\n" +
     "            <h2 class=\"panel-title\">\n" +
     "              Result: {{result}} kr\n" +
     "            </h2>\n" +
     "          </div>\n" +
-    "          <div class=\"panel-body\">\n" +
-    "            <pie-chart style=\"display:block;height:250px;width:100%\" ng-model=\"assets\"></chart>\n" +
+    "          <div class=\"panel-body\" ng-if=\"result_accounts\">\n" +
+    "            <pie-chart style=\"display:block;height:250px;width:100%\" ng-model=\"result_accounts\"></chart>\n" +
     "          </div>\n" +
     "        </div>\n" +
     "      </div>\n" +
     "      <div class=\"col-sm-6\">\n" +
-    "        <div class=\"panel\" ng-class=\"{'panel-success' : balance > 0, 'panel-danger' : balance <= 0}\">\n" +
+    "        <div class=\"panel\" ng-class=\"{'panel-success' : balance >= 0, 'panel-danger' : balance <= 0}\">\n" +
     "          <div class=\"panel-heading\">\n" +
     "            <h2 class=\"panel-title\">\n" +
     "              Balance: {{balance}} kr\n" +
     "            </h2>\n" +
     "          </div>\n" +
-    "          <div class=\"panel-body\">\n" +
-    "            <pie-chart style=\"display:block;height:250px;width:100%\" ng-model=\"what\"></chart>\n" +
+    "          <div class=\"panel-body\" ng-if=\"balance_accounts\">\n" +
+    "            <pie-chart style=\"display:block;height:250px;width:100%\" ng-model=\"balance_accounts\"></chart>\n" +
     "          </div>\n" +
     "        </div>\n" +
     "      </div>\n" +

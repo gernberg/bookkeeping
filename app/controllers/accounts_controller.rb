@@ -7,7 +7,8 @@ class AccountsController < ApplicationController
   def index
     @accounts = current_user.companies.find(params[:company_id]).accounts
     if params[:fiscal_year_id].present?
-      @accounts = @accounts.joins(:voucher_rows).select("accounts.*, (coalesce(sum(voucher_rows.debit), 0) - coalesce(sum(voucher_rows.credit), 0)) AS sum").group("accounts.id")
+      @fiscal_year = current_user.companies.find(params[:company_id]).fiscal_years.find(params[:fiscal_year_id])
+      @accounts = @accounts.joins(:voucher_rows).joins(:vouchers).select("accounts.*, (coalesce(sum(voucher_rows.debit), 0) - coalesce(sum(voucher_rows.credit), 0)) AS sum").where("fiscal_year_id = ?", @fiscal_year.id).group("accounts.id")
     end
     respond_to do |format|
       format.html 
