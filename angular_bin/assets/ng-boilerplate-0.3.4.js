@@ -44077,7 +44077,7 @@ angular.module('bookie.report', [
           lineWidth = 2;
           text = 'Result';
         }
-        y += rowHeight * 2;
+        y += rowHeight;
         doc.setFontType('bold');
         doc.text(columns[0], y, text);
         doc.text(columns[4], y, '' + total_sum);
@@ -44087,16 +44087,23 @@ angular.module('bookie.report', [
         doc.line(10, y - rowHeight / 2, width, y - rowHeight / 2);
         doc.setLineWidth(0.2);
       }
+      var done = false;
       angular.forEach(res, function (account, key) {
+        if (done) {
+          return false;
+        }
+        console.log(account.account_number, Math.floor(account.account_number / 1000));
         while (Math.floor(account.account_number / 1000) != current_group) {
           printPreviousGroup(current_group, group_sum);
           group_sum = 0;
           current_group++;
           if (current_group > categories.length - 1) {
+            done = true;
             return false;
           }
           printGroup(current_group);
         }
+        console.log(account.account_number);
         total_sum += account.sum;
         group_sum += account.sum;
         y += rowHeight;
