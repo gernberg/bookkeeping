@@ -43191,7 +43191,6 @@ angular.module('bookie.account', [
   'AccountCache',
   function AccountController($scope, AccountRes, $state, $stateParams, $rootScope, CompanyService, AccountCache) {
     $rootScope.loggedIn = true;
-    $scope.accountId = parseInt($stateParams.accountId, 10);
     if ($scope.accountId) {
       $scope.account = AccountRes.get({
         cid: CompanyService.currentCompanyId(),
@@ -43200,6 +43199,7 @@ angular.module('bookie.account', [
     } else {
       $scope.account = new AccountRes({ cid: CompanyService.currentCompanyId() });
     }
+    $scope.accountId = parseInt($stateParams.accountId, 10);
     $scope.cancel = function () {
       $state.transitionTo('accounts');
     };

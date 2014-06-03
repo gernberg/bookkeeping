@@ -2,8 +2,12 @@ class AccountsController < ApplicationController
   before_action :set_account, only: [:show, :edit, :update, :destroy]
   before_filter :authenticate_user!
 
-  # GET /accounts
-  # GET /accounts.json
+  ## 
+  # GET /companies/:company_id/accounts
+  # => Returns accounts for a company
+  #
+  # GET /companies/:company_id/fiscal_years/:fiscal_year_id/accounts
+  # => Returns accounts used the given FiscalYear and the total sum
   def index
     @accounts = current_user.companies.find(params[:company_id]).accounts
     if params[:fiscal_year_id].present?

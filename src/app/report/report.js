@@ -91,6 +91,7 @@ angular.module( 'bookie.report', [
     var current_group = 0;
     var total_sum = 0;
     var group_sum = 0;
+    // Prints a group
     function printGroup(group){
       y += rowHeight*2;
       doc.setFontType("bold");
@@ -101,6 +102,7 @@ angular.module( 'bookie.report', [
       doc.line(10, y-rowHeight/2, width, y-rowHeight/2); // horizontal line
       doc.setLineWidth(0.2);
     }
+    // Prints the footer for a group
     function printPreviousGroup(group, total_sum){
       if(group === 0){
         return false;
