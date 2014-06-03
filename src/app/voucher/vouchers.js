@@ -47,8 +47,8 @@ angular.module( 'bookie.voucher', [
     return false;
   }
   $rootScope.loggedIn = true;
-  $scope.accounts = AccountRes.query();
-  $scope.vouchers = VoucherRes.query();
+  $scope.accounts = AccountRes.query({cid: CompanyService.currentCompanyId()});
+  $scope.vouchers = VoucherRes.query({cid: CompanyService.currentCompanyId(), fid: FiscalService.currentFiscalYearId()});
   console.log($scope.vouchers);
   $scope.openVoucherByNumber = function(number){
     //VoucherRes.
@@ -61,23 +61,35 @@ angular.module( 'bookie.voucher', [
     $state.transitionTo('showVoucher', {voucherId: voucher.id});
   };
 })
-.controller('VoucherShowCtrl', function VoucherCtrl($scope, VoucherRes, $state, $stateParams, $rootScope, AccountRes, VoucherCache){
+.controller('VoucherShowCtrl', function VoucherCtrl($scope, VoucherRes, $state, $stateParams, $rootScope, AccountRes, VoucherCache, CompanyService, FiscalService){
   $rootScope.loggedIn = true;
   $scope.voucherId = parseInt($stateParams.voucherId, 10);
-  $scope.voucher = VoucherRes.get({id: $scope.voucherId}, function(res){
+  $scope.voucher = VoucherRes.get({fid: FiscalService.currentFiscalYearId(), cid: CompanyService.currentCompanyId(), id: $scope.voucherId}, function(res){
     angular.forEach(res.voucher_rows, function(val, key){
-      val.account = AccountRes.get({id: val.account_id});
+      val.account = AccountRes.get({cid: CompanyService.currentCompanyId(), id: val.account_id});
     });
   });
+  $scope.updateVoucher = function(){
+    $scope.voucher.$update({cid: CompanyService.currentCompanyId(), fid: FiscalService.currentFiscalYearId()}, function(){
+      $state.transitionTo('vouchers');
+    }, function(error){
+      if(error.data.date){
+      alert("Date: " + error.data.date[0]);  
+      }
+      if(error.data.title){
+      alert("Title: " + error.data.title[0]);  
+      }
+    });
+  };
 })
-.controller('VoucherCtrl', function VoucherCtrl($scope, VoucherRes, $state, $stateParams, $rootScope, AccountRes, VoucherCache, $cacheFactory){
+.controller('VoucherCtrl', function VoucherCtrl($scope, VoucherRes, $state, $stateParams, $rootScope, AccountRes, VoucherCache, $cacheFactory, CompanyService, FiscalService){
   $rootScope.loggedIn = true;
   $scope.editVoucher = function(voucher){
     $state.transitionTo('showVoucher', {voucherId: voucher.id});
   };
   var loadVouchers = function(){
     $scope.vouchers_loaded = false;
-    $scope.vouchers = VoucherRes.query(function(res){
+    $scope.vouchers = VoucherRes.query({cid: CompanyService.currentCompanyId(), fid: FiscalService.currentFiscalYearId()}, function(res){
       $scope.vouchers_loaded = true;
       if($scope.voucher.date === undefined){
         $scope.voucher.date = res[0].date;
@@ -87,7 +99,7 @@ angular.module( 'bookie.voucher', [
   };
   var newVoucher = function(){
     loadVouchers();
-    voucher = new VoucherRes();
+    voucher = new VoucherRes({fid: FiscalService.currentFiscalYearId(), cid: CompanyService.currentCompanyId()});
     voucher.voucher_rows = [
 {},
 {},
@@ -101,7 +113,7 @@ return voucher;
 
 $scope.voucher = newVoucher();
 
-$scope.accounts = AccountRes.query();
+  $scope.accounts = AccountRes.query({cid: CompanyService.currentCompanyId()});
 console.log($scope.accounts);
 
 
@@ -241,21 +253,12 @@ $scope.submit = function(){
     });
     return false;
   }
-  if($scope.voucherId){
-    $scope.voucher.$update(function(response){
-      $state.transitionTo('vouchers');
-    }, function(response){
-      $scope.start_date_errors = response.data.start_date;
-      $scope.end_date_errors = response.data.end_date;
-    });
-  }else{
-    $scope.voucher.$save(function(response){
-      $state.transitionTo('vouchers');
-    }, function(response){
-      $scope.start_date_errors = response.data.start_date;
-      $scope.end_date_errors = response.data.end_date;
-    });
-  }
+  $scope.voucher.$save(function(response){
+    $state.transitionTo('vouchers');
+  }, function(response){
+    $scope.start_date_errors = response.data.start_date;
+    $scope.end_date_errors = response.data.end_date;
+  });
 };
 })
 .factory( 'VoucherCache', function(localStorageService, $cacheFactory){
@@ -264,15 +267,15 @@ $scope.submit = function(){
   return cache;
 })
 .factory( 'VoucherRes', function ( $resource, CompanyService, FiscalService, VoucherCache)  {
-  return $resource('../companies/:cid/fiscal_years/:fid/vouchers/:id.json', {fid: FiscalService.currentFiscalYearId(), cid: CompanyService.currentCompanyId(), id:'@id'}, {
+  return $resource('../companies/:cid/fiscal_years/:fid/vouchers/:id.json', {fid: '@fid', cid: '@cid', id:'@id'}, {
     'query' : {
       method: 'GET', 
       cache: VoucherCache,
       isArray: true
     },
-   'update': {
-     method: 'PATCH'
-   }
+    'update': {
+      method: 'PUT'
+    }
   });
 })
 .directive('currencyInput', function($filter, $browser) {
@@ -359,6 +362,7 @@ link: function($scope, $element, $attrs, ngModelCtrl) {
     });
     $(iElement).blur(function(){
       $(this).val($(this).val().substr(0,4));
+      iElement.triggerHandler("change");
     });
   };
 })
