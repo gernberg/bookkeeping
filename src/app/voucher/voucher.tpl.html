@@ -1,7 +1,7 @@
 <div class="panel panel-default">
   <div class="panel-heading">
     <h1 class="panel-title">
-      Voucher <span ng-show="vouchers_loaded">{{vouchers[0].number+1}}</span>
+      Voucher <span ng-show="vouchers_loaded">{{vouchers[0].number+1}}<abbr title='Preliminary'>*</abbr></span>
       <span class="pull-right">
         Last voucher: <button class="btn btn-default btn-xs" ng-click='editVoucher(lastVoucher)'>#{{lastVoucher.number}} ({{lastVoucher.title}})</button>
       </span>
@@ -59,7 +59,6 @@
           </div>
           <div class="col-sm-9">
             <label>
-              {{findAccount(row.account)}}
             </label>
           </div>
         </div>

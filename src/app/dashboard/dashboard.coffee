@@ -11,43 +11,69 @@ angular.module( 'bookie.dashboard', [
     url: '/dashboard',
     views: {
       "main":{
-      controller: "DasboardCtrl",
+      controller: "DashboardCtrl",
       templateUrl: "dashboard/dashboard.tpl.html"
       }
     },
     data: {pageTitle: "Dashboard"}
   })
 
-.controller('DasboardCtrl', ($scope, $http, $location, $state,
-  $rootScope, AccountRes, VoucherRes, FiscalYearRes) ->
+.controller('DashboardCtrl', ($scope, $http, $location, $state,
+  $rootScope, AccountRes, VoucherRes, FiscalYearRes,
+  CompanyService, FiscalService) ->
+  if(CompanyService.currentCompanyId() == null)
+    return false
+  if(FiscalService.currentFiscalYearId() == null)
+    return false
   $rootScope.loggedIn = true
   $scope.data = [
     (value: 100, label: "Kundfodringar"),
     (value: 200, label: "Bankkonto")
   ]
-  $scope.accounts = AccountRes.query()
-  $scope.vouchers = VoucherRes.query()
-  $scope.fiscal_years = FiscalYearRes.query()
-  $scope.monthly = [
-    [[1,3], [2,3], [3,10],[4,0],[5,50000],[6,70]],
-    [[1,3], [2,-3], [3,-10], [4,-10], [5,-10]],
-    [[1,6], [2,-3]]
-  ]
-  $scope.assets = [
-    (label:"Kundfodringar", data:40000)
-    (label:"Tillgångar", data:120000)
-  ]
-  $scope.budget = [
-    (label:"Omsättning", data:15000, color:"#090")
-    (label:"Budgeterat för period", color:"#900", data:3000)
-    (label:"Budgeterat för period", color:"#ccc", data:17000)
-  ]
-  $scope.what = [
-    (label:"Genomsnittlig bokföringstid", data:13)
-    (label:"Ojoj", data:17)
-  ]
+  $scope.accounts = AccountRes.fiscal_year({
+    cid: CompanyService.currentCompanyId(),
+    fid: FiscalService.currentFiscalYearId()
+  })
+  $scope.vouchers = VoucherRes.query({
+    cid: CompanyService.currentCompanyId(),
+    fid: FiscalService.currentFiscalYearId()
+  })
+  $scope.fiscal_years = FiscalYearRes.query({
+    cid: CompanyService.currentCompanyId()
+  })
+  $scope.result = 0
+  $scope.balance = 0
+  balance_categories = ["", "#4D9CDF", "#FF8F86"]
+  result_categories = ["", "", "",
+    "#4D9CDF", "#FF8F86",
+    "#FF8F86", "#FF8F86",
+    "#FF8F86"]
+  $scope.accounts.$promise.then ()->
+    $scope.result_accounts = []
+    $scope.balance_accounts = []
+    for i in [0..($scope.accounts.length-1)]
+      data = $scope.accounts[i].sum
+      category = Math.floor($scope.accounts[i].account_number/1000)
+      if category < balance_categories.length
+        $scope.balance += data
+        color = balance_categories[category]
+        $scope.balance_accounts.push {
+          label: $scope.accounts[i].account_name,
+          color: color,
+          data: Math.abs(data)
+        }
+      else if category < result_categories.length
+        $scope.result += data
+        color = result_categories[category]
+        $scope.result_accounts.push {
+          label: $scope.accounts[i].account_name,
+          color: color,
+          data: Math.abs(data)
+        }
+  $scope.newVoucher = () ->
+    $state.transitionTo('voucher')
   $scope.showVoucher = (voucher) ->
-    $state.transitionTo('voucher', {voucherId: voucher.id})
+    $state.transitionTo('showVoucher', {voucherId: voucher.id})
 )
 .factory( 'VoucherRes', ($resource, FiscalService, CompanyService) ->
   $resource('../companies/:cid/fiscal_years/:fid/vouchers/:id.json', {

@@ -33,8 +33,11 @@ angular.module( 'bookie.devise', [
 /**
  *  Login controller that handels login and logout
  */
-.controller( 'LoginCtrl', function LoginController( $scope, $http, $rootScope, $location) {
+.controller( 'LoginCtrl', function LoginController( $scope, $http, $rootScope, $location, CompanyService, FiscalService) {
+  CompanyService.selectCompany(null);
+  FiscalService.selectFiscalYear(null);
   $rootScope.fullWidthLayout = true;
+  $rootScope.loggedIn = false;
   $scope.user = {email: null, password: null};
   $scope.signup = {email:null, password:null, password_repeat:null};
   $scope.error = {message: null, errors: {}};
@@ -53,12 +56,6 @@ angular.module( 'bookie.devise', [
     });
   };
 
-  $scope.logout = function() {
-    $http({method: 'DELETE', url: '../users/sign_out.json', data: {}})
-    .success(function(){
-      $scope.error.message = "Signed out";
-    });
-  };
 
   $scope.register = function() {
     $http({

@@ -8,6 +8,7 @@ angular.module( 'bookie', [
   'bookie.company',
   'bookie.devise',
   'bookie.dashboard',
+  'bookie.report',
   'bookie.fiscal_year',
   'bookie.voucher',
   'ui.state',
@@ -24,6 +25,14 @@ angular.module( 'bookie', [
   $rootScope.companyId = localStorageService.get('companyId');
   $rootScope.fiscalYearId = localStorageService.get('fiscalYearId');
   $rootScope.loggedIn = false;
+  $rootScope.logout = function() {
+      $location.path("/login");
+    $http({method: 'DELETE', url: '../users/sign_out.json', data: {}})
+    .success(function(){
+      $scope.error.message = "Signed out";
+      $location.path("/login");
+    });
+  };
   /*
   onRouteChangeOff = $rootScope.$on('$locationChangeStart', function(event, newUrl){
     console.log(newUrl, event);
@@ -73,8 +82,8 @@ link: function(scope, elem, attrs){
 
 
   var stack = true,
-bars = true,
-lines = 0,
+bars = false,
+lines = true,
 steps = true;
 var options = {
   series: {
@@ -116,7 +125,7 @@ scope.$watch(attrs.ngModel, function(v){
     var options = {
       series: {
         pie: {
-          innerRadius: 0.4,
+          innerRadius: 0.6,
   show: true,
   startAngle: 1
         }

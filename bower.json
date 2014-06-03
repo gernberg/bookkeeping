@@ -15,7 +15,9 @@
     "d3":"latest",
     "angular-charts": "latest",
     "angular-bootstrap-datetimepicker": "latest",
-    "typeahead.js" : "~0.10.0"
+    "typeahead.js" : "~0.10.0",
+    "pdfmake" : "latest",
+    "jspdf" : "https://github.com/MrRio/jsPDF.git"
   },
   "dependencies": {
     "nvd3": "~1.1.15-beta"

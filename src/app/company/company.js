@@ -14,7 +14,8 @@ angular.module( 'bookie.company', [
         controller: "CompaniesCtrl",
         templateUrl: "company/companies.tpl.html"
       }
-    }
+    },
+    data:{pageTitle: "Companies"}
   }).state('company', {
     url: '/company?companyId',
     views:{
@@ -22,10 +23,11 @@ angular.module( 'bookie.company', [
         controller: "CompanyCtrl",
         templateUrl: "company/company.tpl.html"
       }
-    }
+    },
+    data:{pageTitle: "Company"}
   });
 })
-.controller( 'CompaniesCtrl', function CompaniesController( $scope, CompanyRes, $state, $rootScope, CompanyService) {
+.controller( 'CompaniesCtrl', function CompaniesController( $scope, CompanyRes, $state, $rootScope, CompanyService, FiscalService) {
   $rootScope.loggedIn = true;
   $scope.companies = CompanyRes.query();
   $scope.newCompany = function(){
@@ -33,6 +35,7 @@ angular.module( 'bookie.company', [
   };
   $scope.selectCompany = function(company){
     CompanyService.selectCompany(company.id);
+    FiscalService.selectFiscalYear(null);
     $state.transitionTo('dashboard');
   };
   $scope.editCompany = function(company){

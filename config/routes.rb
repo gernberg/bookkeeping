@@ -3,6 +3,7 @@ Bookie::Application.routes.draw do
   resources :companies do
     resources :accounts
     resources :fiscal_years do
+      resources :accounts
       resources :vouchers do
         resources :voucher_rows
       end
