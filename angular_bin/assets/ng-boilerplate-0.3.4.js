@@ -44047,9 +44047,12 @@ angular.module('bookie.report', [
           }
           printGroup(current_group);
         }
-        console.log(account.account_number);
         total_sum += account.sum;
         group_sum += account.sum;
+        if (y > 250) {
+          doc.addPage();
+          y = 10;
+        }
         y += rowHeight;
         doc.setFontType('bold');
         doc.text(columns[0], y, '' + account.account_number);
@@ -44060,7 +44063,7 @@ angular.module('bookie.report', [
         doc.line(10, y - rowHeight / 2, width, y - rowHeight / 2);
       });
       printPreviousGroup(9, total_sum);
-      jQuery('.preview-pane').attr('src', doc.output('datauristring'));
+      doc.save('BalanceReport.pdf');
     };
     var voucherList = function () {
       var vouchers = VoucherRes.query({
@@ -44071,7 +44074,7 @@ angular.module('bookie.report', [
         console.log(res);
         var JsPDF = jsPDF;
         var doc = new JsPDF();
-        var y = 10;
+        var y = 0;
         var columns = [
             10,
             30,
@@ -44081,23 +44084,31 @@ angular.module('bookie.report', [
           ];
         var width = 200;
         var rowHeight = 6;
-        y += rowHeight;
-        doc.setFontType('bold');
-        doc.setFontSize(22);
-        doc.text(columns[0], y, 'Voucher list');
-        doc.setFontSize(14);
-        y += rowHeight * 2;
-        doc.text(columns[0], y, 'No');
-        doc.text(columns[1], y, 'Date');
-        doc.text(columns[2], y, 'Title');
-        doc.text(columns[3], y, 'Debit');
-        doc.text(columns[4], y, 'Credit');
-        y += 2;
-        doc.setLineWidth(0.9);
-        doc.line(10, y, width, y);
-        doc.setLineWidth(0.2);
+        function printHeader() {
+          y = 10;
+          y += rowHeight;
+          doc.setFontType('bold');
+          doc.setFontSize(22);
+          doc.text(columns[0], y, 'Voucher list');
+          doc.setFontSize(14);
+          y += rowHeight * 2;
+          doc.text(columns[0], y, 'No');
+          doc.text(columns[1], y, 'Date');
+          doc.text(columns[2], y, 'Title');
+          doc.text(columns[3], y, 'Debit');
+          doc.text(columns[4], y, 'Credit');
+          y += 2;
+          doc.setLineWidth(0.9);
+          doc.line(10, y, width, y);
+          doc.setLineWidth(0.2);
+        }
+        printHeader();
         angular.forEach(res.reverse(), function (voucher, key) {
           console.log(voucher, voucher.voucher_rows);
+          if (y > 250) {
+            doc.addPage();
+            printHeader();
+          }
           y += rowHeight;
           doc.setFontType('bold');
           doc.text(columns[0], y, '' + voucher.number);
@@ -52166,8 +52177,9 @@ angular.module("report/reports.tpl.html", []).run(["$templateCache", function($t
     "  </button>\n" +
     "  </li>\n" +
     "</ul>\n" +
-    "<iframe  class=\"page-icon preview-pane\" frameborder=\"0\" height=\"352\" width=\"396\" style=\"left: 638px\"></iframe>\n" +
-    "\n" +
+    "<!--\n" +
+    "<iframe  class=\"page-icon preview-pane\" frameborder=\"0\" height=\"552\" width=\"196\" style=\"left: 638px\"></iframe>\n" +
+    "-->\n" +
     "");
 }]);
 
