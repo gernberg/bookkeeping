@@ -1,5 +1,5 @@
 /**
- * ng-boilerplate - v0.3.4 - 2014-06-03
+ * ng-boilerplate - v0.3.5 - 2014-06-03
  * http://bit.ly/ng-boilerplate
  *
  * Copyright (c) 2014 Josh David Miller
@@ -43750,7 +43750,7 @@ angular.module('bookie.devise', ['ui.state']).config([
         },
         method: 'POST'
       }).success(function (data, status) {
-        console.log(data);
+        $location.path('/dashboard');
       }).error(function (data, status) {
         $scope.signup_error.errors = data.errors;
       });
@@ -52062,7 +52062,7 @@ angular.module("fiscal_year/fiscal_years.tpl.html", []).run(["$templateCache", f
     "      -\n" +
     "      {{fiscal_year.end_date}}\n" +
     "    </b>\n" +
-    "  <button ng-click=\"editFiscalYear(fiscal_year)\" class=\"btn btn-success\" >\n" +
+    "  <button ng-click=\"editFiscalYear(fiscal_year)\" class=\"btn btn-warning\" >\n" +
     "    Edit\n" +
     "  </button>\n" +
     "  <button ng-click=\"selectFiscalYear(fiscal_year)\" class=\"btn btn-success\" >\n" +
@@ -52432,17 +52432,16 @@ angular.module("voucher/vouchers.tpl.html", []).run(["$templateCache", function(
     "</h1>\n" +
     "<div class=\"row\">\n" +
     "  <div class=\"col-xs-6\">\n" +
-    "    <button class=\"btn btn-primary btn-lg\" ng-click=\"newVoucher()\">\n" +
+    "    <button class=\"btn btn-primary \" ng-click=\"newVoucher()\">\n" +
     "      <span class=\"glyphicon glyphicon-plus\"></span>\n" +
     "      New voucher\n" +
     "    </button>\n" +
     "  </div>\n" +
     "  <div class=\"col-xs-6 text-right\">\n" +
-    "    <div class=\"navbar-form navbar-left\" role=\"search\">\n" +
+    "    <div class=\"navbar-form navbar-right\" role=\"search\">\n" +
     "      <div class=\"form-group\">\n" +
     "        <input type=\"text\" ng-model=\"search\" class=\"form-control\" placeholder=\"Search\" ng-enter=\"openVoucherByNumber(search)\">\n" +
     "      </div>\n" +
-    "      <button type=\"submit\" ng-click=\"openVoucherByNumber(search)\" class=\"btn btn-default\">Submit</button>\n" +
     "    </div>\n" +
     "  </div>\n" +
     "</div>\n" +
@@ -52450,7 +52449,7 @@ angular.module("voucher/vouchers.tpl.html", []).run(["$templateCache", function(
     "  <div class=\"panel-heading\">\n" +
     "  </div>\n" +
     "  <div class=\"panel-body\">\n" +
-    "    <div class=\"row\" ng-repeat=\"voucher in vouchers\">\n" +
+    "    <div class=\"row\" ng-repeat=\"voucher in vouchers | filter:{title:search} \">\n" +
     "      <div class=\"col-xs-1\">\n" +
     "        {{voucher.number}}\n" +
     "      </div>\n" +

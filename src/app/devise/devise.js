@@ -63,7 +63,7 @@ angular.module( 'bookie.devise', [
       data: {user: {email: $scope.signup.email, password: $scope.signup.password, password_confirmation: $scope.signup.password_confirmation}},
       method: "POST"})
       .success(function(data, status){ 
-        console.log(data);
+        $location.path("/dashboard");
       })
     .error(function(data, status){
       $scope.signup_error.errors = data.errors;
