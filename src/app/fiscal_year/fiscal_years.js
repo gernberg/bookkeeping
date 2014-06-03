@@ -31,6 +31,8 @@ angular.module( 'bookie.fiscal_year', [
   });
 })
 .controller( 'FiscalYearsCtrl', function FiscalYearsCtrl( $scope, FiscalYearRes, $state, $rootScope, FiscalService, $location, CompanyService) {
+
+  $scope.currentFiscalYearId = FiscalService.currentFiscalYearId();
   $rootScope.loggedIn = true;
   $scope.fiscal_years = FiscalYearRes.query({cid: CompanyService.currentCompanyId()});
   $scope.newFiscalYear = function(){
