@@ -60,9 +60,7 @@ describe VouchersController do
           {account_id: FactoryGirl.create(:account).id, debit: 100},
           {account_id: FactoryGirl.create(:account).id, credit: 100}
         ]
-        #
         post :create, company_id: @user_company.id, fiscal_year_id: @fiscal_year.id, voucher: voucher, format: :json 
-        @fiscal_year.reload
       }.to change(@fiscal_year.vouchers, :count).by(1)
     end
 
