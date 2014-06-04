@@ -30,6 +30,9 @@ angular.module( 'bookie.company', [
 .controller( 'CompaniesCtrl', function CompaniesController( $scope, CompanyRes, $state, $rootScope, CompanyService, FiscalService) {
   $rootScope.loggedIn = true;
   $scope.companies = CompanyRes.query();
+
+  $scope.currentCompanyId = CompanyService.currentCompanyId();
+
   $scope.newCompany = function(){
     $state.transitionTo('company');
   };

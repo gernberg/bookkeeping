@@ -8,19 +8,21 @@
 
 
 <!-- compiled CSS -->
-<link rel="stylesheet" type="text/css" href="assets/ng-boilerplate-0.3.4.css" />
+<link rel="stylesheet" type="text/css" href="assets/ng-boilerplate-0.3.5.css" />
 
 <!-- compiled JavaScript -->
-<script type="text/javascript" src="assets/ng-boilerplate-0.3.4.js"></script>
+<script type="text/javascript" src="assets/ng-boilerplate-0.3.5.js"></script>
 
 
 
 <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+
 
 </head>
 <body ng-class="{'logged-in': $root.loggedIn}">
 <div ng-switch on="$root.loggedIn">
-<nav class="hidden-print navbar navbar-inverse navbar-fixed-top" role="navigation" ng-switch-when="true">
+  <nav class="hidden-print navbar navbar-default  navbar-fixed-top" role="navigation" ng-switch-when="true">
   <div class="container-fluid">
     <div class="navbar-header">
       <a href='#' class="navbar-brand">
@@ -28,10 +30,10 @@
       </a>
     </div>
     <div class="collapse navbar-collapse ">
-      <ul class=" navbar-nav navbar-right">
+      <ul class="nav navbar-nav navbar-right">
         <li ui-route="/dashboard" ng-class="{active:$uiRoute}">
         <a href="#/dashboard" class="btn">
-          <span class="glyphicon glyphicon-home"></span>
+          <span class="glyphicon glyphicon-dashboard"></span>
           Dashboard
         </a>
         </li>
@@ -58,7 +60,7 @@
         </li>
         <li ui-route="/fiscal_years" ng-class="{active:$uiRoute}">
         <a href="#/fiscal_years" class="btn">
-          <span class="glyphicon glyphicon-calendar"></span>
+          <span class="glyphicon glyphicon-book"></span>
           &nbsp;
           Fiscal Years
         </a>
@@ -102,7 +104,7 @@
     <div class="container">
       <footer class="footer">
         Bookie version: 
-        0.3.4
+        0.3.5
       </footer>
     </div>
   </div>

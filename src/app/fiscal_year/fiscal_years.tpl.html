@@ -1,18 +1,21 @@
 <div>
   <h1>Fiscal years</h1>
 </div>
-<div class="alert alert-warning" ng-hide="$rootScope.fiscalYearId">
+<div class="alert alert-warning" ng-hide="currentFiscalYearId">
   Please select or create a fiscal year
 </div>
 <ul class="list-group">
   <li class="list-group-item"><b>Switch to Fiscal Year</b></li>
-  <li ng-repeat="fiscal_year in fiscal_years" class="list-group-item">
+  <li ng-repeat="fiscal_year in fiscal_years" class="list-group-item"> 
+  <span class="badge" ng-show="{{currentFiscalYearId == fiscal_year.id}}">
+    Current 
+  </span>
     <b>
       {{fiscal_year.start_date}}
       -
       {{fiscal_year.end_date}}
     </b>
-  <button ng-click="editFiscalYear(fiscal_year)" class="btn btn-success" >
+  <button ng-click="editFiscalYear(fiscal_year)" class="btn btn-warning" >
     Edit
   </button>
   <button ng-click="selectFiscalYear(fiscal_year)" class="btn btn-success" >
