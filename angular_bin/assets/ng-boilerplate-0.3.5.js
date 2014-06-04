@@ -43191,6 +43191,7 @@ angular.module('bookie.account', [
   'AccountCache',
   function AccountController($scope, AccountRes, $state, $stateParams, $rootScope, CompanyService, AccountCache) {
     $rootScope.loggedIn = true;
+    $scope.accountId = parseInt($stateParams.accountId, 10);
     if ($scope.accountId) {
       $scope.account = AccountRes.get({
         cid: CompanyService.currentCompanyId(),
@@ -43199,7 +43200,6 @@ angular.module('bookie.account', [
     } else {
       $scope.account = new AccountRes({ cid: CompanyService.currentCompanyId() });
     }
-    $scope.accountId = parseInt($stateParams.accountId, 10);
     $scope.cancel = function () {
       $state.transitionTo('accounts');
     };
@@ -44187,7 +44187,8 @@ angular.module('bookie.voucher', [
   'AccountRes',
   'FiscalService',
   'CompanyService',
-  function VouchersController($scope, VoucherRes, $state, $rootScope, AccountRes, FiscalService, CompanyService) {
+  '$location',
+  function VouchersController($scope, VoucherRes, $state, $rootScope, AccountRes, FiscalService, CompanyService, $location) {
     if (CompanyService.currentCompanyId() == null) {
       return false;
     }
@@ -44196,6 +44197,11 @@ angular.module('bookie.voucher', [
     }
     $rootScope.loggedIn = true;
     $scope.accounts = AccountRes.query({ cid: CompanyService.currentCompanyId() });
+    $scope.accounts.$promise.then(function () {
+      if ($scope.accounts.length === 0) {
+        $location.path('/accounts');
+      }
+    });
     $scope.vouchers = VoucherRes.query({
       cid: CompanyService.currentCompanyId(),
       fid: FiscalService.currentFiscalYearId()
@@ -51762,6 +51768,9 @@ angular.module("account/accounts.tpl.html", []).run(["$templateCache", function(
   $templateCache.put("account/accounts.tpl.html",
     "<div>\n" +
     "  <h1>Accounts</h1>\n" +
+    "</div>\n" +
+    "<div class=\"alert alert-danger\" ng-show=\"accounts.length===0\">\n" +
+    "  Please create some accounts\n" +
     "</div>\n" +
     "  <button ng-click=\"newAccount()\" class=\"btn btn-primary\" >New account</button>\n" +
     "<div id=\"grid\" class=\"gridStyle\" ng-grid=\"gridOptions\"></div>\n" +

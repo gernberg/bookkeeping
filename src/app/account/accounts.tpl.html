@@ -1,5 +1,8 @@
 <div>
   <h1>Accounts</h1>
 </div>
+<div class="alert alert-danger" ng-show="accounts.length===0">
+  Please create some accounts
+</div>
   <button ng-click="newAccount()" class="btn btn-primary" >New account</button>
 <div id="grid" class="gridStyle" ng-grid="gridOptions"></div>
