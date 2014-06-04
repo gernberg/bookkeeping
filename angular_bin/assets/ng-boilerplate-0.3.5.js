@@ -43733,9 +43733,8 @@ angular.module('bookie.devise', ['ui.state']).config([
         },
         method: 'POST'
       }).success(function (res) {
-        console.log(res);
+        $location.path('/dashboard');
       }).error(function (data) {
-        console.log('error', data);
         $scope.error.message = data.error;
       });
     };

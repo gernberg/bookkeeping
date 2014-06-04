@@ -50,11 +50,9 @@ angular.module( 'bookie.devise', [
       method: "POST"
     })
     .success(function(res){
-      console.log(res);
-      //$location.path("/dashboard");
+      $location.path("/dashboard");
     })
     .error(function(data){
-      console.log("error", data);
       $scope.error.message = data.error;
     });
   };
