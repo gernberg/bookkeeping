@@ -63,7 +63,7 @@ angular.module( 'bookie.dashboard', [
           data: Math.abs(data)
         }
       else if category < result_categories.length
-        $scope.result += data
+        $scope.result -= data
         color = result_categories[category]
         $scope.result_accounts.push {
           label: $scope.accounts[i].account_name,

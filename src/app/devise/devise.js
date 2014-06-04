@@ -47,11 +47,14 @@ angular.module( 'bookie.devise', [
     $http({
       url: '../users/sign_in.json',
       data: {user: {email: $scope.user.email, password: $scope.user.password}},
-      method: "POST"})
-      .success(function(){
-        $location.path("/dashboard");
-      })
-    .error(function(data, status){
+      method: "POST"
+    })
+    .success(function(res){
+      console.log(res);
+      //$location.path("/dashboard");
+    })
+    .error(function(data){
+      console.log("error", data);
       $scope.error.message = data.error;
     });
   };

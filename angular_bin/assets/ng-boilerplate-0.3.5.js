@@ -1,5 +1,5 @@
 /**
- * ng-boilerplate - v0.3.5 - 2014-06-03
+ * ng-boilerplate - v0.3.5 - 2014-06-04
  * http://bit.ly/ng-boilerplate
  *
  * Copyright (c) 2014 Josh David Miller
@@ -43633,7 +43633,7 @@ angular.module('bookie.dashboard', [
             data: Math.abs(data)
           }));
         } else if (category < result_categories.length) {
-          $scope.result += data;
+          $scope.result -= data;
           color = result_categories[category];
           _results.push($scope.result_accounts.push({
             label: $scope.accounts[i].account_name,
@@ -43732,9 +43732,10 @@ angular.module('bookie.devise', ['ui.state']).config([
           }
         },
         method: 'POST'
-      }).success(function () {
-        $location.path('/dashboard');
-      }).error(function (data, status) {
+      }).success(function (res) {
+        console.log(res);
+      }).error(function (data) {
+        console.log('error', data);
         $scope.error.message = data.error;
       });
     };
@@ -51442,7 +51443,6 @@ angular.module('common.auth', []).config([
           if (rejection.status == 401) {
             $rootScope.$broadcast('event:unauthorized');
             $location.path('/login');
-            return rejection;
           }
           return $q.reject(rejection);
         }
@@ -51775,7 +51775,7 @@ angular.module("company/companies.tpl.html", []).run(["$templateCache", function
     "  <h1>Companies</h1>\n" +
     "</div>\n" +
     "<div class=\"alert alert-warning\" ng-hide=\"currentCompanyId\">\n" +
-    "  Please select or create a fiscal year\n" +
+    "  Please select or create a company\n" +
     "</div>\n" +
     "<ul class=\"list-group\">\n" +
     "  <li class=\"list-group-item\"><b>Switch to Company</b></li>\n" +

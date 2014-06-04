@@ -11,7 +11,9 @@ angular.module('common.auth', [])
         if (rejection.status == 401) {
           $rootScope.$broadcast('event:unauthorized');
           $location.path('/login');
-          return rejection;
+
+          // Should always return 401 to endcontroller
+          // return rejection;
         }
         return $q.reject(rejection);        
       }
