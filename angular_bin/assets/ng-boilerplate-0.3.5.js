@@ -1,5 +1,5 @@
 /**
- * ng-boilerplate - v0.3.5 - 2014-06-04
+ * ng-boilerplate - v0.3.5 - 2014-06-05
  * http://bit.ly/ng-boilerplate
  *
  * Copyright (c) 2014 Josh David Miller
@@ -43947,8 +43947,8 @@ angular.module('bookie.report', [
         voucherList();
       } else if (report == 'balance') {
         balance();
-      } else {
-        alert('Under construction');
+      } else if (report == 'result') {
+        result();
       }
     };
     $scope.srcString = '';
@@ -43959,20 +43959,38 @@ angular.module('bookie.report', [
         }
       }
     };
+    var result = function () {
+      $scope.accounts = AccountRes.fiscal_year({
+        cid: CompanyService.currentCompanyId(),
+        fid: FiscalService.currentFiscalYearId()
+      }, function (res) {
+        var categories = [
+            '',
+            '',
+            '',
+            'Sales',
+            'Purchases',
+            'Cost',
+            'Other costs',
+            'Staff costs'
+          ];
+        createAccountReport(res, categories, 'Result report', 'ResultReport.pdf');
+      });
+    };
     var balance = function () {
       $scope.accounts = AccountRes.fiscal_year({
         cid: CompanyService.currentCompanyId(),
         fid: FiscalService.currentFiscalYearId()
       }, function (res) {
-        createBalancePDF(res);
+        var categories = [
+            '',
+            'Assets',
+            'Liabilites'
+          ];
+        createBalancePDF(res, categories, 'Balance Report', 'BalanceReport.pdf');
       });
     };
-    var createBalancePDF = function (res) {
-      var categories = [
-          '',
-          'Assets',
-          'Liabilites'
-        ];
+    var createAccountReport = function (res, categories, title) {
       var JsPDF = jsPDF;
       var doc = new JsPDF();
       var y = 10;
@@ -43988,7 +44006,7 @@ angular.module('bookie.report', [
       y += rowHeight;
       doc.setFontType('bold');
       doc.setFontSize(22);
-      doc.text(columns[0], y, 'Balance report');
+      doc.text(columns[0], y, title);
       doc.setFontSize(14);
       y += rowHeight * 2;
       doc.text(columns[0], y, 'Account');
@@ -44013,10 +44031,7 @@ angular.module('bookie.report', [
         doc.line(10, y - rowHeight / 2, width, y - rowHeight / 2);
         doc.setLineWidth(0.2);
       }
-      function printPreviousGroup(group, total_sum) {
-        if (group === 0) {
-          return false;
-        }
+      function printPreviousGroup(group, total_sum, filename) {
         var lineWidth = 0.9;
         var text = 'Sum';
         if (group === 9) {
@@ -44038,16 +44053,22 @@ angular.module('bookie.report', [
         if (done) {
           return false;
         }
-        console.log(account.account_number, Math.floor(account.account_number / 1000));
         while (Math.floor(account.account_number / 1000) != current_group) {
-          printPreviousGroup(current_group, group_sum);
+          if (categories[current_group] !== '') {
+            printPreviousGroup(current_group, group_sum);
+          }
           group_sum = 0;
           current_group++;
           if (current_group > categories.length - 1) {
             done = true;
             return false;
           }
-          printGroup(current_group);
+          if (categories[current_group] !== '') {
+            printGroup(current_group);
+          }
+        }
+        if (categories[current_group] === '') {
+          return false;
         }
         total_sum += account.sum;
         group_sum += account.sum;
@@ -44065,7 +44086,7 @@ angular.module('bookie.report', [
         doc.line(10, y - rowHeight / 2, width, y - rowHeight / 2);
       });
       printPreviousGroup(9, total_sum);
-      doc.save('BalanceReport.pdf');
+      doc.save(filename);
     };
     var voucherList = function () {
       var vouchers = VoucherRes.query({
@@ -44073,7 +44094,6 @@ angular.module('bookie.report', [
           fid: FiscalService.currentFiscalYearId()
         });
       vouchers.$promise.then(function (res) {
-        console.log(res);
         var JsPDF = jsPDF;
         var doc = new JsPDF();
         var y = 0;
@@ -52096,10 +52116,6 @@ angular.module("home/home.tpl.html", []).run(["$templateCache", function($templa
     "  </p>\n" +
     "  \n" +
     "  <div class=\"btn-group\">\n" +
-    "    <a href=\"https://github.com/joshdmiller/ng-boilerplate#readme\" class=\"btn btn-large\">\n" +
-    "      <i class=\"icon-book\"></i>\n" +
-    "      Read the Docs\n" +
-    "    </a>\n" +
     "    <a href=\"#/login\" class=\"btn btn-large btn-success\">\n" +
     "      Try for free\n" +
     "      <span class=\"glyphicon glyphicon-play\"></span>\n" +
